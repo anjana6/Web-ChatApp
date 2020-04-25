@@ -6,7 +6,11 @@ const DBconnection = require('./config/db');
 DBconnection();
 const app = express();
 const server = http.createServer(app);
-const io= socketio(server);
+const io = socketio(server);
+
+app.use(express.json());
+app.use('/api/v1/auth', require('./router/auth'));
+
 
 io.on('connection', socket => {
     console.log('user connect');
@@ -26,4 +30,4 @@ io.on('connection', socket => {
 
 const port = process.env.PORT || 4000;
 
-server.listen(port,() => console.log(`Server Started port ${port}`));
+app.listen(port,() => console.log(`Server Started port ${port}`));
