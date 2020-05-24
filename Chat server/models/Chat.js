@@ -6,9 +6,21 @@ const chatSchema = new Schema({
         type:String,
         required:true
     },
-    message:{
-        type:String,
-    }
+    users:[String],
+    messages:[
+        {
+            message:{
+                type:String,
+            },
+            sender:{
+                type:String
+            },
+            reciver:{
+                type:String
+            }
+        }
+        
+    ]
 });
 
 module.exports = mongoose.model('Chat',chatSchema);
