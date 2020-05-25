@@ -1,5 +1,7 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import {connect} from 'react-redux';
 import {List,ListItem,ListItemAvatar,Avatar,ListItemText,Typography,Divider, makeStyles,Paper} from '@material-ui/core';
+import {fetchChatList} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,8 +16,12 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-const ChatList = () => {
+const ChatList = ({fetchChatList}) => {
     const classes = useStyles();
+
+    useEffect(() => {
+        fetchChatList()
+    }, [fetchChatList])
     return (
         <div>
         <Paper className={classes.root}>
@@ -169,4 +175,4 @@ const ChatList = () => {
     )
 }
 
-export default ChatList;
+export default connect(null,{fetchChatList})(ChatList);
