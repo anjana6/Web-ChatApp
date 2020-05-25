@@ -1,8 +1,9 @@
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 
 import Home from './component/layout/Home';
 import Register from './component/auth/RegisterForm'
+import Dashboard from './component/chat/Dashboard';
 // import io from 'socket.io-client';
 
 // const socket = io.connect('http://localhost:4000');
@@ -13,6 +14,7 @@ const App = () => {
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/register' component={Register}/>
+      <Route exact path='/dashboard' component={Dashboard}/>
     </Switch>
   </Router>
   )

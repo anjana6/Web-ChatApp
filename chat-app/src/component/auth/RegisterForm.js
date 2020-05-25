@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import {makeStyles, Typography,Grid,Paper,TextField,Button} from '@material-ui/core';
+import {signUp} from '../../action/authAction';
+import {connect} from 'react-redux';
 
 const useStyles = makeStyles((theme)=>({
     paper: {
@@ -16,8 +19,9 @@ const useStyles = makeStyles((theme)=>({
       },
 }))
 
-const RegisterForm = () =>{
+const RegisterForm = ({signUp}) =>{
     const classes = useStyles();
+    const history = useHistory();
     const [state,setState] = useState({username:'',email:'',password:''});
 
     const onChange = (e) => {
@@ -27,6 +31,7 @@ const RegisterForm = () =>{
     const onSubmit = (e) => {
         e.preventDefault();
         console.log(state);
+        signUp(state,history)
     }
 
     return (
@@ -70,4 +75,4 @@ const RegisterForm = () =>{
     )
 }
 
-export default RegisterForm;
+export default connect(null,{signUp})(RegisterForm);

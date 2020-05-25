@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import {connect} from 'react-redux';
 import {makeStyles, Typography,Grid,Paper,TextField,Button} from '@material-ui/core';
+import {signIn} from '../../action/authAction';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme)=>({
     paper: {
@@ -16,9 +19,10 @@ const useStyles = makeStyles((theme)=>({
       },
 }))
 
-const LoginForm = () =>{
+const LoginForm = ({signIn}) =>{
     const classes = useStyles();
-    const [state,setState] = useState({username:'',password:''});
+    const history = useHistory();
+    const [state,setState] = useState({email:'',password:''});
 
     const onChange = (e) => {
         setState({...state,[e.target.name]:e.target.value})
@@ -27,6 +31,7 @@ const LoginForm = () =>{
     const onSubmit = (e) => {
         e.preventDefault();
         console.log(state);
+        signIn(state,history)
     }
 
     return (
@@ -36,8 +41,8 @@ const LoginForm = () =>{
                    <Typography variant="h4">SignIn</Typography>
                    <form>
                    <TextField 
-                    name="username" 
-                    label="username" 
+                    name="email" 
+                    label="Email" 
                     variant="outlined" 
                     margin='dense' 
                     fullWidth
@@ -62,4 +67,4 @@ const LoginForm = () =>{
     )
 }
 
-export default LoginForm;
+export default connect(null,{signIn})(LoginForm);

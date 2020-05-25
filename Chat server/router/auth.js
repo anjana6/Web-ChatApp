@@ -8,7 +8,6 @@ const config = require('config');
 const User = require('../models/User');
 
 router.post('/signup', async (req, res) => {
-    console.log('hooo');
 
     const { username, email, password } = req.body;
     try {
@@ -32,7 +31,6 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
-    
     const { email, password } = req.body;
 
     try {
