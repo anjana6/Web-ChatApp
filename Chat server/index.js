@@ -19,6 +19,7 @@ app.use(cors());
 
 app.use('/api/v1/auth', require('./router/auth'));
 chatConnection(io);
+app.use('/api/v1/chat', require('./router/chat'));
 
 const port = process.env.PORT || 4000;
 
