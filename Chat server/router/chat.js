@@ -6,7 +6,7 @@ const User = require('../models/User');
 
 router.post('/',auth,async(req,res) => {
     // console.log(req.user.name)
-    const friend = "5ecbca386f217b1d50981f3d"
+    const friend = "5ecb1d249fc0bc39b896512c"
     // // console.log('hee')
     if( req.userId > friend ){
         console.log('hee');
@@ -66,7 +66,7 @@ router.get('/chatlist',auth,async(req,res) =>{
     try {
         const chatlist =await Chat.find({"users.userId":req.user.id});
         const user = await User.findById(req.user.id);
-        // console.log(chatlist);
+        console.log(chatlist);
        
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 

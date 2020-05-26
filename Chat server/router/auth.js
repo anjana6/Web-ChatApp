@@ -52,6 +52,7 @@ router.post('/signin', async (req, res) => {
                 config.get('jwtSecret'),
                 (err, token) => {
                     if (err) throw err;
+                    console.log(token);
                     res.json({ token });
                 }
             );

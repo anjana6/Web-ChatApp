@@ -11,6 +11,8 @@ export const signIn = (body,history) => async dispatch => {
     try {
         const res = await axios.post('http://localhost:4000/api/v1/auth/signin',body,config);
         const token = res.data.token;
+        console.log(token);
+        axios.defaults.headers.common['x-auth-token'] = token;
         localStorage.setItem('token',token)
         history.push('/dashboard');
 

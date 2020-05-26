@@ -5,18 +5,19 @@ import {fetchChatList,fetchChatMessage} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
-        maxWidth: '36ch',
-        backgroundColor: theme.palette.background.paper,
-        height:"100vh",
-        overflow:'auto'
+        width: 300,
+        // maxWidth: '500px',
+        // backgroundColor: theme.palette.background.paper,
+        // // height:"100vh",
+        // // overflow:'auto'
+        // minWidth:'500px'
       },
       inline: {
         display: 'inline',
       },
 }))
 
-const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user}}) => {
+const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user},onChat}) => {
     const classes = useStyles();
 
     useEffect(() => {
@@ -24,15 +25,15 @@ const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user}}) => {
     }, [fetchChatList]);
    
     return (
-        <div>
-        <Paper className={classes.root}>
+        <div className={classes.root}>
+       
         <List >
           {
             chatlist.map((chatitem,index) => {
-            //  ( console.log(chatitme.users.filter((item) =>(item.userId !== user._id))[0].username))
+             const friendId = (chatitem.users.filter((item) =>(item.userId !== user._id))[0].userId)
               return(
                 <Fragment key={index}>
-                <ListItem alignItems="flex-start" onClick={() =>fetchChatMessage(chatitem.chatId)} button>
+                <ListItem alignItems="flex-start" onClick={() =>{fetchChatMessage(chatitem.chatId); onChat(friendId)}} button>
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp">{chatitem.users.filter((item) =>(item.userId !== user._id))[0].username.split("")[0]}</Avatar>
                 </ListItemAvatar>
@@ -61,7 +62,7 @@ const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user}}) => {
           }
 
       </List>
-      </Paper>
+     
 
         </div>
     )
