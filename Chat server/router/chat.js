@@ -51,7 +51,7 @@ router.put('/message',auth,async(req,res) =>{
             sender:req.user.id
         }
         // console.log(msg);
-        chat.messages.unshift(msg);
+        chat.messages.push(msg);
 
         await chat.save();
     // console.log(chat);
@@ -66,7 +66,7 @@ router.get('/chatlist',auth,async(req,res) =>{
     try {
         const chatlist =await Chat.find({"users.userId":req.user.id});
         const user = await User.findById(req.user.id);
-        console.log(chatlist);
+        // console.log(chatlist);
        
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
@@ -76,6 +76,12 @@ router.get('/chatlist',auth,async(req,res) =>{
         console.log(err);
         res.status(500).send('Server Error');
     }
+})
+
+router.get('/message/:chatId',auth,async(req,res) =>{
+    const messages =await Chat.findOne({chatId:req.params.chatId});
+    
+    res.status(200).json(messages);
 })
 
 module.exports = router;

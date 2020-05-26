@@ -1,7 +1,7 @@
 import React,{Fragment,useEffect} from 'react';
 import {connect} from 'react-redux';
 import {List,ListItem,ListItemAvatar,Avatar,ListItemText,Typography,Divider, makeStyles,Paper} from '@material-ui/core';
-import {fetchChatList} from '../../action/chatAction';
+import {fetchChatList,fetchChatMessage} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-const ChatList = ({fetchChatList,chat:{chatlist,user}}) => {
+const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user}}) => {
     const classes = useStyles();
 
     useEffect(() => {
@@ -28,29 +28,29 @@ const ChatList = ({fetchChatList,chat:{chatlist,user}}) => {
         <Paper className={classes.root}>
         <List >
           {
-            chatlist.map((chatitme,index) => {
+            chatlist.map((chatitem,index) => {
             //  ( console.log(chatitme.users.filter((item) =>(item.userId !== user._id))[0].username))
               return(
                 <Fragment key={index}>
-                <ListItem alignItems="flex-start">
+                <ListItem alignItems="flex-start" onClick={() =>fetchChatMessage(chatitem.chatId)} button>
                 <ListItemAvatar>
-              <Avatar alt="Remy Sharp">{chatitme.users.filter((item) =>(item.userId !== user._id))[0].username.split("")[0]}</Avatar>
+                  <Avatar alt="Remy Sharp">{chatitem.users.filter((item) =>(item.userId !== user._id))[0].username.split("")[0]}</Avatar>
                 </ListItemAvatar>
                 
                 <ListItemText
-                  primary={chatitme.users.filter((item) =>(item.userId !== user._id))[0].username}
+                  primary={chatitem.users.filter((item) =>(item.userId !== user._id))[0].username}
                   secondary={
-                    <React.Fragment>
+                    <Fragment>
                       <Typography
                         component="span"
                         variant="body2"
                         className={classes.inline}
                         color="textPrimary"
                       >
-                        Ali Connors
+                        {chatitem.messages[chatitem.messages.length-1].message}
                       </Typography>
-                      {" — I'll be in your neighborhood doing errands this…"}
-                    </React.Fragment>
+                      
+                    </Fragment>
                   }
                 />
               </ListItem>
@@ -59,143 +59,6 @@ const ChatList = ({fetchChatList,chat:{chatlist,user}}) => {
               )
             })
           }
-      {/* <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Brunch this weekend?"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Ali Connors
-              </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" /> */}
 
       </List>
       </Paper>
@@ -208,4 +71,4 @@ const mapStateToProps = state =>({
   chat: state.chat
 })
 
-export default connect(mapStateToProps,{fetchChatList})(ChatList);
+export default connect(mapStateToProps,{fetchChatList,fetchChatMessage})(ChatList);

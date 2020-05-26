@@ -2,6 +2,7 @@ import React from 'react'
 import io from 'socket.io-client';
 
 import ChatList from './ChatList';
+import ChatView from './ChatView';
 import { Grid } from '@material-ui/core';
 
 const socket = io.connect('http://localhost:4000');
@@ -18,7 +19,7 @@ const Dashboard = () => {
                 <ChatList/>
                 </Grid>
                 <Grid item xs={8}>
-
+                <ChatView/>
                 </Grid>
             </Grid>
             
