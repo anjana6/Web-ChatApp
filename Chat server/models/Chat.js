@@ -6,7 +6,14 @@ const chatSchema = new Schema({
         type:String,
         required:true
     },
-    users:[String],
+    users:[{
+        userId:{
+            type:String,
+        },
+        username:{
+            type:String
+        }
+    }],
     messages:[
         {
             message:{

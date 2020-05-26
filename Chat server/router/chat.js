@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/verifytoken');
 const Chat = require('../models/Chat');
+const User = require('../models/User');
 
 router.post('/',auth,async(req,res) => {
-    console.log(req.user.name)
-    const friend = "5ecbceb871d7883e40b91973"
+    // console.log(req.user.name)
+    const friend = "5ecbca386f217b1d50981f3d"
     // // console.log('hee')
     if( req.userId > friend ){
         console.log('hee');
@@ -20,15 +21,17 @@ router.post('/',auth,async(req,res) => {
     //     // console.log("5ecb1d249fc0bc39b896512c"- req.userId);
     }
     try {
+        const reciver =await User.findById(req.body.reciverId);
+        //console.log(reciver);
         const newmsg = {
             message: req.body.msg,
-            reciver: req.body.reciver,
-            sender: req.user.name
+            reciver: req.body.reciverId,
+            sender: req.user.id
         }
         // console.log(newmsg);
         const chat = new Chat({
             chatId:req.body.chatId,
-            users:[req.user.name,req.body.reciver],
+            users:[{userId:req.user.id,username:req.user.name},{userId:req.body.reciverId,username:reciver.username}],
             messages: newmsg
     
         });
@@ -44,8 +47,8 @@ router.put('/message',auth,async(req,res) =>{
         const chat = await Chat.findOne({chatId:req.body.chatId});
         const msg = {
             message:req.body.msg,
-            reciver:req.body.reciver,
-            sender:req.user.name
+            reciver:req.body.reciverId,
+            sender:req.user.id
         }
         // console.log(msg);
         chat.messages.unshift(msg);
@@ -61,7 +64,8 @@ router.put('/message',auth,async(req,res) =>{
 router.get('/chatlist',auth,async(req,res) =>{
     
     try {
-        const chatlist =await Chat.find({users:req.userId});
+        const chatlist =await Chat.find({"users.userId":req.user.id});
+        console.log(chatlist);
        
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
