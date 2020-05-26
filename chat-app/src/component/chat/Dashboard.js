@@ -15,11 +15,11 @@ import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
-const socket = io.connect('http://localhost:4000');
+// const socket = io.connect('http://localhost:4000');
 
-socket.on('message',message => {
-    console.log(message);
-})
+// socket.on('message',message => {
+//     console.log(message);
+// })
 
 const useStyles = makeStyles(()=>({
    chatview:{

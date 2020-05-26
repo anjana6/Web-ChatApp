@@ -66,7 +66,7 @@ router.get('/chatlist',auth,async(req,res) =>{
     try {
         const chatlist =await Chat.find({"users.userId":req.user.id});
         const user = await User.findById(req.user.id);
-        console.log(chatlist);
+        // console.log(chatlist);
        
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 

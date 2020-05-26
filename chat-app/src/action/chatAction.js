@@ -1,5 +1,9 @@
 import axios from 'axios';
+import io from 'socket.io-client';
 import {GET_CHATLIST,GET_CHATMESSAGE} from './type';
+
+const socket = io.connect('http://localhost:4000');
+
 
 export const fetchChatList = () => async dispatch => {
     try {
@@ -27,4 +31,11 @@ export const fetchChatMessage = (chatId) => async dispatch => {
     } catch (err) {
         console.log(err.message);
     }
+}
+
+export const joinRoom = (chatId) => async dispatch =>{
+    console.log(chatId);
+    
+        socket.emit('Privetchat',{chatId})
+   
 }
