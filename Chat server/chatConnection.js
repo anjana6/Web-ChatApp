@@ -32,7 +32,7 @@ const chatConnection = (io) => {
                 } );
 
             } catch (error) {
-                
+                console.log(error)
             }
             
 
