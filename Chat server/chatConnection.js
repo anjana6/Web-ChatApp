@@ -7,9 +7,30 @@ const chatConnection = (io) => {
             // console.log(chatId);
             socket.join(chatId);
             try {
+                socket.broadcast.to(chatId).emit('online', 'I am online');
                 const chatmessages = await Chat.findOne({chatId:chatId});
+                
     
                 socket.emit('chatmessages',chatmessages);
+
+                socket.on('chatMessage',async (message) => {
+                    console.log(message);
+                    const chat = await Chat.findOne({chatId:chatId});
+                    // console.log(chat);
+                    const msg = {
+                        message:message.msg,
+                        reciver:message.friendId,
+                        sender:message.sender
+                    }
+                    // console.log(msg);
+                    chat.messages.push(msg);
+            
+                    const chatmessage = await chat.save();
+                    console.log(chatmessage);
+                    
+                    io.to(chatId).emit('chatmessages',chatmessage);
+                } );
+
             } catch (error) {
                 
             }
@@ -17,12 +38,9 @@ const chatConnection = (io) => {
 
            
 
-            socket.broadcast.to(chatId).emit('message', 'I am online');
+            
 
-            socket.on('chatMessage', (message) => {
-                console.log(message);
-                io.emit('message', message);
-            } );
+            
 
             socket.on('disconnect', () => {
                 console.log('user disconnect');

@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
+import {connect} from 'react-redux';
 import {Box,TextField, makeStyles, IconButton,Grid} from '@material-ui/core';
 import {Send} from '@material-ui/icons';
+import {sendMessage} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
     textboxcontainer:{
@@ -14,20 +16,26 @@ const useStyles = makeStyles((theme) =>({
     }
 }))
 
-const ChatTextBox = () => {
+const ChatTextBox = ({sendMessage,chatId,friendId,sender}) => {
     const classes = useStyles();
 
     const [state, setState] = useState({msg:''});
     
     const onSubmit = (e) =>{
         e.preventDefault()
-        console.log(state);
-
+        // console.log(state);
+        sendMessage(sender,friendId,state.msg);
+        setState({...state,msg:''});
     }
     return (
         <div>
             <Grid container >
-                <TextField  placeholder="Type a message" fullWidth className={classes.textfiled} onChange={(e) =>{setState({...state,msg:e.target.value})}}/>
+                <TextField  
+                    placeholder="Type a message" 
+                    fullWidth className={classes.textfiled} 
+                    onChange={(e) =>{setState({...state,msg:e.target.value})}}
+                    value={state.msg}
+                    />
                 <IconButton onClick={onSubmit}><Send/></IconButton>
             </Grid>
             
@@ -35,4 +43,4 @@ const ChatTextBox = () => {
     )
 }
 
-export default ChatTextBox;
+export default connect(null,{sendMessage})(ChatTextBox);

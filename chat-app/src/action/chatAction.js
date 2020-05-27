@@ -33,11 +33,15 @@ export const fetchChatList = () => async dispatch => {
 //     }
 // }
 
-export const joinRoom = (chatId) => async dispatch =>{
+export const fetchChatMessage = (chatId) => async dispatch =>{
+    // console.log(chatId);
     try {
         socket.emit('Privetchat',{chatId});
+        socket.on('online',msg =>{
+            console.log(msg);
+        })
         socket.on('chatmessages', messages=>{
-            // console.log(messages);
+            console.log(messages);
             dispatch({
                 type:GET_CHATMESSAGE,
                 payload:messages
@@ -51,6 +55,14 @@ export const joinRoom = (chatId) => async dispatch =>{
    
 }
 
-socket.on('message', msg =>{
-    console.log(msg);
-})
+// socket.on('message', msg =>{
+//     console.log(msg);
+// })
+
+export const sendMessage = (sender,friendId,msg) => dispatch => {
+//  console.log(chatId,friendId,msg);
+    socket.emit('chatMessage',{sender,friendId,msg});
+    // socket.on('onemsg',message =>{
+    //     console.log(message);
+    // });
+}

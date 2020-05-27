@@ -1,7 +1,7 @@
 import React,{Fragment,useEffect} from 'react';
 import {connect} from 'react-redux';
 import {List,ListItem,ListItemAvatar,Avatar,ListItemText,Typography,Divider, makeStyles,Paper} from '@material-ui/core';
-import {fetchChatList,joinRoom} from '../../action/chatAction';
+import {fetchChatList,fetchChatMessage} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-const ChatList = ({fetchChatList,joinRoom,chat:{chatlist,user},onChat}) => {
+const ChatList = ({fetchChatList,fetchChatMessage,chat:{chatlist,user},onChat}) => {
     const classes = useStyles();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const ChatList = ({fetchChatList,joinRoom,chat:{chatlist,user},onChat}) => {
              const friendId = (chatitem.users.filter((item) =>(item.userId !== user._id))[0].userId)
               return(
                 <Fragment key={index}>
-                <ListItem alignItems="flex-start" onClick={() =>{onChat(friendId);joinRoom(chatitem.chatId)}} button>
+                <ListItem alignItems="flex-start" onClick={() =>{onChat(friendId);fetchChatMessage(chatitem.chatId)}} button>
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp">{chatitem.users.filter((item) =>(item.userId !== user._id))[0].username.split("")[0]}</Avatar>
                 </ListItemAvatar>
@@ -72,4 +72,4 @@ const mapStateToProps = state =>({
   chat: state.chat
 })
 
-export default connect(mapStateToProps,{fetchChatList,joinRoom})(ChatList);
+export default connect(mapStateToProps,{fetchChatList,fetchChatMessage})(ChatList);
