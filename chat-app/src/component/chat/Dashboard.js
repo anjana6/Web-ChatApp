@@ -4,16 +4,10 @@ import io from 'socket.io-client';
 import ChatList from './ChatList';
 import ChatView from './ChatView';
 // import ChatTextBox from './ChatTextBox';
-import { Grid, makeStyles,Box ,Paper} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+
 
 // const socket = io.connect('http://localhost:4000');
 
@@ -43,7 +37,7 @@ const Dashboard = () => {
        
     }
 
-    console.log(state);
+    // console.log(state);
     return (
         // <Grid container>
             

@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Box, makeStyles,Grid, Container } from '@material-ui/core';
+import {Box, makeStyles,} from '@material-ui/core';
 import ChatTextBox from './ChatTextBox';
-import { CallReceived } from '@material-ui/icons';
+
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -73,7 +73,7 @@ const ChatView = ({chatMessage,user,friendId}) => {
 }
 
 const mapStateToProps = state =>({
-    chatMessage: state.chat.message,
+    chatMessage: state.chat.messages,
     user: state.chat.user
 })
 

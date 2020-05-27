@@ -8,7 +8,7 @@ const socket = io.connect('http://localhost:4000');
 export const fetchChatList = () => async dispatch => {
     try {
         const res = await axios.get('http://localhost:4000/api/v1/chat/chatlist');
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
             type:GET_CHATLIST,
             payload:res.data
@@ -19,23 +19,38 @@ export const fetchChatList = () => async dispatch => {
 
 }
 
-export const fetchChatMessage = (chatId) => async dispatch => {
+// export const fetchChatMessage = (chatId) => async dispatch => {
     
-    try {
-        const res = await axios.get(`http://localhost:4000/api/v1/chat/message/${chatId}`);
-        // console.log(res.data);
-        dispatch({
-            type:GET_CHATMESSAGE,
-            payload:res.data
-        })
-    } catch (err) {
-        console.log(err.message);
-    }
-}
+//     try {
+//         const res = await axios.get(`http://localhost:4000/api/v1/chat/message/${chatId}`);
+//         // console.log(res.data);
+//         dispatch({
+//             type:GET_CHATMESSAGE,
+//             payload:res.data
+//         })
+//     } catch (err) {
+//         console.log(err.message);
+//     }
+// }
 
 export const joinRoom = (chatId) => async dispatch =>{
-    console.log(chatId);
+    try {
+        socket.emit('Privetchat',{chatId});
+        socket.on('chatmessages', messages=>{
+            // console.log(messages);
+            dispatch({
+                type:GET_CHATMESSAGE,
+                payload:messages
+            })
+        })
+    } catch (error) {
+        console.log(error);
+    }
     
-        socket.emit('Privetchat',{chatId})
+        
    
 }
+
+socket.on('message', msg =>{
+    console.log(msg);
+})
