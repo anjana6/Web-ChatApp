@@ -11,7 +11,7 @@ export default (state=initialState,action) => {
 
     switch(type){
         case GET_CHATLIST:
-            return {...state,chatlist:payload.chatlist,user:payload.user};
+            return {...state,chatlist:payload,user:payload.user};
         case GET_CHATMESSAGE:
             return {...state,messages:payload};
         default:

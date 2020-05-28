@@ -1,17 +1,6 @@
 import React,{useState,Fragment} from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import {AppBar,Toolbar,Avatar,IconButton} from '@material-ui/core';
-import {Add} from '@material-ui/icons';
+import {AppBar,Toolbar,Avatar,IconButton,Drawer,List,Divider,ListItem,ListItemIcon,ListItemText,makeStyles} from '@material-ui/core';
+import {Add,Inbox,Mail} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) =>({
   list: {
@@ -43,7 +32,7 @@ export default function TemporaryDrawer() {
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemIcon>{index % 2 === 0 ? <Inbox /> : <Mail />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -52,7 +41,7 @@ export default function TemporaryDrawer() {
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemIcon>{index % 2 === 0 ? <Inbox /> : <Mail />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}

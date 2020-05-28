@@ -1,6 +1,8 @@
-import React from 'react'
-import {List,ListItem,ListItemAvatar,Avatar,ListItemText,IconButton, makeStyles,AppBar,Toolbar,} from '@material-ui/core';
-import {Image,Add} from '@material-ui/icons'
+import React from 'react';
+import {connect} from 'react-redux';
+import {List,ListItem,ListItemAvatar,Avatar,ListItemText, makeStyles} from '@material-ui/core';
+import {Image} from '@material-ui/icons';
+import {fetchMessages} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
    
@@ -10,38 +12,33 @@ const useStyles = makeStyles((theme) =>({
      
 }))
 
-const ChatList = () => {
+const ChatList = ({chatList,fetchMessages}) => {
     const classes = useStyles();
     return (
         
         <List  >
-        <ListItem button>
-          <ListItemAvatar>
-            <Avatar>
-              <Image />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-        </ListItem>
-        <ListItem button>
-          <ListItemAvatar>
-            <Avatar>
-            <Image />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Work" secondary="Jan 7, 2014" />
-        </ListItem>
-        <ListItem button>
-          <ListItemAvatar>
-            <Avatar>
-            <Image />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Vacation" secondary="July 20, 2014" />
-        </ListItem>
+          {
+            chatList.map((item,index) =>{
+              return(
+                <ListItem button key={index} onClick={() => fetchMessages(item.userId._id,item.chatId)}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <Image />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText 
+                    primary={item.friendId.username} 
+                    secondary={item.messages[item.messages.length-1].message} />
+                </ListItem>
+              )
+            })
+          }
       </List>
       
     )
 }
+const mapStateToProps = state => ({
+  chatList: state.chat.chatlist
+})
 
-export default ChatList
+export default connect(mapStateToProps,{fetchMessages})(ChatList);

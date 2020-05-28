@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import Drawer from './Appbar';
 import ChatList from '../chat/ChatList';
+import {fetchChatList} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
     root: {
@@ -12,8 +14,11 @@ const useStyles = makeStyles((theme) =>({
       },
 }));
 
-const LeftChatBar = () => {
+const LeftChatBar = ({fetchChatList}) => {
     const classes = useStyles();
+    useEffect(() => {
+       fetchChatList()
+    }, [fetchChatList])
     return (
         <div className={classes.root}>
             <Drawer/>
@@ -22,4 +27,4 @@ const LeftChatBar = () => {
     )
 }
 
-export default LeftChatBar
+export default connect(null,{fetchChatList})(LeftChatBar)

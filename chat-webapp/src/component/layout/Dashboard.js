@@ -1,9 +1,8 @@
 import React from 'react';
-import ChatList from '../chat/ChatList';
-import Drawer from './Appbar';
 import LeftChatBar from './LeftChatBar';
 import ChatView from './ChatView';
 import { makeStyles } from '@material-ui/core';
+
 
 const useStyles = makeStyles(()=>({
     root:{
@@ -15,6 +14,7 @@ const useStyles = makeStyles(()=>({
 
 const Dashboard = () => {
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
           <LeftChatBar/>
