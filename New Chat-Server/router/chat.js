@@ -5,52 +5,67 @@ const Chat = require('../models/Chat');
 const User = require('../models/User');
 
 router.post('/',auth,async(req,res) => {
-    const friend = "5ecb1d249fc0bc39b896512c"
-    
-    if( req.userId > friend ){
-        console.log('hee');
-        console.log(friend.concat(req.user.id));
-        
-    }
-    else{
-        console.log('hoo')
-        console.log(req.user.id.concat(friend))
-    }
     try {
-        const reciver =await User.findById(req.body.reciverId);
-        //console.log(reciver);
-        const newmsg = {
-            message: req.body.msg,
-            reciver: req.body.reciverId,
+        const alreadychat =await Chat.findOne({userId:req.body.friendId,chatId:req.body.chatId});
+
+        const msg = {
+            message: req.body.message,
             sender: req.user.id
         }
-        // console.log(newmsg);
-        const chat = new Chat({
-            chatId:req.body.chatId,
-            users:[{userId:req.user.id,username:req.user.name},{userId:req.body.reciverId,username:reciver.username}],
-            messages: newmsg
     
+        const senderchat = new Chat({
+            userId: req.user.id,
+            chatId:req.body.chatId,
+            friendId:req.body.friendId,
+            messages: msg
         });
-        await chat.save();
+        const reciverchat = new Chat({
+            userId: req.body.friendId,
+            chatId:req.body.chatId,
+            friendId:req.user.id,
+            messages: msg
+        });
+        if(alreadychat){
+            alreadychat.messages.push(msg);
+            senderchat.save();
+            alreadychat.save();
+        }else{
+            await senderchat.save();
+            await reciverchat.save();
+        }
+       
     } catch (error) {
         console.log(error.message);
     }
     
 });
 
-router.put('/message',auth,async(req,res) =>{
+router.put('/message/:chatId',auth,async(req,res) =>{
     try {
-        const chat = await Chat.findOne({chatId:req.body.chatId});
+        const senderchat = await Chat.findOne({userId:req.user.id,chatId:req.params.chatId});
+        const reciverchat = await Chat.findOne({userId:req.body.friendId,chatId:req.params.chatId});
         const msg = {
-            message:req.body.msg,
-            reciver:req.body.reciverId,
+            message:req.body.message,
             sender:req.user.id
         }
-        // console.log(msg);
-        chat.messages.push(msg);
 
-        await chat.save();
-    // console.log(chat);
+        const newreciverchat = new Chat({
+            userId: req.body.friendId,
+            chatId:req.body.chatId,
+            friendId:req.user.id,
+            messages: msg
+        });
+
+        if(!reciverchat){
+            senderchat.messages.push(msg);
+            await newreciverchat.save()
+            await senderchat.save();
+        }else{
+            senderchat.messages.push(msg);
+            reciverchat.messages.push(msg);
+            await senderchat.save();
+            await reciverchat.save();
+        }
     } catch (err) {
         console.log(err);
     }
@@ -60,13 +75,11 @@ router.put('/message',auth,async(req,res) =>{
 router.get('/chatlist',auth,async(req,res) =>{
     
     try {
-        const chatlist =await Chat.find({"users.userId":req.user.id});
-        const user = await User.findById(req.user.id);
-        // console.log(chatlist);
-       
+        const chatlist =await Chat.find({userId:req.user.id});
+        
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
-        res.status(200).json({chatlist,user});
+        res.status(200).json({chatlist});
 
     } catch (err) {
         console.log(err);
@@ -74,10 +87,10 @@ router.get('/chatlist',auth,async(req,res) =>{
     }
 })
 
-router.get('/message/:chatId',auth,async(req,res) =>{
-    const messages =await Chat.findOne({chatId:req.params.chatId});
+// router.get('/message/:chatId',auth,async(req,res) =>{
+//     const messages =await Chat.findOne({chatId:req.params.chatId});
     
-    res.status(200).json(messages);
-})
+//     res.status(200).json(messages);
+// })
 
 module.exports = router;

@@ -21,9 +21,6 @@ const chatSchema = new Schema({
             },
             sender:{
                 type:String
-            },
-            reciver:{
-                type:String
             }
         }
         
