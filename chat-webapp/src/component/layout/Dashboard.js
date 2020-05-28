@@ -1,10 +1,24 @@
 import React from 'react';
 import ChatList from '../chat/ChatList';
+import Drawer from './Appbar';
+import LeftChatBar from './LeftChatBar';
+import ChatView from './ChatView';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(()=>({
+    root:{
+        width:"100%",
+        display:'flex',
+        float:"left"
+    }
+}))
 
 const Dashboard = () => {
+    const classes = useStyles();
     return (
-        <div>
-           <ChatList/>
+        <div className={classes.root}>
+          <LeftChatBar/>
+          <ChatView/>
         </div>
     )
 }
