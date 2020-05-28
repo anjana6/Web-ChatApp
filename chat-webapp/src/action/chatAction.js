@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-import {GET_CHATLIST,GET_CHATMESSAGE} from './type';
+import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST} from './type';
 
 // const socket = io.connect('http://localhost:4000');
 
@@ -67,3 +67,18 @@ export const fetchMessages = (userId,chatId) => async dispatch => {
 //     //     console.log(message);
 //     // });
 // }
+
+export const fetchFriendList = () =>async dispatch =>{
+    try {
+        const res =await axios.get('http://localhost:5000/api/v1/chat/friend');
+        console.log(res.data);
+        dispatch({
+            type:GET_FRIENDLIST,
+            payload:res.data
+        })
+
+    } catch (error) {
+        console.log(error.message);
+    }
+    
+}

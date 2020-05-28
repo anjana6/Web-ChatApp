@@ -1,6 +1,8 @@
-import React,{useState,Fragment} from 'react';
+import React,{useState,Fragment, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {AppBar,Toolbar,Avatar,IconButton,Drawer,List,Divider,ListItem,ListItemIcon,ListItemText,makeStyles} from '@material-ui/core';
 import {Add,Inbox,Mail} from '@material-ui/icons';
+import {fetchFriendList} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
   list: {
@@ -15,9 +17,14 @@ const useStyles = makeStyles((theme) =>({
   
 }));
 
-export default function TemporaryDrawer() {
+const Appbar = ({fetchFriendList}) => {
   const classes = useStyles();
   const [state, setState] = useState({left: false});
+
+  useEffect(() => {
+    fetchFriendList()
+    
+  }, [])
 
   const toggleDrawer = (open) => (event) => {
     setState({ ...state,left: open });
@@ -71,3 +78,5 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+export default connect(null,{fetchFriendList})(Appbar);

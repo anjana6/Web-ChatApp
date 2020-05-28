@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core';
-import Drawer from './Appbar';
+import Appbar from './Appbar';
 import ChatList from '../chat/ChatList';
 import {fetchChatList} from '../../action/chatAction';
 
@@ -21,7 +21,7 @@ const LeftChatBar = ({fetchChatList}) => {
     }, [fetchChatList])
     return (
         <div className={classes.root}>
-            <Drawer/>
+            <Appbar/>
             <ChatList/>
         </div>
     )

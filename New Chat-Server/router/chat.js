@@ -91,6 +91,11 @@ router.get('/message/:userId/:chatId',auth,async(req,res) =>{
     const chatmessages =await Chat.findOne({userId:req.params.userId,chatId:req.params.chatId});
     
     res.status(200).json(chatmessages);
+});
+
+router.get('/friend',auth,async(req,res)=>{
+    const friend = await User.find().select(['-password']);
+    res.status(200).json(friend);
 })
 
 module.exports = router;

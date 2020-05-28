@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme)=>({
         padding:20,
         margin:theme.spacing(3),
         borderRadius:theme.spacing(3)
-        // height:30
     },
     reciver:{
         float:'right',
