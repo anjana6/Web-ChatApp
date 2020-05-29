@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Box,TextField, makeStyles, IconButton,Grid} from '@material-ui/core';
-import {Send, FullscreenExit} from '@material-ui/icons';
+import {Send, FullscreenExit, SentimentSatisfied} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) =>({
     root:{
@@ -19,16 +19,23 @@ const useStyles = makeStyles((theme) =>({
 
 const ChatTextBox = () => {
     const classes = useStyles();
+    const [state,setState] = useState('');
+
+    const onSubmit = (e) =>{
+        e.preventDefault()
+        console.log(state);
+    }
+
     return (
         <div>
             <Grid className={classes.root}>
             <TextField  
                     placeholder="Type a message" 
                     fullWidth 
-                   
+                    onChange={(e) =>{setState(e.target.value)}}
                     
                     />
-            <IconButton ><Send/></IconButton>
+            <IconButton onClick={onSubmit}><Send/></IconButton>
         </Grid>
         </div>
     )

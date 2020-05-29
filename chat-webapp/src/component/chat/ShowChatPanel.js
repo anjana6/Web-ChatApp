@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme)=>({
 const ShowChatPanel = ({chatmessages}) => {
     
     const classes = useStyles();
-    // console.log(chatmessages && chatmessages.messages.length)
+    // console.log(chatmessages.messages.length)
     return (
         <div className={classes.root}>
             <Box className={classes.showMessageBox}>

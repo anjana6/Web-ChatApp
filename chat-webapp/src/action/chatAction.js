@@ -2,7 +2,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST,CLEAR_CHATPANEL} from './type';
 
-// const socket = io.connect('http://localhost:4000');
+const socket = io.connect('http://localhost:5000',{query:{token:localStorage.token}});
 
 
 export const fetchChatList = () => async dispatch => {
@@ -21,14 +21,16 @@ export const fetchChatList = () => async dispatch => {
 }
 
 export const fetchMessages = (userId,chatId) => async dispatch => {
-    console.log(userId,chatId)
+    console.log(userId)
     try {
         const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${userId}/${chatId}`);
-        // console.log(res.data);
+        
         dispatch({
             type:GET_CHATMESSAGE,
             payload:res.data
         })
+        socket.emit('joinchat',chatId);
+       
     } catch (err) {
         console.log(err.message);
     }
@@ -38,6 +40,10 @@ export const clearChatPanel = () => async dispatch =>{
     dispatch({
         type:CLEAR_CHATPANEL
     })
+}
+
+export const addMessage = () => async dispatch =>{
+
 }
 
 // export const fetchChatMessage = (chatId) => async dispatch =>{
