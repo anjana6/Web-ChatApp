@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) =>({
      
 }))
 
-const ChatList = ({chatList,fetchMessages}) => {
+const ChatList = ({chatList,fetchMessages,showPanel}) => {
     const classes = useStyles();
     return (
         
@@ -20,7 +20,7 @@ const ChatList = ({chatList,fetchMessages}) => {
           {
             chatList.map((item,index) =>{
               return(
-                <ListItem button key={index} onClick={() => fetchMessages(item.userId._id,item.chatId)}>
+                <ListItem button key={index} onClick={() => {fetchMessages(item.userId._id,item.chatId);showPanel(item.friendId.username)}}>
                   <ListItemAvatar>
                     <Avatar>
                       <Image />

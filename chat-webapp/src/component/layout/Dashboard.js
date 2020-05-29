@@ -1,7 +1,8 @@
 import React from 'react';
 import LeftChatBar from './LeftChatBar';
-import ChatView from './ChatView';
+import ChatView from '../chat/ChatView';
 import { makeStyles } from '@material-ui/core';
+import Appbar from './Appbar';
 
 
 const useStyles = makeStyles(()=>({
@@ -16,10 +17,9 @@ const Dashboard = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-          <LeftChatBar/>
-          <ChatView/>
-        </div>
+       
+          <Appbar/>
+         
     )
 }
 

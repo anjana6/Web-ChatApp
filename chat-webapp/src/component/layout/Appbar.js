@@ -1,13 +1,18 @@
 import React,{useState,Fragment, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {AppBar,Toolbar,Avatar,IconButton,Drawer,List,Divider,ListItem,ListItemIcon,ListItemText,makeStyles} from '@material-ui/core';
-import {Add,Inbox,Mail} from '@material-ui/icons';
-import {fetchFriendList} from '../../action/chatAction';
+import {AppBar,Toolbar,Avatar,IconButton,Drawer,makeStyles} from '@material-ui/core';
+import {Add} from '@material-ui/icons';
+import {fetchFriendList,fetchChatList} from '../../action/chatAction';
+import ChatList from '../chat/ChatList';
+import ChatView from '../chat/ChatView';
+import FriendList from './FriendList';
 
 const useStyles = makeStyles((theme) =>({
-  list: {
-    width: 350,
-  },
+  root:{
+    width:"100%",
+    display:'flex',
+    float:"left"
+},
   appBar:{
     width:350,
   },
@@ -17,66 +22,59 @@ const useStyles = makeStyles((theme) =>({
   
 }));
 
-const Appbar = ({fetchFriendList}) => {
+const Appbar = ({fetchFriendList,fetchChatList}) => {
   const classes = useStyles();
   const [state, setState] = useState({left: false});
+  const [panel,setPanel] = useState({showpanel:false,panelname:''});
 
   useEffect(() => {
     fetchFriendList()
-    
-  }, [])
+    fetchChatList()
+  }, [fetchFriendList,fetchChatList])
 
   const toggleDrawer = (open) => (event) => {
     setState({ ...state,left: open });
   };
 
-  const list = () => (
-    <div
-    className={classes.list}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <Inbox /> : <Mail />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <Inbox /> : <Mail />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
+  const showChatPanel = (name) =>{
+    console.log(name);
+    setPanel({...panel,showpanel:true,panelname:name});
+  }
+
+  
 
   return (
-    <div>
+    <div className={classes.root}>
+      <div>
         <AppBar position="static" className={classes.appBar}>
-            <Toolbar>
+          <Toolbar>
             <Avatar>
 
             </Avatar>
             <IconButton edge="end" className={classes.addButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-            <Add/>
-          </IconButton>
-            </Toolbar>
-      </AppBar>
+              <Add/>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
     
         <Fragment>
           <Drawer anchor='left' open={state.left} onClose={toggleDrawer(false)}>
-            {list()}
+            <FriendList toggleDrawer={toggleDrawer} showPanel={showChatPanel} />
           </Drawer>
         </Fragment>
+        <ChatList showPanel={showChatPanel} />
+      </div>
+       
+        {panel.showpanel &&
+          <ChatView panelname={panel.panelname}/>
+        }
       
     </div>
   );
 }
 
-export default connect(null,{fetchFriendList})(Appbar);
+const mapStateToProps = state => ({
+  friends:state.chat.friends
+})
+
+export default connect(mapStateToProps,{fetchFriendList,fetchChatList})(Appbar);

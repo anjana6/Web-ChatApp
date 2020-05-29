@@ -1,9 +1,13 @@
 import React from 'react';
 import {Box,makeStyles} from '@material-ui/core';
 import { connect } from 'react-redux';
+import ChatTextBox from './ChatTextBox';
 
 
 const useStyles = makeStyles((theme)=>({
+    root:{
+        minWidth:300
+    },
     sender:{
         float:'left',
         backgroundColor:'#A5E29E',
@@ -19,7 +23,11 @@ const useStyles = makeStyles((theme)=>({
         padding:20,
         margin:theme.spacing(3),
         borderRadius:theme.spacing(3)
-    }
+    },
+    showMessageBox:{
+        height:'79vh',
+        backgroundColor:'red'
+    },
 
 }))
 
@@ -27,10 +35,10 @@ const useStyles = makeStyles((theme)=>({
 const ShowChatPanel = ({chatmessages}) => {
     
     const classes = useStyles();
-    console.log(chatmessages && chatmessages.messages.length)
+    // console.log(chatmessages && chatmessages.messages.length)
     return (
-        <div>
-            <Box>
+        <div className={classes.root}>
+            <Box className={classes.showMessageBox}>
                 {chatmessages && chatmessages.messages.map((item,index)=>{
                     return(
                         <Box className={item.sender === chatmessages.userId? classes.sender:classes.reciver} key={index}>
@@ -40,6 +48,10 @@ const ShowChatPanel = ({chatmessages}) => {
                 })}
                 
             </Box>
+            <div>
+            <ChatTextBox/>
+            </div>
+            
         </div>
     )
 }

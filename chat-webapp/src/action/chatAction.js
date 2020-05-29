@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST} from './type';
+import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST,CLEAR_CHATPANEL} from './type';
 
 // const socket = io.connect('http://localhost:4000');
 
@@ -32,6 +32,12 @@ export const fetchMessages = (userId,chatId) => async dispatch => {
     } catch (err) {
         console.log(err.message);
     }
+}
+
+export const clearChatPanel = () => async dispatch =>{
+    dispatch({
+        type:CLEAR_CHATPANEL
+    })
 }
 
 // export const fetchChatMessage = (chatId) => async dispatch =>{

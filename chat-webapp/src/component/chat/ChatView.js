@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar,Toolbar,Typography} from '@material-ui/core';
-import ShowChatPanel from '../chat/ShowChatPanel';
+import ShowChatPanel from './ShowChatPanel';
+import ChatTextBox from './ChatTextBox';
 
 
 
@@ -11,22 +12,31 @@ const useStyles = makeStyles(()=>({
       },
     headertitle:{
         alignSelf:'center'
+    },
+    chatbox:{
+      position:'absolute',
+      bottom:5,
+      // width:"100%"
     }
 }))
 
 
-const ChatView = () => {
+const ChatView = ({panelname}) => {
     const classes = useStyles();
     return (
         <div className={classes.root} >
         <AppBar position="static">
         <Toolbar className={classes.headertitle}>
           <Typography variant="h6" >
-            News
+           {panelname}
           </Typography>
         </Toolbar>
       </AppBar>
       <ShowChatPanel/>
+      {/* <div className={classes.chatbox}>
+      <ChatTextBox/>
+      </div> */}
+      
         </div>
     )
 }
