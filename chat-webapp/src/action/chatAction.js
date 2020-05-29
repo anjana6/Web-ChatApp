@@ -9,7 +9,7 @@ export const fetchChatList = () => async dispatch => {
     console.log('hoo');
     try {
         const res = await axios.get('http://localhost:5000/api/v1/chat/chatlist');
-        console.log(res.data);
+        
         dispatch({
             type:GET_CHATLIST,
             payload:res.data
@@ -20,17 +20,17 @@ export const fetchChatList = () => async dispatch => {
 
 }
 
-export const fetchMessages = (userId,chatId) => async dispatch => {
-    console.log(userId)
+export const fetchMessages = (chatId) => async dispatch => {
+    console.log(chatId)
     try {
-        const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${userId}/${chatId}`);
+        const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${chatId}`);
         
+       
         dispatch({
             type:GET_CHATMESSAGE,
             payload:res.data
         })
-        socket.emit('joinchat',chatId);
-       
+        
     } catch (err) {
         console.log(err.message);
     }
@@ -46,6 +46,18 @@ export const addMessage = () => async dispatch =>{
 
 }
 
+
+export const joinChat = (chatId) => async dispatch =>{
+    console.log(chatId);
+    socket.emit('joinchat',chatId);
+        socket.on('status',message =>{
+            console.log(message);
+        })
+}
+
+export const sendMessage = (chatId,friendId,text) =>async dispatch =>{
+    
+}
 // export const fetchChatMessage = (chatId) => async dispatch =>{
 //     // console.log(chatId);
 //     try {
@@ -83,7 +95,7 @@ export const addMessage = () => async dispatch =>{
 export const fetchFriendList = () =>async dispatch =>{
     try {
         const res =await axios.get('http://localhost:5000/api/v1/chat/friend');
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
             type:GET_FRIENDLIST,
             payload:res.data

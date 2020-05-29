@@ -87,8 +87,8 @@ router.get('/chatlist',auth,async(req,res) =>{
     }
 })
 
-router.get('/message/:userId/:chatId',auth,async(req,res) =>{
-    const chatmessages =await Chat.findOne({userId:req.params.userId,chatId:req.params.chatId});
+router.get('/message/:chatId',auth,async(req,res) =>{
+    const chatmessages =await Chat.findOne({userId:req.user.id,chatId:req.params.chatId});
     
     res.status(200).json(chatmessages);
 });

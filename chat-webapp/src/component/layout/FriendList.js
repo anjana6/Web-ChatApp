@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) =>({
       },
 }))
 
-const FriendList = ({friends,toggleDrawer,showPanel,clearChatPanel}) => {
+const FriendList = ({friends,toggleDrawer,showPanel}) => {
     const classes = useStyles();
     return (
        <div
@@ -21,7 +21,7 @@ const FriendList = ({friends,toggleDrawer,showPanel,clearChatPanel}) => {
       <List>
         {friends.map((frnd, index) => (
           <div key={index}>
-          <ListItem button onClick={() =>{showPanel(frnd.username);clearChatPanel()}}>
+          <ListItem button onClick={() =>{showPanel(frnd.username)}}>
           <ListItemAvatar>
             <Avatar>
               <Image />
@@ -43,4 +43,4 @@ const mapStateToProps = state => ({
     friends:state.chat.friends
   })
 
-export default connect(mapStateToProps,{clearChatPanel})(FriendList)
+export default connect(mapStateToProps)(FriendList)

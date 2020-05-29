@@ -37,7 +37,6 @@ const Appbar = ({fetchFriendList,fetchChatList}) => {
   };
 
   const showChatPanel = (name) =>{
-    console.log(name);
     setPanel({...panel,showpanel:true,panelname:name});
   }
 
