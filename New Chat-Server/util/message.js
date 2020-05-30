@@ -10,20 +10,14 @@ const createMessage = (text,sender) => {
 };
 
 const saveMessage = async (data,userId,chatId,message) =>{
-    // console.log("da",data);
-    // console.log('user',userId);
-    // console.log('chatid',chatId);
-    // console.log('msg',message);
+  
     const userchat = await Chat.findOne({userId,chatId});
-    const friendchat = await Chat.findOne({userId:data.friendId,chatId})
-    // console.log(friendchat);
+    const friendchat = await Chat.findOne({userId:data.friendId,chatId});
+
     if(!userchat){
         const newchat = senderchat(userId,chatId,data.friendId,message);
-        // console.log(newchat);
         const chat = new Chat(newchat);
-        // console.log(chat)
         await chat.save();
-        // console.log(chat)
     }else{
         userchat.messages.push(message);
         await userchat.save();
@@ -31,11 +25,8 @@ const saveMessage = async (data,userId,chatId,message) =>{
 
     if(!friendchat){
         const newchat = reciverchat(userId,chatId,data.friendId,message);
-        // console.log(newchat);
         const chat = new Chat(newchat);
-        // console.log(chat)
-        await chat.save();
-        // console.log(chat)
+        await chat.save();  
     }else{
         friendchat.messages.push(message);
         await friendchat.save()

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST,CLEAR_CHATPANEL, ADD_NEWMESSAGE} from './type';
+import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST, ADD_NEWMESSAGE} from './type';
 
 const socket = io.connect('http://localhost:5000',{query:{token:localStorage.token}});
 

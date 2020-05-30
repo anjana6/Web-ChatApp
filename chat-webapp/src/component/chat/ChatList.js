@@ -1,14 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {List,ListItem,ListItemAvatar,Avatar,ListItemText, makeStyles} from '@material-ui/core';
-import {Image} from '@material-ui/icons';
-import {fetchMessages, joinChat} from '../../action/chatAction';
+import {List,ListItem,ListItemAvatar,Avatar,ListItemText} from '@material-ui/core';
+import {fetchMessages, joinChat,fetchChatList} from '../../action/chatAction';
 
-const useStyles = makeStyles((theme) =>({
-}))
 
-const ChatList = ({chatList,fetchMessages,showPanel,joinChat}) => {
-    const classes = useStyles();
+const ChatList = ({chatList,fetchMessages,showPanel,joinChat,fetchChatList}) => {
+    
     return (
         
         <List  >
@@ -22,11 +19,13 @@ const ChatList = ({chatList,fetchMessages,showPanel,joinChat}) => {
                     () => {
                       fetchMessages(item.chatId);
                       joinChat(item.chatId);
-                      showPanel(item.friendId.username,item.friendId._id)}
+                      showPanel(item.friendId.username,item.friendId._id);
+                      fetchChatList()
+                    }
                     }>
                   <ListItemAvatar>
                     <Avatar>
-                      <Image />
+                      {item.friendId.username.split("")[0]}
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText 
@@ -44,4 +43,4 @@ const mapStateToProps = state => ({
   chatList: state.chat.chatlist
 })
 
-export default connect(mapStateToProps,{fetchMessages,joinChat})(ChatList);
+export default connect(mapStateToProps,{fetchMessages,joinChat,fetchChatList})(ChatList);

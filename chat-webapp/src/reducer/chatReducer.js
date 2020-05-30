@@ -15,7 +15,7 @@ export default (state=initialState,action) => {
         case GET_CHATLIST:
             return {...state,chatlist:payload};
         case GET_CHATMESSAGE:
-            return {...state,messages:payload};
+            return {...state,messages:payload,newMessage:[]};
         case GET_FRIENDLIST:
             return {...state,friends:payload.friend,user:payload.user};
         case ADD_NEWMESSAGE:
