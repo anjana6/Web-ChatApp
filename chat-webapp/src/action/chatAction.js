@@ -1,6 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
-import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST,CLEAR_CHATPANEL} from './type';
+import {GET_CHATLIST,GET_CHATMESSAGE,GET_FRIENDLIST,CLEAR_CHATPANEL, ADD_NEWMESSAGE} from './type';
 
 const socket = io.connect('http://localhost:5000',{query:{token:localStorage.token}});
 
@@ -24,7 +24,7 @@ export const fetchMessages = (chatId) => async dispatch => {
     // console.log(chatId)
     try {
         const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${chatId}`);
-        console.log(res.data)
+        // console.log(res.data)
        
         dispatch({
             type:GET_CHATMESSAGE,
@@ -34,12 +34,6 @@ export const fetchMessages = (chatId) => async dispatch => {
     } catch (err) {
         console.log(err.message);
     }
-}
-
-export const clearChatPanel = () => async dispatch =>{
-    dispatch({
-        type:CLEAR_CHATPANEL
-    })
 }
 
 export const addMessage = () => async dispatch =>{
@@ -52,10 +46,19 @@ export const joinChat = (chatId) => async dispatch =>{
     socket.emit('joinchat',chatId);
         socket.on('status',message =>{
             console.log(message);
+        });
+        socket.on('message', msg => {
+            console.log(msg);
+            dispatch({
+                type:ADD_NEWMESSAGE,
+                payload:msg
+            })
         })
 }
 
-export const sendMessage = (chatId,friendId,text) =>async dispatch =>{
+export const sendMessage = (friendId,text,userId) =>async dispatch =>{
+    // console.log(friendId,text,userId);
+    socket.emit('chatMessage',{friendId,text,userId});
     
 }
 // export const fetchChatMessage = (chatId) => async dispatch =>{
@@ -95,7 +98,7 @@ export const sendMessage = (chatId,friendId,text) =>async dispatch =>{
 export const fetchFriendList = () =>async dispatch =>{
     try {
         const res =await axios.get('http://localhost:5000/api/v1/chat/friend');
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
             type:GET_FRIENDLIST,
             payload:res.data

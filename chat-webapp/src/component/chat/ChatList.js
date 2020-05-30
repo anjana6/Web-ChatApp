@@ -5,11 +5,6 @@ import {Image} from '@material-ui/icons';
 import {fetchMessages, joinChat} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
-   
-      appBar: {
-        flexGrow: 1,
-      },
-     
 }))
 
 const ChatList = ({chatList,fetchMessages,showPanel,joinChat}) => {
@@ -20,7 +15,15 @@ const ChatList = ({chatList,fetchMessages,showPanel,joinChat}) => {
           {
             chatList.map((item,index) =>{
               return(
-                <ListItem button key={index} onClick={() => {fetchMessages(item.chatId);joinChat(item.chatId);showPanel(item.friendId.username)}}>
+                <ListItem 
+                  button 
+                  key={index} 
+                  onClick={
+                    () => {
+                      fetchMessages(item.chatId);
+                      joinChat(item.chatId);
+                      showPanel(item.friendId.username,item.friendId._id)}
+                    }>
                   <ListItemAvatar>
                     <Avatar>
                       <Image />

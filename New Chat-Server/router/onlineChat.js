@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const {getMessages} = require('../util/message');
+const {createMessage} = require('../util/message');
 
 const onlineChat = (io) => {
     // io.use(function(socket,next){
@@ -22,7 +22,11 @@ const onlineChat = (io) => {
         socket.on('joinchat',async (chatId) =>{
             console.log(chatId)
             socket.join(chatId);
-            socket.broadcast.to(chatId).emit('status','I am online')
+            socket.broadcast.to(chatId).emit('status','I am online');
+            socket.on('chatMessage',async (msg)=>{
+                const message = createMessage(msg.text,msg.userId);
+                io.to(chatId).emit('message',message);
+            })
 
         })
     })

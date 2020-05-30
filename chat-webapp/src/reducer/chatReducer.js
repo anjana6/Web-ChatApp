@@ -1,10 +1,11 @@
-import {GET_CHATLIST,GET_CHATMESSAGE, GET_FRIENDLIST, CLEAR_CHATPANEL} from '../action/type';
+import {GET_CHATLIST,GET_CHATMESSAGE, GET_FRIENDLIST, ADD_NEWMESSAGE} from '../action/type';
 
 const initialState = {
     chatlist : [],
     friends : [],
     user: null,
-    messages: null
+    messages: null,
+    newMessage: [],
 }
 
 export default (state=initialState,action) => {
@@ -17,8 +18,8 @@ export default (state=initialState,action) => {
             return {...state,messages:payload};
         case GET_FRIENDLIST:
             return {...state,friends:payload.friend,user:payload.user};
-        case CLEAR_CHATPANEL:
-            return {...state,messages:null};
+        case ADD_NEWMESSAGE:
+            return {...state,newMessage:[...state.newMessage,payload]};
         default:
             return state;
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {clearChatPanel,fetchMessages} from '../../action/chatAction';
+import {fetchMessages} from '../../action/chatAction';
 import {Avatar,List,Divider,ListItem,ListItemText,makeStyles,ListItemAvatar,} from '@material-ui/core';
 import {Image} from '@material-ui/icons';
 
@@ -17,7 +17,7 @@ const FriendList = ({users:{friends,user},toggleDrawer,showPanel,fetchMessages})
       const chatId = (userId>friendId)?  friendId.concat(userId):  userId.concat(friendId);
       return chatId;
     }
-    
+
     return (
        <div
       className={classes.list}
@@ -27,7 +27,7 @@ const FriendList = ({users:{friends,user},toggleDrawer,showPanel,fetchMessages})
       <List>
         {friends.map((frnd, index) => (
           <div key={index}>
-          <ListItem button onClick={() =>{showPanel(frnd.username);fetchMessages(getChatId(frnd._id,user._id))}}>
+          <ListItem button onClick={() =>{showPanel(frnd.username,frnd._id);fetchMessages(getChatId(frnd._id,user._id))}}>
           <ListItemAvatar>
             <Avatar>
               <Image />

@@ -6,6 +6,7 @@ import ChatTextBox from './ChatTextBox';
 
 
 
+
 const useStyles = makeStyles(()=>({
     root: {
         flexGrow: 1,
@@ -21,7 +22,7 @@ const useStyles = makeStyles(()=>({
 }))
 
 
-const ChatView = ({panelname}) => {
+const ChatView = ({panelname,paneluserId}) => {
     const classes = useStyles();
     return (
         <div className={classes.root} >
@@ -33,9 +34,7 @@ const ChatView = ({panelname}) => {
         </Toolbar>
       </AppBar>
       <ShowChatPanel/>
-      {/* <div className={classes.chatbox}>
-      <ChatTextBox/>
-      </div> */}
+      <ChatTextBox paneluserId={paneluserId}/>
       
         </div>
     )

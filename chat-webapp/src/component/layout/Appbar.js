@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) =>({
 const Appbar = ({fetchFriendList,fetchChatList}) => {
   const classes = useStyles();
   const [state, setState] = useState({left: false});
-  const [panel,setPanel] = useState({showpanel:false,panelname:''});
+  const [panel,setPanel] = useState({showpanel:false,panelname:'',paneluserId:''});
+  const {panelname,paneluserId} = panel;
 
   useEffect(() => {
     fetchFriendList()
@@ -36,11 +37,9 @@ const Appbar = ({fetchFriendList,fetchChatList}) => {
     setState({ ...state,left: open });
   };
 
-  const showChatPanel = (name) =>{
-    setPanel({...panel,showpanel:true,panelname:name});
+  const showChatPanel = (name,userId) =>{
+    setPanel({...panel,showpanel:true,panelname:name,paneluserId:userId});
   }
-
-  
 
   return (
     <div className={classes.root}>
@@ -65,7 +64,7 @@ const Appbar = ({fetchFriendList,fetchChatList}) => {
       </div>
        
         {panel.showpanel &&
-          <ChatView panelname={panel.panelname}/>
+          <ChatView panelname={panelname} paneluserId={paneluserId}/>
         }
       
     </div>

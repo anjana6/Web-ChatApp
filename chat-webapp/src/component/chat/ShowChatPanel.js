@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme)=>({
 }))
 
 
-const ShowChatPanel = ({chatmessages}) => {
+const ShowChatPanel = ({chatmessages,newmessage,user}) => {
     
     const classes = useStyles();
     // console.log(chatmessages.messages.length)
@@ -46,17 +46,28 @@ const ShowChatPanel = ({chatmessages}) => {
                         </Box>
                     )
                 })}
+                { newmessage.map((item,index) => {
+                    return(
+                    <Box className={item.sender === user._id? classes.sender:classes.reciver} key={index}>
+                        {item.message}
+                    </Box>
+                    )
+                })}
+                    
                 
             </Box>
-            <div>
+            {/* <div>
             <ChatTextBox/>
-            </div>
+            </div> */}
             
         </div>
     )
 }
 const mapStateToProps = state => ({
-    chatmessages: state.chat.messages
+    chatmessages: state.chat.messages,
+    newmessage: state.chat.newMessage,
+    user: state.chat.user
+
 })
 
 export default connect(mapStateToProps)(ShowChatPanel);

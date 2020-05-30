@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import {Box,TextField, makeStyles, IconButton,Grid} from '@material-ui/core';
-import {Send, FullscreenExit, SentimentSatisfied} from '@material-ui/icons';
+import {connect} from 'react-redux';
+import {TextField, makeStyles, IconButton,Grid} from '@material-ui/core';
+import {Send} from '@material-ui/icons';
+import { sendMessage } from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) =>({
     root:{
@@ -17,14 +19,17 @@ const useStyles = makeStyles((theme) =>({
    
 }))
 
-const ChatTextBox = () => {
+const ChatTextBox = ({paneluserId,sendMessage,user}) => {
     const classes = useStyles();
-    const [state,setState] = useState('');
+    const [state,setState] = useState({msg:''});
+    
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        console.log(state);
+        sendMessage(paneluserId,state.msg,user._id);
+        setState({msg:''});
     }
+    // console.log("pa",paneluserId);
 
     return (
         <div>
@@ -32,7 +37,8 @@ const ChatTextBox = () => {
             <TextField  
                     placeholder="Type a message" 
                     fullWidth 
-                    onChange={(e) =>{setState(e.target.value)}}
+                    onChange={(e) =>{setState({...state,msg:e.target.value})}}
+                    value={state.msg}
                     
                     />
             <IconButton onClick={onSubmit}><Send/></IconButton>
@@ -41,4 +47,8 @@ const ChatTextBox = () => {
     )
 }
 
-export default ChatTextBox
+const mapStateToProps = state => ({
+    user: state.chat.user
+})
+
+export default connect(mapStateToProps,{sendMessage})(ChatTextBox);
