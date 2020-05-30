@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {clearChatPanel} from '../../action/chatAction';
+import {clearChatPanel,fetchMessages} from '../../action/chatAction';
 import {Avatar,List,Divider,ListItem,ListItemText,makeStyles,ListItemAvatar,} from '@material-ui/core';
 import {Image} from '@material-ui/icons';
 
@@ -10,8 +10,14 @@ const useStyles = makeStyles((theme) =>({
       },
 }))
 
-const FriendList = ({friends,toggleDrawer,showPanel}) => {
+const FriendList = ({users:{friends,user},toggleDrawer,showPanel,fetchMessages}) => {
     const classes = useStyles();
+
+    const getChatId = (userId,friendId) =>{
+      const chatId = (userId>friendId)?  friendId.concat(userId):  userId.concat(friendId);
+      return chatId;
+    }
+    
     return (
        <div
       className={classes.list}
@@ -21,7 +27,7 @@ const FriendList = ({friends,toggleDrawer,showPanel}) => {
       <List>
         {friends.map((frnd, index) => (
           <div key={index}>
-          <ListItem button onClick={() =>{showPanel(frnd.username)}}>
+          <ListItem button onClick={() =>{showPanel(frnd.username);fetchMessages(getChatId(frnd._id,user._id))}}>
           <ListItemAvatar>
             <Avatar>
               <Image />
@@ -40,7 +46,7 @@ const FriendList = ({friends,toggleDrawer,showPanel}) => {
 }
 
 const mapStateToProps = state => ({
-    friends:state.chat.friends
+    users:state.chat
   })
 
-export default connect(mapStateToProps)(FriendList)
+export default connect(mapStateToProps,{fetchMessages})(FriendList)

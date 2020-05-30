@@ -6,7 +6,7 @@ const socket = io.connect('http://localhost:5000',{query:{token:localStorage.tok
 
 
 export const fetchChatList = () => async dispatch => {
-    console.log('hoo');
+    
     try {
         const res = await axios.get('http://localhost:5000/api/v1/chat/chatlist');
         
@@ -21,10 +21,10 @@ export const fetchChatList = () => async dispatch => {
 }
 
 export const fetchMessages = (chatId) => async dispatch => {
-    console.log(chatId)
+    // console.log(chatId)
     try {
         const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${chatId}`);
-        
+        console.log(res.data)
        
         dispatch({
             type:GET_CHATMESSAGE,
@@ -95,7 +95,7 @@ export const sendMessage = (chatId,friendId,text) =>async dispatch =>{
 export const fetchFriendList = () =>async dispatch =>{
     try {
         const res =await axios.get('http://localhost:5000/api/v1/chat/friend');
-        // console.log(res.data);
+        console.log(res.data);
         dispatch({
             type:GET_FRIENDLIST,
             payload:res.data

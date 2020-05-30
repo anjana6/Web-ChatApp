@@ -13,7 +13,7 @@ export const signIn = (body,history) => async dispatch => {
         const token = res.data.token;
         // console.log(token);
         axios.defaults.headers.common['x-auth-token'] = token;
-        // localStorage.setItem('token',token)
+        localStorage.setItem('token',token)
         history.push('/dashboard');
 
         dispatch({

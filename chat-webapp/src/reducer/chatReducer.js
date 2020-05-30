@@ -12,11 +12,11 @@ export default (state=initialState,action) => {
 
     switch(type){
         case GET_CHATLIST:
-            return {...state,chatlist:payload,user:payload.user};
+            return {...state,chatlist:payload};
         case GET_CHATMESSAGE:
             return {...state,messages:payload};
         case GET_FRIENDLIST:
-            return {...state,friends:payload};
+            return {...state,friends:payload.friend,user:payload.user};
         case CLEAR_CHATPANEL:
             return {...state,messages:null};
         default:
