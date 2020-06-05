@@ -9,6 +9,12 @@ const createMessage = (text,sender) => {
     return msg
 };
 
+const getMessage =async (userId,chatId) => {
+    // console.log(userId);
+    const messages = await Chat.findOne({userId,chatId});
+    return messages;
+}
+
 const saveMessage = async (data,userId,chatId,message) =>{
   
     const userchat = await Chat.findOne({userId,chatId});
@@ -35,4 +41,4 @@ const saveMessage = async (data,userId,chatId,message) =>{
 
 }
 
-module.exports = {createMessage,saveMessage};
+module.exports = {createMessage,saveMessage,getMessage};

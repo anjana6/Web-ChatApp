@@ -6,13 +6,11 @@ import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme)=>({
     paper: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
         '& > *': {
           margin: theme.spacing(1),
           width: theme.spacing(45),
           padding:theme.spacing(4),
-        //   height: theme.spacing(16),
+
         
         },
         textAlign:'center'
@@ -30,7 +28,6 @@ const LoginForm = ({signIn}) =>{
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(state);
         signIn(state,history)
     }
 

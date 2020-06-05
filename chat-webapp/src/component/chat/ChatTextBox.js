@@ -22,11 +22,18 @@ const useStyles = makeStyles((theme) =>({
 const ChatTextBox = ({paneluserId,sendMessage,user}) => {
     const classes = useStyles();
     const [state,setState] = useState({msg:''});
+
+    const getChatId = (userId,friendId) =>{
+        const chatId = (userId>friendId)?  friendId.concat(userId):  userId.concat(friendId);
+        console.log(chatId);
+        return chatId;
+      }
+  
     
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        sendMessage(paneluserId,state.msg,user._id);
+        sendMessage(paneluserId,state.msg,user._id,getChatId(user._id,paneluserId));
         setState({msg:''});
     }
     // console.log("pa",paneluserId);

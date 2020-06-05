@@ -1,5 +1,4 @@
 import {LOGING_SUCCESS} from '../action/type';
-
 const initialState = {
     token:null
 }

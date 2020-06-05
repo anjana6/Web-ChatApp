@@ -15,6 +15,7 @@ const FriendList = ({users:{friends,user},toggleDrawer,showPanel,fetchMessages,j
 
     const getChatId = (userId,friendId) =>{
       const chatId = (userId>friendId)?  friendId.concat(userId):  userId.concat(friendId);
+      // console.log(chatId);
       return chatId;
     }
 
@@ -32,7 +33,7 @@ const FriendList = ({users:{friends,user},toggleDrawer,showPanel,fetchMessages,j
             onClick={() =>{
               showPanel(frnd.username,frnd._id);
               fetchMessages(getChatId(frnd._id,user._id));
-              joinChat(getChatId(frnd._id,user._id));
+              joinChat(getChatId(user._id,frnd._id,));
               fetchChatList()
               }}>
           <ListItemAvatar>
