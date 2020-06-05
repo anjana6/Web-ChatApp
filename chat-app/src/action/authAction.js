@@ -9,7 +9,7 @@ export const signIn = (body,history) => async dispatch => {
         }
     }
     try {
-        const res = await axios.post('http://localhost:5000/api/v1/auth/signin',body,config);
+        const res = await axios.post('http://localhost:4000/api/v1/auth/signin',body,config);
         const token = res.data.token;
         // console.log(token);
         axios.defaults.headers.common['x-auth-token'] = token;
@@ -33,7 +33,7 @@ export const signUp = (body,history) => async dispatch => {
         }
     }
     try {
-        const res = await axios.post('http://localhost:5000/api/v1/auth/signup',body,config);
+        const res = await axios.post('http://localhost:4000/api/v1/auth/signup',body,config);
         history.push('/');
         console.log(res.data);
     } catch (err) {

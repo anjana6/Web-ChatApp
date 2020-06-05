@@ -73,9 +73,11 @@ router.put('/message/:chatId',auth,async(req,res) =>{
 });
 
 router.get('/chatlist',auth,async(req,res) =>{
+    console.log('hoo');
     
     try {
         const chatlist =await Chat.find({userId:req.user.id}).populate('friendId',['username']).populate('userId',['username']);
+        console.log(chatlist);
         
         if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
