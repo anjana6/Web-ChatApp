@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+const {getMessage} = require('./utils/message');
+
 const onlineUsers = {}
 
 const socketManeger = (io) => {
@@ -10,7 +12,7 @@ const socketManeger = (io) => {
                if(err) return next(new Error('Authentication error'));
                
                socket.user = decoded.user;
-               console.log(socket.user);
+            //    console.log(socket.user);
                next();
             });
         }else {
@@ -18,7 +20,14 @@ const socketManeger = (io) => {
         }
     })
     .on('connection',socket => {
-        console.log(socket.id);
+        console.log('connected');
+        // console.log(socket.id);
+        socket.on('CHAT_MESSAGE',async message => {
+            console.log(message);
+        //    const message = await getMessage(socket.user.id,chatId);
+        
+           socket.emit('MESSAGES',message)
+        })
     })
 
 }
