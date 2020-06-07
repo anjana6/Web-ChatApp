@@ -2,13 +2,13 @@ import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { fetchChatList } from '../../action/chatAction';
-import chatReducer from '../../reducer/chatReducer';
 import ChatView from '../chat/ChatView';
+import ChatList from '../chat/ChatList';
 
 
 
 const Dashboard = ({ fetchChatList, user }) => {
-    const [state, setState] = useState({socket:null})
+    const [state, setState] = useState({socket:null,friendId:null})
     useEffect(() => {
         fetchChatList()
         initialSocket()
@@ -25,10 +25,16 @@ const Dashboard = ({ fetchChatList, user }) => {
         });
     }
 
+    const setFriendId = (friend) => {
+        setState({ ...state, friend: friend })
+       
+    }
+     
     return (
        
         <div>
-            <ChatView socket={state.socket}/>
+            <ChatList setFriendId={setFriendId}/>
+           {state.friend && <ChatView socket={state.socket} friend={state.friend}/>}
          </div>
          
     )

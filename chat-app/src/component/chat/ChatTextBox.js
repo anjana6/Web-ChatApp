@@ -1,16 +1,17 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-const ChatTextBox = ({ socket }) => {
+const ChatTextBox = ({ socket,friendId,user }) => {
     const [state, setState] = useState({ text: '' });
 
-    useEffect(() => {
-        console.log(socket);
-        
-    }, [])
-    // console.log(socket)
+    const getChatId = () => {
+        const chatId =
+            user._id > friendId ? `${friendId}&${user._id}` : `${user._id}&${friendId}`;
+        return(chatId);
+    }
 
     const onSubmit = () => {
-        const chatId = '5ece9c2ccfc90f416048bbfe&5ece9c43cfc90f416048bc00';
+        const chatId = getChatId()
         const { text } = state;
         socket.emit('CHAT_MESSAGE', { chatId, text });
         setState({ ...state, text: '' });
@@ -23,4 +24,8 @@ const ChatTextBox = ({ socket }) => {
     )
 }
 
-export default ChatTextBox;
+const mapStateToProps = (state) => ({
+    user: state.chat.user
+})
+
+export default connect(mapStateToProps)(ChatTextBox);

@@ -13,3 +13,9 @@ export const fetchChatList = () => async dispatch => {
         console.log(err.message)
     }
 }
+
+export const addNewMessage = (msg) => async dispatch => {
+    dispatch({
+        
+    })
+}

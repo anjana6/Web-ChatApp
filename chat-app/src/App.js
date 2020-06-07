@@ -10,7 +10,7 @@ import Dashboard from './component/layout/Dashboard';
 function App() {
   return (
     <div>
-      <CssBaseline />
+     <CssBaseline/>
       <Router>
         <Switch>
           <Route exact path='/' component={LoginForm} />
@@ -18,7 +18,6 @@ function App() {
           <Route exact path='/dashboard' component={Dashboard} />
         </Switch>
       </Router>
-      {/* <Dashboard/> */}
     </div>
   );
 }

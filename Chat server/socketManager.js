@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const { createChatId } = require('./utils/chatManager');
+const { createMessage } = require('./utils/messageManager');
 
 const socketManager = (io) => {
      io.use(function (socket, next) {
@@ -28,12 +29,12 @@ const socketManager = (io) => {
             const chatIds =await createChatId(socket.user.id);
             // console.log(chatIds);
             chatIds.map((chatId) => {
-                console.log(chatId);
+                // console.log(chatId);
                 socket.join(chatId);
             });
             socket.on('CHAT_MESSAGE', msg => {
-                console.log("chatId",msg.chatId);
-                io.to(msg.chatId).emit('MESSAGE',msg)
+                const message = createMessage(socket.user.id,msg.text)
+                io.to(msg.chatId).emit('MESSAGE',message)
             })
         })
  })
