@@ -1,26 +1,24 @@
 import React from 'react';
-import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
-import {CssBaseline} from '@material-ui/core';
-
-
-import LoginForm from './component/auth/LoginForm';
-import RegisterForm from  './component/auth/RegisterForm';
-import Dashboard from './component/layout/Dashboard';
-
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-   <div>
-     <CssBaseline />
-     <Router>
-    <Switch>
-      <Route exact path='/' component={LoginForm} />
-      <Route exact path='/register' component={RegisterForm}/>
-      <Route exact path='/dashboard' component={Dashboard}/>
-    
-    </Switch>
-  </Router>
-    {/* <Dashboard/> */}
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
