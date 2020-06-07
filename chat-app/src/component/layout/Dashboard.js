@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { fetchChatList } from '../../action/chatAction';
 import chatReducer from '../../reducer/chatReducer';
+import ChatView from '../chat/ChatView';
 
 
 
@@ -18,13 +19,16 @@ const Dashboard = ({ fetchChatList, user }) => {
     const initialSocket = () => {
         const socket = io.connect('http://localhost:5000', { query: { token: localStorage.token } });
         setState({ ...state, socket: socket });
-        socket.emit('JOIN CHAT')
+        socket.emit('JOIN CHAT');
+        socket.on('MESSAGE', (msg) => {
+          console.log(msg);
+        });
     }
 
     return (
        
         <div>
-            dash
+            <ChatView socket={state.socket}/>
          </div>
          
     )

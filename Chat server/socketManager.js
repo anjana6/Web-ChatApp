@@ -23,9 +23,18 @@ const socketManager = (io) => {
      })
     .on('connection', (socket) => {
         console.log('connected');
-        socket.on('JOIN CHAT', () => {
+        socket.on('JOIN CHAT', async() => {
             // console.log('hoo');
-            createChatId(socket.user.id);
+            const chatIds =await createChatId(socket.user.id);
+            // console.log(chatIds);
+            chatIds.map((chatId) => {
+                console.log(chatId);
+                socket.join(chatId);
+            });
+            socket.on('CHAT_MESSAGE', msg => {
+                console.log("chatId",msg.chatId);
+                io.to(msg.chatId).emit('MESSAGE',msg)
+            })
         })
  })
 }
