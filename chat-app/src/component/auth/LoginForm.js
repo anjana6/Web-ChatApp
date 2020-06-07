@@ -28,7 +28,6 @@ const LoginForm = ({signIn}) =>{
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(state);
         signIn(state,history)
     }
 

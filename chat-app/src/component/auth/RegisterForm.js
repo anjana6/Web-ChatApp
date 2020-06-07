@@ -30,7 +30,6 @@ const RegisterForm = ({signUp}) =>{
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(state);
         signUp(state,history)
     }
 
