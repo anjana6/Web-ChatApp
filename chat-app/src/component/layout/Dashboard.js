@@ -4,11 +4,29 @@ import io from 'socket.io-client';
 import { fetchChatList } from '../../action/chatAction';
 import ChatView from '../chat/ChatView';
 import ChatList from '../chat/ChatList';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: "100%",
+        display: 'flex',
+        float: "left"
+    },
+    leftBar: {
+        width: 350,
+    },
+    chatpanel: {
+        width:"100%"
+    }
+   
+}))
 
 
 
 const Dashboard = ({ fetchChatList, user }) => {
-    const [state, setState] = useState({socket:null,friendId:null})
+    const [state, setState] = useState({ socket: null, friendId: null });
+    const classes = useStyles();
+
     useEffect(() => {
         fetchChatList()
         initialSocket()
@@ -32,9 +50,15 @@ const Dashboard = ({ fetchChatList, user }) => {
      
     return (
        
-        <div>
-            <ChatList setFriendId={setFriendId}/>
-           {state.friend && <ChatView socket={state.socket} friend={state.friend}/>}
+        <div className={classes.root}>
+            <div className={classes.leftBar}>
+                <ChatList setFriendId={setFriendId} />
+            </div>
+            <div className={classes.chatpanel}>
+                {state.friend && <ChatView socket={state.socket} friend={state.friend} />}
+            </div>
+            
+           
          </div>
          
     )

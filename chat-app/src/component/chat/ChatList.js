@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider,makeStyles } from '@material-ui/core';
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, makeStyles } from '@material-ui/core';
+import { fetchChatMessage } from '../../action/chatAction';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList,setFriendId }) => {
+const ChatList = ({ chatList,setFriendId,fetchChatMessage }) => {
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -23,6 +24,7 @@ const ChatList = ({ chatList,setFriendId }) => {
                   button
                   onClick={() => {
                     setFriendId(item.friendId);
+                    fetchChatMessage(item.chatId);
                   }}
                 >
                   <ListItemAvatar>
@@ -46,4 +48,4 @@ const mapStateToProps = state => ({
     chatList : state.chat.chatlist
 })
 
-export default connect(mapStateToProps)(ChatList);
+export default connect(mapStateToProps,{fetchChatMessage})(ChatList);
