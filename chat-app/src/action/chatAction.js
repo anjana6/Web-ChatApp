@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CHATLIST, GET_CHATMESSAGE } from './type';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST } from './type';
 
 export const fetchChatList = () => async dispatch => {
     try {
@@ -29,7 +29,9 @@ export const fetchChatMessage = (chatId) => async dispatch => {
 }
 
 export const addNewMessage = (msg) => async dispatch => {
+    console.log(msg);
     dispatch({
-        
+        type: UPDATE_CHATLIST,
+        payload:msg
     })
 }

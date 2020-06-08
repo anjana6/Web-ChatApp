@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const { createChatId } = require('./utils/chatManager');
-const { createMessage } = require('./utils/messageManager');
+const { createMessage,senderChat,reciverChat } = require('./utils/messageManager');
 
 const socketManager = (io) => {
      io.use(function (socket, next) {
@@ -32,9 +32,15 @@ const socketManager = (io) => {
                 // console.log(chatId);
                 socket.join(chatId);
             });
-            socket.on('CHAT_MESSAGE', msg => {
-                const message = createMessage(socket.user.id,msg.text)
-                io.to(msg.chatId).emit('MESSAGE',message)
+          socket.on('CHAT_MESSAGE',async msg => {
+               const chatId = msg.chatId
+            const message = createMessage(socket.user.id, msg.text);
+            const sendermessage = await senderChat(socket.user.id, msg);
+            const recivermessage = await reciverChat(socket.user.id, msg);
+            // console.log(sendermessage);
+                // io.to(msg.chatId).emit('MESSAGE',{chatId,message})
+            socket.emit('MESSAGE',sendermessage);
+            socket.broadcast.to(chatId).emit('MESSAGE', recivermessage);
             })
         })
  })

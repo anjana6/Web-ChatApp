@@ -13,7 +13,7 @@ const ChatTextBox = ({ socket,friendId,user }) => {
     const onSubmit = () => {
         const chatId = getChatId()
         const { text } = state;
-        socket.emit('CHAT_MESSAGE', { chatId, text });
+        socket.emit('CHAT_MESSAGE', { chatId,friendId,text });
         setState({ ...state, text: '' });
     }
     return (

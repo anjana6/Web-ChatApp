@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { fetchChatList } from '../../action/chatAction';
+import { fetchChatList,addNewMessage } from '../../action/chatAction';
 import ChatView from '../chat/ChatView';
 import ChatList from '../chat/ChatList';
 import { makeStyles } from '@material-ui/core';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Dashboard = ({ fetchChatList, user }) => {
+const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
     const [state, setState] = useState({ socket: null, friendId: null });
     const classes = useStyles();
 
@@ -39,7 +39,8 @@ const Dashboard = ({ fetchChatList, user }) => {
         setState({ ...state, socket: socket });
         socket.emit('JOIN CHAT');
         socket.on('MESSAGE', (msg) => {
-          console.log(msg);
+            console.log(msg);
+            // addNewMessage(msg);
         });
     }
 
@@ -68,4 +69,4 @@ const mapStateToProps = state => ({
     user:state.chat.user
 })
 
-export default connect(mapStateToProps,{fetchChatList})(Dashboard);
+export default connect(mapStateToProps,{fetchChatList,addNewMessage})(Dashboard);
