@@ -19,8 +19,8 @@ const senderChat = async (senderId,msg) => {
       friendId:msg.friendId,
       messages: createMessage(senderId,msg.text)
     })
-    return await newchat.save();
-
+    await newchat.save()
+    return await Chat.findOne({ userId: senderId, chatId: msg.chatId }).populate('friendId', ['username']).populate('userId', ['username']);
   }
   chat.messages.push(createMessage(senderId, msg.text));
     return await chat.save();
@@ -36,7 +36,8 @@ const reciverChat =async (senderId,msg) => {
       friendId: senderId,
       messages: createMessage(senderId, msg.text)
     })
-    return await newchat.save();
+    await newchat.save();
+    return await Chat.findOne({ userId: senderId, chatId: msg.chatId }).populate('friendId', ['username']).populate('userId', ['username']);
 
   }
   chat.messages.push(createMessage(senderId, msg.text));

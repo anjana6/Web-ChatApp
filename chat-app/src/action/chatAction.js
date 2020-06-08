@@ -28,10 +28,10 @@ export const fetchChatMessage = (chatId) => async dispatch => {
     }
 }
 
-export const addNewMessage = (msg) => async dispatch => {
-    console.log(msg);
+export const addNewMessage = (chat) => async dispatch => {
+    console.log(chat);
     dispatch({
         type: UPDATE_CHATLIST,
-        payload:msg
+        payload:chat
     })
 }
