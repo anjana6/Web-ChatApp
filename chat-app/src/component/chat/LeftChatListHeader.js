@@ -36,7 +36,7 @@ const LeftChatListHeader = ({setFriendId}) => {
             </AppBar>
             <Fragment>
                 <Drawer anchor='left' open={state.left} onClose={toggleDrawer(false)}>
-                    <FriendList setFriendId={setFriendId} />
+                    <FriendList setFriendId={setFriendId} toggleDrawer={toggleDrawer} />
                     
                 </Drawer>
             </Fragment>

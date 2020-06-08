@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react';
-import { fetchFriendList } from '../../action/chatAction';
+import { fetchFriendList,fetchChatMessage } from '../../action/chatAction';
 import { connect } from 'react-redux';
 import { Avatar, List, Divider, ListItem, ListItemText, makeStyles, ListItemAvatar, } from '@material-ui/core';
 
@@ -9,21 +9,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const FriendList = ({fetchFriendList,friendList,setFriendId}) => {
+const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,user,toggleDrawer}) => {
     const classes = useStyles();
     useEffect(() => {
         fetchFriendList()
     }, [fetchFriendList])
 
-    
+    const getChatId = (friendId) => {
+        const chatId =
+            user._id > friendId ? `${friendId}&${user._id}` : `${user._id}&${friendId}`;
+        return (chatId);
+    }
+
     return (
-        <div className={classes.root}>
+        <div className={classes.root} role="presentation" onClick={toggleDrawer(false)}>
             <List>
                 {friendList.map((frnd, index) => (
                     <div key={index}>
                         <ListItem
                             button
-                            onClick={() => { setFriendId(frnd) }}
+                            onClick={() => { setFriendId(frnd); fetchChatMessage(getChatId(frnd._id));}}
                             >
                             <ListItemAvatar>
                                 <Avatar>
@@ -43,7 +48,8 @@ const FriendList = ({fetchFriendList,friendList,setFriendId}) => {
 }
 
 const mapStateToProps = state => ({
-    friendList: state.chat.friendlist
+    friendList: state.chat.friendlist,
+    user: state.chat.user
 })
 
-export default connect(mapStateToProps,{fetchFriendList})(FriendList);
+export default connect(mapStateToProps,{fetchFriendList,fetchChatMessage})(FriendList);

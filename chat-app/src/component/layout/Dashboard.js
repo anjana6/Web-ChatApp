@@ -46,7 +46,7 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
     }
 
     const setFriendId = (friend) => {
-        // console.log(friend);
+        console.log(friend);
         setState({ ...state, friend: friend })
        
     }
