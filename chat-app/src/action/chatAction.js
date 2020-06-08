@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST } from './type';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST } from './type';
 
 export const fetchChatList = () => async dispatch => {
     try {
@@ -29,9 +29,22 @@ export const fetchChatMessage = (chatId) => async dispatch => {
 }
 
 export const addNewMessage = (chat) => async dispatch => {
-    console.log(chat);
+    // console.log(chat);
     dispatch({
         type: UPDATE_CHATLIST,
         payload:chat
     })
+}
+
+export const fetchFriendList = () => async dispatch => {
+    try {
+        const res = await axios.get('http://localhost:5000/api/v1/chat/friend');
+        // console.log(res.data)
+        dispatch({
+            type: GET_FRIENDLIST,
+            payload:res.data
+        })
+    } catch (err) {
+        console.log(err.message)
+    }
 }

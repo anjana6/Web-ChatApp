@@ -97,7 +97,7 @@ router.get('/message/:chatId',auth,async(req,res) =>{
 router.get('/friend',auth,async(req,res)=>{
     const friend = await User.find().select(['-password']);
     const user = await User.findById(req.user.id).select(['-password']);
-    res.status(200).json({friend,user});
+    res.status(200).json(friend);
 })
 
 module.exports = router;

@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ChatView = ({ socket, friend,msg }) => {
+const ChatView = ({ socket, friend, msg }) => {
+    console.log(friend);
     const classes = useStyles();
     return (
         <div>

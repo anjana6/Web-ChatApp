@@ -34,7 +34,7 @@ const socketManager = (io) => {
             });
           socket.on('CHAT_MESSAGE',async msg => {
                const chatId = msg.chatId
-            const message = createMessage(socket.user.id, msg.text);
+            // const message = createMessage(socket.user.id, msg.text);
             const sendermessage = await senderChat(socket.user.id, msg);
             const recivermessage = await reciverChat(socket.user.id, msg);
             // console.log(sendermessage);

@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import { fetchChatList,addNewMessage } from '../../action/chatAction';
 import ChatView from '../chat/ChatView';
 import ChatList from '../chat/ChatList';
+import LeftChatListHeader from '../chat/LeftChatListHeader';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +46,7 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
     }
 
     const setFriendId = (friend) => {
+        // console.log(friend);
         setState({ ...state, friend: friend })
        
     }
@@ -53,6 +55,7 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
        
         <div className={classes.root}>
             <div className={classes.leftBar}>
+                <LeftChatListHeader setFriendId={setFriendId}/>
                 <ChatList setFriendId={setFriendId} />
             </div>
             <div className={classes.chatpanel}>
