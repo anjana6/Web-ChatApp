@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Box,makeStyles } from '@material-ui/core';
 import ChatTextBox from './ChatTextBox';
 import { connect } from 'react-redux';
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ChatView = ({ socket, friend, msg }) => {
+   
     // console.log(friend);
     const classes = useStyles();
     return (

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList,setFriendId,fetchChatMessage }) => {
+const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -26,6 +26,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage }) => {
                   onClick={() => {
                     setFriendId(item.friendId);
                     fetchChatMessage(item.chatId);
+                    // socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
                 >
                   <ListItemAvatar>

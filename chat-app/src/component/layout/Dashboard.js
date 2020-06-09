@@ -55,8 +55,8 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
        
         <div className={classes.root}>
             <div className={classes.leftBar}>
-                <LeftChatListHeader setFriendId={setFriendId}/>
-                <ChatList setFriendId={setFriendId} />
+                <LeftChatListHeader setFriendId={setFriendId} socket={state.socket}/>
+                <ChatList setFriendId={setFriendId} socket={state.socket} />
             </div>
             <div className={classes.chatpanel}>
                 {state.friend && <ChatView socket={state.socket} friend={state.friend} />}
