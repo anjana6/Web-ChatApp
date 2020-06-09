@@ -47,13 +47,15 @@ const reciverChat =async (senderId,msg) => {
       userId: msg.friendId,
       chatId: msg.chatId,
       friendId: senderId,
-      messages: createMessage(senderId, msg.text)
+      messages: createMessage(senderId, msg.text),
+      unread: true
     })
     await newchat.save();
-    return await Chat.findOne({ userId: senderId, chatId: msg.chatId }).populate('friendId', ['username']);
+    return await Chat.findOne({ userId: msg.friendId, chatId: msg.chatId }).populate('friendId', ['username']);
 
   }
   chat.messages.push(createMessage(senderId, msg.text));
+  chat.unread = true;
   return await chat.save();
 }
 

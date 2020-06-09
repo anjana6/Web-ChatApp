@@ -36,6 +36,7 @@ const socketManager = (io) => {
             const chatId = msg.chatId
             const sendermessage = await senderChat(socket.user.id, msg);
             const recivermessage = await reciverChat(socket.user.id, msg);
+            console.log(recivermessage);
             socket.emit('MESSAGE',sendermessage);
             socket.broadcast.to(chatId).emit('MESSAGE', recivermessage);
             })

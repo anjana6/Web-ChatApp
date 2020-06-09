@@ -18,7 +18,7 @@ export const fetchChatMessage = (chatId) => async dispatch => {
     // console.log(chatId);
     try {
         const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${chatId}`);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
             type: GET_CHATMESSAGE,
             payload:res.data
@@ -34,7 +34,6 @@ export const fetchChatMessage = (chatId) => async dispatch => {
 }
 
 export const addNewMessage = (chat) => async dispatch => {
-    console.log(chat);
     dispatch({
         type: UPDATE_CHATLIST,
         payload:chat

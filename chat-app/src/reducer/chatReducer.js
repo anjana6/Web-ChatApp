@@ -21,17 +21,13 @@ export default (state=initialState,action) => {
             return { ...state, activeChatId: payload };
         case UPDATE_CHATLIST:
             let foud = state.chatlist.some(ele => ele.chatId === payload.chatId);
-            console.log(foud);
+            
             if (foud) {
-                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages}:chat),messages:(state.messages && state.messages.chatId === payload.chatId)? payload:state.messages}
+                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:(state.activeChatId === payload.chatId)?false :payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages}
             }
             else {
                 return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages)}
             }
-            // return {
-            //     // ...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages}:chat)
-                
-            // }
         case GET_FRIENDLIST:
             return {...state,friendlist:payload}
         default:

@@ -36,6 +36,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                     primary={item.friendId.username}
                     secondary={item.messages[item.messages.length - 1].message}
                   />
+                  {item.unread && <div>N</div>}
                 </ListItem>
                 <Divider />
               </Fragment>

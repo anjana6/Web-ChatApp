@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import { Box,makeStyles } from '@material-ui/core';
+import { Box,makeStyles,AppBar,Toolbar,Typography } from '@material-ui/core';
 import ChatTextBox from './ChatTextBox';
 import { connect } from 'react-redux';
 
@@ -37,6 +37,13 @@ const ChatView = ({ socket, friend, msg }) => {
     const classes = useStyles();
     return (
         <div>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" className={classes.title}>
+                        {friend.username}
+                    </Typography> 
+                </Toolbar>
+            </AppBar>
             <div className={classes.root}>
                 <Box className={classes.showMessageBox}>
                     {msg && msg.messages.map((item, index) => {

@@ -40,13 +40,13 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
         setState({ ...state, socket: socket });
         socket.emit('JOIN CHAT');
         socket.on('MESSAGE', (msg) => {
-            // console.log(msg);
+            
             addNewMessage(msg);
         });
     }
 
     const setFriendId = (friend) => {
-        console.log(friend);
+        // console.log(friend);
         setState({ ...state, friend: friend })
        
     }
