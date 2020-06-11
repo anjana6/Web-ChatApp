@@ -1,4 +1,4 @@
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT } from '../action/type';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT,UPDATE_READMESSAGE } from '../action/type';
 
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
     friendlist: [],
     activeChatId: null,
     rmsgId: null,
+    hoo: null
 }
 
 export default (state=initialState,action) => {
@@ -29,8 +30,10 @@ export default (state=initialState,action) => {
             else {
                 return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages),rmsgId:payload.chatId}
             };
-        // case UPDATE_RECIVECHATID:
-        //     return {...state,resivedmssegeId:payload}
+        case UPDATE_READMESSAGE:{
+            // console.log(payload.chatId)
+            return {...state,hoo:payload}
+        }
         case GET_FRIENDLIST:
             return {...state,friendlist:payload}
         default:

@@ -1,14 +1,27 @@
 const Chat = require('../models/Chat');
 
-// let activatedChat = [];
+let activatedChat = [];
 
-// const saveActiveChat = (userId, chatId) => {
-//   const active = { userId, chatId }
-//   if (activatedChat.length > 0) {
-//     const index = activatedChat.findIndex(chat => chat.userId === userId);
-//   } else {
-//      activatedChat.push(active);
-//   }
+const activeChat = (userId, chatId) => {
+  const active = { userId, chatId }
+  console.log('act',active);
+  let foud = activatedChat.some(ele => ele.userId === userId);
+  console.log(foud);
+  if(foud){
+   activatedChat = activatedChat.map(item => item.userId === userId? active : item)
+  }else{
+    activatedChat.push(active);
+  }
+  
+  // if(activatedChat.length === 0){
+  //   activatedChat.push(active);
+  // }else{
+  //   activatedChat.map(item => item.id === userId? active : item)
+  // }
+  
+
+  console.log(activatedChat);
+}
   
   
 //   console.log(activatedChat);
@@ -60,4 +73,4 @@ const reciverChat =async (senderId,msg) => {
   return await chat.save();
 }
 
-module.exports = {createMessage,senderChat,reciverChat}
+module.exports = {createMessage,senderChat,reciverChat,activeChat}

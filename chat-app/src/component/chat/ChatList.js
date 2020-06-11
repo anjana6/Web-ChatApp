@@ -26,7 +26,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                   onClick={() => {
                     setFriendId(item.friendId);
                     fetchChatMessage(item.chatId);
-                    // socket.emit('ACTIVE_CHAT', item.chatId)
+                    socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
                 >
                   <ListItemAvatar>

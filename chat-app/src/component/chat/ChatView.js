@@ -51,7 +51,7 @@ const ChatView = ({ socket, friend, msg ,updateReadMessage,chatIds:{activeChatId
             </AppBar>
             <div className={classes.root}>
                 <Box className={classes.showMessageBox}>
-                    {msg && msg.messages.map((item, index) => {
+                    {msg  && msg.messages.map((item, index) => {
                         return (
                             <Box className={item.sender === msg.userId ? classes.sender : classes.reciver} key={index}>
                                 {item.message}
