@@ -1,5 +1,5 @@
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT } from '../action/type';
-import { fetchChatList } from '../action/chatAction';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT,UPDATE_RECIVECHATID } from '../action/type';
+
 
 const initialState = {
     chatlist: [],
@@ -7,6 +7,7 @@ const initialState = {
     messages: null,
     friendlist: [],
     activeChatId: null,
+    rmsgId: null,
 }
 
 export default (state=initialState,action) => {
@@ -23,11 +24,13 @@ export default (state=initialState,action) => {
             let foud = state.chatlist.some(ele => ele.chatId === payload.chatId);
             
             if (foud) {
-                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:(state.activeChatId === payload.chatId)?false :payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages}
+                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:(state.activeChatId === payload.chatId)?false :payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages,rmsgId:payload.chatId}
             }
             else {
-                return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages)}
-            }
+                return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages),rmsgId:payload.chatId}
+            };
+        // case UPDATE_RECIVECHATID:
+        //     return {...state,resivedmssegeId:payload}
         case GET_FRIENDLIST:
             return {...state,friendlist:payload}
         default:

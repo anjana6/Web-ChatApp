@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { fetchChatList,addNewMessage } from '../../action/chatAction';
+import { fetchChatList, addNewMessage, updateReadMessage } from '../../action/chatAction';
 import ChatView from '../chat/ChatView';
 import ChatList from '../chat/ChatList';
 import LeftChatListHeader from '../chat/LeftChatListHeader';
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
-    const [state, setState] = useState({ socket: null, friendId: null });
+const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
+    const [state, setState] = useState({ socket: null, friend: null });
     const classes = useStyles();
 
     useEffect(() => {
@@ -40,17 +40,18 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
         setState({ ...state, socket: socket });
         socket.emit('JOIN CHAT');
         socket.on('MESSAGE', (msg) => {
-            
+            // console.log(msg);
             addNewMessage(msg);
+            
         });
     }
-
     const setFriendId = (friend) => {
-        // console.log(friend);
         setState({ ...state, friend: friend })
+        state.socket.emit('A_CHAT', "123" );
        
     }
-     
+   
+    
     return (
        
         <div className={classes.root}>
@@ -69,7 +70,8 @@ const Dashboard = ({ fetchChatList,addNewMessage, user }) => {
 }
 
 const mapStateToProps = state => ({
-    user:state.chat.user
+    user: state.chat.user,
+    activeChat: state.chat.activeChatId
 })
 
-export default connect(mapStateToProps,{fetchChatList,addNewMessage})(Dashboard);
+export default connect(mapStateToProps, { fetchChatList, addNewMessage, updateReadMessage})(Dashboard);

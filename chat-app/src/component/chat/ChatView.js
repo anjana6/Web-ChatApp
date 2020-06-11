@@ -1,7 +1,8 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import { Box,makeStyles,AppBar,Toolbar,Typography } from '@material-ui/core';
 import ChatTextBox from './ChatTextBox';
 import { connect } from 'react-redux';
+import {updateReadMessage} from '../../action/chatAction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,10 +32,14 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ChatView = ({ socket, friend, msg }) => {
-   
-    // console.log(friend);
+const ChatView = ({ socket, friend, msg ,updateReadMessage,chatIds:{activeChatId, rmsgId}}) => {
     const classes = useStyles();
+    // console.log(activeChatId);
+    // console.log( rmsgId);
+    if(activeChatId === rmsgId && activeChatId !== null){
+        console.log(activeChatId);
+        updateReadMessage(activeChatId);
+    }
     return (
         <div>
             <AppBar position="static">
@@ -62,7 +67,8 @@ const ChatView = ({ socket, friend, msg }) => {
 }
 
 const mapStateToProps = (state) => ({
-    msg: state.chat.messages
+    msg: state.chat.messages,
+    chatIds:state.chat
 })
 
-export default connect(mapStateToProps)(ChatView);
+export default connect(mapStateToProps,{updateReadMessage})(ChatView);
