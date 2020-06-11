@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST,ACTIVE_CHAT ,UPDATE_RECIVECHATID} from './type';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST,ACTIVE_CHAT,} from './type';
 
 export const fetchChatList = () => async dispatch => {
     try {
@@ -60,12 +60,8 @@ export const fetchFriendList = () => async dispatch => {
 export const updateReadMessage = (chatId) => async dispatch => {
     console.log(chatId);
     try {
-        // const config = {
-        //     header:{
-        //         'Content-Type':'application/json'
-        //     }
-        // }
-        const res = await axios.post(`http://localhost:5000/api/v1/chat/${chatId}`);
+        const res = await axios.put(`http://localhost:5000/api/v1/chat/${chatId}`);
+        console.log(res.data);
     } catch (err) {
         console.log(err.message)
     }

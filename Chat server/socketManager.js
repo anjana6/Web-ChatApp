@@ -29,14 +29,11 @@ const socketManager = (io) => {
             chatIds.map((chatId) => {
                 socket.join(chatId);
             });
-          // socket.on('ACTIVE_CHAT', chatId => {
-          //   saveActiveChat(socket.user.id,chatId)
-          // });
           socket.on('CHAT_MESSAGE',async msg => {
             const chatId = msg.chatId
             const sendermessage = await senderChat(socket.user.id, msg);
             const recivermessage = await reciverChat(socket.user.id, msg);
-            console.log(recivermessage);
+            // console.log(recivermessage);
             socket.emit('MESSAGE',sendermessage);
             socket.broadcast.to(chatId).emit('MESSAGE', recivermessage);
             })

@@ -40,7 +40,7 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
         setState({ ...state, socket: socket });
         socket.emit('JOIN CHAT');
         socket.on('MESSAGE', (msg) => {
-            // console.log(msg);
+            console.log(msg);
             addNewMessage(msg);
             
         });

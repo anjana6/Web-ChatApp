@@ -36,6 +36,7 @@ const senderChat = async (senderId,msg) => {
     return await Chat.findOne({ userId: senderId, chatId: msg.chatId }).populate('friendId', ['username']);
   }
   chat.messages.push(createMessage(senderId, msg.text));
+  chat.unread = false;
     return await chat.save();
 }
 
