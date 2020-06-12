@@ -18,14 +18,14 @@ export default (state=initialState,action) => {
         case GET_CHATLIST:
             return { ...state, chatlist: payload.chatlist, user: payload.user };
         case GET_CHATMESSAGE:
-            return { ...state, messages: payload };
+            return { ...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,unread:payload.unred}:chat) ,messages: payload };
         case ACTIVE_CHAT:
             return { ...state, activeChatId: payload };
         case UPDATE_CHATLIST:
             let foud = state.chatlist.some(ele => ele.chatId === payload.chatId);
             
             if (foud) {
-                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:(state.activeChatId === payload.chatId)?false :payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages,rmsgId:payload.chatId}
+                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages,rmsgId:payload.chatId}
             }
             else {
                 return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages),rmsgId:payload.chatId}

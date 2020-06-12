@@ -18,7 +18,7 @@ export const fetchChatMessage = (chatId) => async dispatch => {
     // console.log(chatId);
     try {
         const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${chatId}`);
-        // console.log(res.data);
+        console.log(res.data);
         dispatch({
             type: GET_CHATMESSAGE,
             payload:res.data
@@ -62,7 +62,8 @@ export const updateReadMessage = (chatId) => async dispatch => {
     try {
         const res = await axios.put(`http://localhost:5000/api/v1/chat/${chatId}`);
         // console.log(res.data);
-        // const read = res.data
+        const unread = res.data;
+        console.log(unread)
         // dispatch({
         //     type:UPDATE_READMESSAGE,
         //     payload:res.data

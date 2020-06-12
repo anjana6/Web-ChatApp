@@ -89,9 +89,10 @@ router.get('/chatlist',auth,async(req,res) =>{
 })
 
 router.get('/message/:chatId',auth,async(req,res) =>{
-    const chatmessages = await Chat.findOne({userId:req.user.id,chatId:req.params.chatId});
-    
-    res.status(200).json(chatmessages);
+    const chat = await Chat.findOne({userId:req.user.id,chatId:req.params.chatId});
+    chat.unread = false;
+    chat.save()
+    res.status(200).json(chat);
 });
 
 router.get('/friend',auth,async(req,res)=>{

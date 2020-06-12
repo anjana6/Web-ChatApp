@@ -4,9 +4,9 @@ let activatedChat = [];
 
 const activeChat = (userId, chatId) => {
   const active = { userId, chatId }
-  console.log('act',active);
+
   let foud = activatedChat.some(ele => ele.userId === userId);
-  console.log(foud);
+ 
   if(foud){
    activatedChat = activatedChat.map(item => item.userId === userId? active : item)
   }else{
@@ -18,12 +18,14 @@ const activeChat = (userId, chatId) => {
 
 const checkActivate = (userId,chatId) => {
   let found = activatedChat.some(ele => ele.userId === userId && ele.chatId === chatId);
-  if(!found){
-    return true
-  }else{
-    return false
-  }
-  // console.log(found);
+  // if(!found){
+  //   return true
+  // }else{
+  //   return false
+  // }
+   console.log(found);
+  return chatactive = found? false : true;
+  
 
 }
   

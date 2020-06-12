@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, makeStyles } from '@material-ui/core';
-import { fetchChatMessage } from '../../action/chatAction';
+import { fetchChatMessage,updateReadMessage } from '../../action/chatAction';
+import {FiberManualRecord} from '@material-ui/icons';
 
 
 
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
+const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,updateReadMessage }) => {
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -26,6 +27,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                   onClick={() => {
                     setFriendId(item.friendId);
                     fetchChatMessage(item.chatId);
+                    // updateReadMessage(item.chat)
                     socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
                 >
@@ -36,7 +38,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                     primary={item.friendId.username}
                     secondary={item.messages[item.messages.length - 1].message}
                   />
-                  {item.unread && <div>N</div>}
+                  {item.unread && <div><FiberManualRecord/></div>}
                 </ListItem>
                 <Divider />
               </Fragment>
@@ -51,4 +53,4 @@ const mapStateToProps = state => ({
     chatList : state.chat.chatlist
 })
 
-export default connect(mapStateToProps,{fetchChatMessage})(ChatList);
+export default connect(mapStateToProps,{fetchChatMessage,updateReadMessage})(ChatList);
