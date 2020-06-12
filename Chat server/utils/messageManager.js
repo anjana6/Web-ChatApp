@@ -13,19 +13,20 @@ const activeChat = (userId, chatId) => {
     activatedChat.push(active);
   }
   
-  // if(activatedChat.length === 0){
-  //   activatedChat.push(active);
-  // }else{
-  //   activatedChat.map(item => item.id === userId? active : item)
-  // }
-  
-
   console.log(activatedChat);
 }
+
+const checkActivate = (userId,chatId) => {
+  let found = activatedChat.some(ele => ele.userId === userId && ele.chatId === chatId);
+  if(!found){
+    return true
+  }else{
+    return false
+  }
+  // console.log(found);
+
+}
   
-  
-//   console.log(activatedChat);
-// }
 
 const createMessage = (sender, text) => {
   const msg = {
@@ -55,21 +56,21 @@ const senderChat = async (senderId,msg) => {
 
 const reciverChat =async (senderId,msg) => {
   const chat = await Chat.findOne({ userId: msg.friendId, chatId: msg.chatId });
-  // console.log(chat);
+
   if (!chat) {
     const newchat = new Chat({
       userId: msg.friendId,
       chatId: msg.chatId,
       friendId: senderId,
       messages: createMessage(senderId, msg.text),
-      unread: true
+      unread: checkActivate(msg.friendId,msg.chatId)
     })
     await newchat.save();
     return await Chat.findOne({ userId: msg.friendId, chatId: msg.chatId }).populate('friendId', ['username']);
 
   }
   chat.messages.push(createMessage(senderId, msg.text));
-  chat.unread = true;
+  chat.unread = checkActivate(msg.friendId,msg.chatId);
   return await chat.save();
 }
 

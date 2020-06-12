@@ -36,10 +36,10 @@ const ChatView = ({ socket, friend, msg ,updateReadMessage,chatIds:{activeChatId
     const classes = useStyles();
     // console.log(activeChatId);
     // console.log( rmsgId);
-    if(activeChatId === rmsgId && activeChatId !== null){
-        console.log(activeChatId);
-        updateReadMessage(activeChatId);
-    }
+    // if(activeChatId === rmsgId && activeChatId !== null){
+    //     console.log(activeChatId);
+    //     updateReadMessage(activeChatId);
+    // }
     return (
         <div>
             <AppBar position="static">
