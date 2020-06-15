@@ -75,10 +75,10 @@ const User = require('../models/User');
 router.get('/chatlist',auth,async(req,res) =>{
     
     try {
-        const user = await User.findById(req.user.id);
-        const chatlist =await Chat.find({userId:req.user.id}).populate('friendId',['username']).populate('userId',['username']);
+        const user = await User.findById(req.user._id);
+        const chatlist =await Chat.find({userId:req.user._id}).populate('friendId',['username']).populate('userId',['username']);
         
-        if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
+        //if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
         res.status(200).json({chatlist,user});
 
@@ -89,15 +89,16 @@ router.get('/chatlist',auth,async(req,res) =>{
 })
 
 router.get('/message/:chatId',auth,async(req,res) =>{
-    const chat = await Chat.findOne({userId:req.user.id,chatId:req.params.chatId});
-    chat.unread = false;
-    chat.save()
+    const chat = await Chat.findOne({userId:req.user._id,chatId:req.params.chatId});
+    // chat.unread = false;
+    // chat.save()
     res.status(200).json(chat);
 });
 
 router.get('/friend',auth,async(req,res)=>{
-    const friend = await User.find().select(['-password']);
-    const user = await User.findById(req.user.id).select(['-password']);
+    const friend = await User.find().select(['-password','-email','-_v']);
+    // console.log(friend);
+    // const user = await User.findById(req.user.id).select(['-password']);
     res.status(200).json(friend);
 });
 

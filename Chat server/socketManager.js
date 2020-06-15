@@ -14,7 +14,7 @@ const socketManager = (io) => {
              if (err) return next(new Error('Authentication error'));
 
              socket.user = decoded.user;
-             //    console.log(socket.user);
+                // console.log(socket.user);
              next();
            }
          );
@@ -25,22 +25,22 @@ const socketManager = (io) => {
     .on('connection', (socket) => {
         console.log('connected');
         socket.on('JOIN CHAT', async() => {
-            const chatIds =await createChatId(socket.user.id);
+            const chatIds =await createChatId(socket.user._id);
+            console.log(chatIds);
             chatIds.map((chatId) => {
                 socket.join(chatId);
             });
 
           socket.on('CHAT_MESSAGE',async msg => {
-            const chatId = msg.chatId
-            const sendermessage = await senderChat(socket.user.id, msg);
-            const recivermessage = await reciverChat(socket.user.id, msg);
-            // console.log(recivermessage);
+            const chatId = msg.chatId;
+            const sendermessage = await senderChat(socket.user, msg);
+            const recivermessage = await reciverChat(socket.user, msg);
+            console.log(recivermessage);
             socket.emit('MESSAGE',sendermessage);
             socket.broadcast.to(chatId).emit('MESSAGE', recivermessage);
             });
 
           socket.on('ACTIVE_CHAT', chatId =>{
-            // console.log(chatId);
             activeChat(socket.user.id,chatId);
           })
           

@@ -15,7 +15,7 @@ const activeChat = (userId, chatId) => {
     activatedChat.push(active);
   }
   
-  // console.log(activatedChat);
+ 
 }
 
 const removeActiveChat = (userId) => {
@@ -25,12 +25,7 @@ const removeActiveChat = (userId) => {
 
 const checkActivate = (userId,chatId) => {
   let found = activatedChat.some(ele => ele.userId === userId && ele.chatId === chatId);
-  // if(!found){
-  //   return true
-  // }else{
-  //   return false
-  // }
-   console.log(found);
+
   return chatactive = found? false : true;
   
 
@@ -46,40 +41,44 @@ const createMessage = (sender, text) => {
 };
 
 
-const senderChat = async (senderId,msg) => {
-  const chat = await Chat.findOne({ userId:senderId, chatId:msg.chatId });
+const senderChat = async (sender,msg) => {
+
+  const chat = await Chat.findOne({ userId:sender._id, chatId:msg.chatId });
+
   if (!chat) {
     const newchat = new Chat({
-      userId:senderId,
+      userId:sender._id,
       chatId:msg.chatId,
-      friendId:msg.friendId,
-      messages: createMessage(senderId,msg.text)
+      friendId:msg.friend,
+      messages: createMessage(sender._id,msg.text)
     })
-    await newchat.save()
-    return await Chat.findOne({ userId: senderId, chatId: msg.chatId }).populate('friendId', ['username']);
+  
+    return await newchat.save()
+   
   }
-  chat.messages.push(createMessage(senderId, msg.text));
+  chat.messages.push(createMessage(sender._id, msg.text));
   chat.unread = false;
-    return await chat.save();
+  return await chat.save();
 }
 
-const reciverChat =async (senderId,msg) => {
-  const chat = await Chat.findOne({ userId: msg.friendId, chatId: msg.chatId });
+const reciverChat =async (sender,msg) => {
+  const chat = await Chat.findOne({ userId: msg.friend._id, chatId: msg.chatId });
 
   if (!chat) {
     const newchat = new Chat({
-      userId: msg.friendId,
+      userId: msg.friend._id,
       chatId: msg.chatId,
-      friendId: senderId,
-      messages: createMessage(senderId, msg.text),
-      unread: checkActivate(msg.friendId,msg.chatId)
+      friendId: sender,
+      messages: createMessage(sender._id, msg.text),
+      unread: checkActivate(msg.friend._id,msg.chatId)
     })
-    await newchat.save();
-    return await Chat.findOne({ userId: msg.friendId, chatId: msg.chatId }).populate('friendId', ['username']);
+ 
+    return await newchat.save();
+    
 
   }
-  chat.messages.push(createMessage(senderId, msg.text));
-  chat.unread = checkActivate(msg.friendId,msg.chatId);
+  chat.messages.push(createMessage(sender._id, msg.text));
+  chat.unread = checkActivate(msg.friend._id,msg.chatId);
   return await chat.save();
 }
 

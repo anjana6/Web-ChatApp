@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,updateReadMessage }) => {
+const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -25,16 +25,16 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,updateReadMessa
                 <ListItem
                   button
                   onClick={() => {
-                    setFriendId(item.friendId);
+                    setFriendId(item.friendId[0]);
                     fetchChatMessage(item.chatId);
                     socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
                 >
                   <ListItemAvatar>
-                    <Avatar>{item.friendId.username.split('')[0]}</Avatar>
+                    <Avatar>{item.friendId[0].username.split('')[0]}</Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={item.friendId.username}
+                    primary={item.friendId[0].username}
                     secondary={item.messages[item.messages.length - 1].message}
                   />
                   {item.unread && <div><FiberManualRecord/></div>}

@@ -56,7 +56,7 @@ const ChatView = ({ socket, friend, msg }) => {
 
                 </Box>
             </div>
-            <ChatTextBox socket={socket} friendId={friend._id}/>
+            <ChatTextBox socket={socket} friend={friend}/>
         </div>
     )
 }

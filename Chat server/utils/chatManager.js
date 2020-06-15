@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 const createChatId = async (userId) => {
     const chatIds = [];
-    // console.log(userId);
+    console.log(userId);
     const usersId = await User.find().select(['_id']); 
     usersId.map((item, index) => {
         const friendId = item._id

@@ -10,10 +10,17 @@ const chatSchema = new Schema({
         type:String,
         required:true
     },
-    friendId:{
-        type: Schema.Types.ObjectId,
-        ref:'User'
-    },
+    friendId:[
+        {
+            _id:{
+               type:Schema.Types.ObjectId
+            },
+            username:{
+                type:String
+            }
+        }
+    ],
+
     messages:[
         {
             message:{
