@@ -7,6 +7,7 @@ import ChatList from '../chat/ChatList';
 import LeftChatListHeader from '../chat/LeftChatListHeader';
 import { makeStyles } from '@material-ui/core';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: "100%",
@@ -28,13 +29,14 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
     const [state, setState] = useState({ socket: null, friend: null });
     const classes = useStyles();
 
+   
+
     useEffect(() => {
         fetchChatList()
         initialSocket()
-           
+
     }, [fetchChatList]);
    
-
     const initialSocket = () => {
         const socket = io.connect('http://localhost:5000', { query: { token: localStorage.token } });
         setState({ ...state, socket: socket });
@@ -45,10 +47,12 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
             
         });
     }
+    
     const setFriendId = (friend) => {
         setState({ ...state, friend: friend })
         state.socket.emit('A_CHAT', "123" );
        
+        
     }
    
     

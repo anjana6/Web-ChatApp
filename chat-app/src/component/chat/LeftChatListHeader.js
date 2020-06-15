@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const LeftChatListHeader = ({setFriendId}) => {
+const LeftChatListHeader = ({setFriendId,socket}) => {
     const classes = useStyles();
     const [state, setState] = useState({ left: false });
 
@@ -36,7 +36,7 @@ const LeftChatListHeader = ({setFriendId}) => {
             </AppBar>
             <Fragment>
                 <Drawer anchor='left' open={state.left} onClose={toggleDrawer(false)}>
-                    <FriendList setFriendId={setFriendId} toggleDrawer={toggleDrawer} />
+                    <FriendList setFriendId={setFriendId} toggleDrawer={toggleDrawer} socket={socket}/>
                     
                 </Drawer>
             </Fragment>

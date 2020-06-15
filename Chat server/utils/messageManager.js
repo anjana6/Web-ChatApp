@@ -1,4 +1,6 @@
 const Chat = require('../models/Chat');
+const _ = require('lodash');
+
 
 let activatedChat = [];
 
@@ -13,7 +15,12 @@ const activeChat = (userId, chatId) => {
     activatedChat.push(active);
   }
   
-  console.log(activatedChat);
+  // console.log(activatedChat);
+}
+
+const removeActiveChat = (userId) => {
+  activatedChat = _.reject(activatedChat, function(el) { return el.userId === userId; });
+  
 }
 
 const checkActivate = (userId,chatId) => {
@@ -76,4 +83,4 @@ const reciverChat =async (senderId,msg) => {
   return await chat.save();
 }
 
-module.exports = {createMessage,senderChat,reciverChat,activeChat}
+module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat}

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const { createChatId } = require('./utils/chatManager');
-const { createMessage, senderChat, reciverChat, activeChat } = require('./utils/messageManager');
+const { createMessage, senderChat, reciverChat, activeChat,removeActiveChat } = require('./utils/messageManager');
 
 const socketManager = (io) => {
      io.use(function (socket, next) {
@@ -43,10 +43,13 @@ const socketManager = (io) => {
             console.log(chatId);
             activeChat(socket.user.id,chatId);
           })
-            socket.on('disconnect', () => {
-              console.log('disconnected')
-            })
+          socket.on('disconnect', () => {
+            console.log('disconnected');
+            removeActiveChat(socket.user.id);
+          })
+           
         })
+        
  })
 }
 

@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,user,toggleDrawer}) => {
+const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,user,toggleDrawer,socket}) => {
     const classes = useStyles();
     useEffect(() => {
         fetchFriendList()
@@ -28,7 +28,7 @@ const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,use
                     <div key={index}>
                         <ListItem
                             button
-                            onClick={() => { setFriendId(frnd); fetchChatMessage(getChatId(frnd._id));}}
+                            onClick={() => { setFriendId(frnd); fetchChatMessage(getChatId(frnd._id));socket.emit('ACTIVE_CHAT',getChatId(frnd._id))}}
                             >
                             <ListItemAvatar>
                                 <Avatar>
