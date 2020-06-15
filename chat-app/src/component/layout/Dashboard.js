@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { fetchChatList, addNewMessage, updateReadMessage } from '../../action/chatAction';
+import { fetchChatList, addNewMessage } from '../../action/chatAction';
 import ChatView from '../chat/ChatView';
 import ChatList from '../chat/ChatList';
 import LeftChatListHeader from '../chat/LeftChatListHeader';
@@ -78,4 +78,4 @@ const mapStateToProps = state => ({
     activeChat: state.chat.activeChatId
 })
 
-export default connect(mapStateToProps, { fetchChatList, addNewMessage, updateReadMessage})(Dashboard);
+export default connect(mapStateToProps, { fetchChatList, addNewMessage})(Dashboard);

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, makeStyles } from '@material-ui/core';
-import { fetchChatMessage,updateReadMessage } from '../../action/chatAction';
+import { fetchChatMessage } from '../../action/chatAction';
 import {FiberManualRecord} from '@material-ui/icons';
 
 
@@ -27,7 +27,6 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,updateReadMessa
                   onClick={() => {
                     setFriendId(item.friendId);
                     fetchChatMessage(item.chatId);
-                    // updateReadMessage(item.chat)
                     socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
                 >
@@ -53,4 +52,4 @@ const mapStateToProps = state => ({
     chatList : state.chat.chatlist
 })
 
-export default connect(mapStateToProps,{fetchChatMessage,updateReadMessage})(ChatList);
+export default connect(mapStateToProps,{fetchChatMessage})(ChatList);

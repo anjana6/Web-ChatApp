@@ -40,14 +40,20 @@ const socketManager = (io) => {
             });
 
           socket.on('ACTIVE_CHAT', chatId =>{
-            console.log(chatId);
+            // console.log(chatId);
             activeChat(socket.user.id,chatId);
           })
-          socket.on('disconnect', () => {
-            console.log('disconnected');
-            removeActiveChat(socket.user.id);
-          })
+          
            
+        })
+
+        socket.on('GROUP_CHAT', (members) => {
+          console.log(members);
+        })
+
+        socket.on('disconnect', () => {
+          console.log('disconnected');
+          removeActiveChat(socket.user.id);
         })
         
  })

@@ -57,18 +57,22 @@ export const fetchFriendList = () => async dispatch => {
     }
 }
 
-export const updateReadMessage = (chatId) => async dispatch => {
-    console.log(chatId);
-    try {
-        const res = await axios.put(`http://localhost:5000/api/v1/chat/${chatId}`);
-        // console.log(res.data);
-        const unread = res.data;
-        console.log(unread)
-        // dispatch({
-        //     type:UPDATE_READMESSAGE,
-        //     payload:res.data
-        // })
-    } catch (err) {
-        console.log(err.message)
-    }
+// export const updateReadMessage = (chatId) => async dispatch => {
+//     console.log(chatId);
+//     try {
+//         const res = await axios.put(`http://localhost:5000/api/v1/chat/${chatId}`);
+//         // console.log(res.data);
+//         const unread = res.data;
+//         console.log(unread)
+//         // dispatch({
+//         //     type:UPDATE_READMESSAGE,
+//         //     payload:res.data
+//         // })
+//     } catch (err) {
+//         console.log(err.message)
+//     }
+// }
+
+export const createNewGroup = (members) => async dispatch =>{
+    console.log(members)
 }

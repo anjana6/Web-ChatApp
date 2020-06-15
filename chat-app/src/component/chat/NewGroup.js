@@ -1,7 +1,8 @@
-import React, { useEffect} from 'react';
-import { fetchFriendList,fetchChatMessage } from '../../action/chatAction';
-import { connect } from 'react-redux';
-import { Avatar, List, Divider, ListItem, ListItemText, makeStyles, ListItemAvatar, } from '@material-ui/core';
+import React,{useEffect,useState} from 'react';
+import {connect} from 'react-redux';
+import { Avatar, List, Divider, ListItem, ListItemText, makeStyles, ListItemAvatar} from '@material-ui/core';
+import {fetchFriendList} from '../../action/chatAction';
+import ShowGruopMember from './ShowGroupMember';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -9,26 +10,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,user,toggleDrawer,socket}) => {
+
+const NewGroup = ({friendList,fetchFriendList,socket}) => {
     const classes = useStyles();
+    const [state, setState] = useState({members:[]});
+
     useEffect(() => {
         fetchFriendList()
-    }, [fetchFriendList])
+    }, [fetchFriendList]);
 
-    const getChatId = (friendId) => {
-        const chatId =
-            user._id > friendId ? `${friendId}&${user._id}` : `${user._id}&${friendId}`;
-        return (chatId);
+    const addMember = (newMember) =>{
+        setState({...state,members:[...state.members,newMember]})
     }
 
+    
+    
     return (
-        <div className={classes.root} role="presentation" onClick={toggleDrawer(false)}>
+        <div className={classes.root} role="presentation" >
+         <ShowGruopMember members={state.members} socket={socket}/>
             <List>
                 {friendList.map((frnd, index) => (
                     <div key={index}>
                         <ListItem
                             button
-                            onClick={() => { setFriendId(frnd); fetchChatMessage(getChatId(frnd._id));socket.emit('ACTIVE_CHAT',getChatId(frnd._id))}}
+                            onClick={() => {addMember(frnd)}}
                             >
                             <ListItemAvatar>
                                 <Avatar>
@@ -47,6 +52,4 @@ const FriendList = ({fetchFriendList,fetchChatMessage,friendList,setFriendId,use
     )
 }
 
-
-
-export default connect(null,{fetchFriendList,fetchChatMessage})(FriendList);
+export default connect(null,{fetchFriendList})(NewGroup);
