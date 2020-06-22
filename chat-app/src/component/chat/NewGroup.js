@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const NewGroup = ({friendList,fetchFriendList,socket}) => {
+const NewGroup = ({friendList,fetchFriendList,socket,user}) => {
     const classes = useStyles();
-    const [state, setState] = useState({members:[]});
+    const [state, setState] = useState({members:[{_id:user._id,username:user.username}]});
 
     useEffect(() => {
         fetchFriendList()
@@ -52,4 +52,8 @@ const NewGroup = ({friendList,fetchFriendList,socket}) => {
     )
 }
 
-export default connect(null,{fetchFriendList})(NewGroup);
+const mapStateToProps = (state) => ({
+    user: state.chat.user
+})
+
+export default connect(mapStateToProps,{fetchFriendList})(NewGroup);

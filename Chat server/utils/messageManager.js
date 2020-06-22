@@ -1,4 +1,5 @@
 const Chat = require('../models/Chat');
+const GroupChat = require('../models/GroupChat');
 const _ = require('lodash');
 
 
@@ -72,14 +73,28 @@ const reciverChat =async (sender,msg) => {
       messages: createMessage(sender._id, msg.text),
       unread: checkActivate(msg.friend._id,msg.chatId)
     })
- 
-    return await newchat.save();
-    
-
+    return await newchat.save(); 
   }
   chat.messages.push(createMessage(sender._id, msg.text));
   chat.unread = checkActivate(msg.friend._id,msg.chatId);
   return await chat.save();
 }
 
-module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat}
+const createGroupChat = async (members,chatId,sender) => {
+  // console.log(members);
+  const message =  createMessage(sender._id, "user are add to group")
+  members.map( async (mem) => {
+    const newchat = new GroupChat({
+      userId: mem._id,
+      chatId: chatId,
+      users: members,
+      messages: message,
+      unread: false
+    });
+    await newchat.save()
+  })
+
+  return  ({chatId,message,unread:false})
+}
+
+module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat,createGroupChat}

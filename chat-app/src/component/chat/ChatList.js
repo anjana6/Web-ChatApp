@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider, makeStyles } from '@material-ui/core';
 import { fetchChatMessage } from '../../action/chatAction';
 import {FiberManualRecord} from '@material-ui/icons';
+import PrivetListItem from './PrivetLIstItem';
+import GroupListItem from './GroupListItem';
 
 
 
@@ -22,10 +24,16 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
           {chatList.map((item, index) => {
             return (
               <Fragment key={index}>
-                <ListItem
+                {
+                  (item.status === 'p')?
+                    <PrivetListItem item={item} socket={socket} setFriendId={setFriendId} fetchChatMessage={fetchChatMessage}/>
+                    :
+                    <GroupListItem/>
+          }
+                {/* <ListItem
                   button
                   onClick={() => {
-                    setFriendId(item.friendId[0]);
+                    setFriendId(item.friendId[0],item.chatId,item.status);
                     fetchChatMessage(item.chatId);
                     socket.emit('ACTIVE_CHAT', item.chatId)
                   }}
@@ -39,7 +47,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                   />
                   {item.unread && <div><FiberManualRecord/></div>}
                 </ListItem>
-                <Divider />
+                <Divider /> */}
               </Fragment>
             );
           })}

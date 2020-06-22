@@ -1,38 +1,47 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/verifytoken');
+//const PrivetChat = require('../models/PrivetChat');
 const Chat = require('../models/Chat');
 const User = require('../models/User');
 
 // router.post('/',auth,async(req,res) => {
-//     try {
-//         const alreadychat =await Chat.findOne({userId:req.body.friendId,chatId:req.body.chatId});
+    // try {
+    //     console.log("haii");
+    //     const senderchat = new PrivetChat({
+    //         userId: req.user.id,
+    //         chatId:"1233655",
+            
+    //     });
 
-//         const msg = {
-//             message: req.body.message,
-//             sender: req.user.id
-//         }
+    //     await senderchat.save()
+        // const alreadychat =await Chat.findOne({userId:req.body.friendId,chatId:req.body.chatId});
+
+        // const msg = {
+        //     message: req.body.message,
+        //     sender: req.user.id
+        // }
     
-//         const senderchat = new Chat({
-//             userId: req.user.id,
-//             chatId:req.body.chatId,
-//             friendId:req.body.friendId,
-//             messages: msg
-//         });
-//         const reciverchat = new Chat({
-//             userId: req.body.friendId,
-//             chatId:req.body.chatId,
-//             friendId:req.user.id,
-//             messages: msg
-//         });
-//         if(alreadychat){
-//             alreadychat.messages.push(msg);
-//             senderchat.save();
-//             alreadychat.save();
-//         }else{
-//             await senderchat.save();
-//             await reciverchat.save();
-//         }
+        // const senderchat = new Chat({
+        //     userId: req.user.id,
+        //     chatId:req.body.chatId,
+        //     friendId:req.body.friendId,
+        //     messages: msg
+        // });
+        // const reciverchat = new Chat({
+        //     userId: req.body.friendId,
+        //     chatId:req.body.chatId,
+        //     friendId:req.user.id,
+        //     messages: msg
+        // });
+        // if(alreadychat){
+        //     alreadychat.messages.push(msg);
+        //     senderchat.save();
+        //     alreadychat.save();
+        // }else{
+        //     await senderchat.save();
+        //     await reciverchat.save();
+        // }
        
 //     } catch (error) {
 //         console.log(error.message);
@@ -73,10 +82,14 @@ const User = require('../models/User');
 // });
 
 router.get('/chatlist',auth,async(req,res) =>{
-    
+    //console.log(req.user._id);
     try {
         const user = await User.findById(req.user._id);
-        const chatlist =await Chat.find({userId:req.user._id}).populate('friendId',['username']).populate('userId',['username']);
+        //console.log(user);
+        const chatlist = await Chat.find({userId:req.user._id});
+        //console.log(chatlist);
+        // const Grouplist = await PrivetChat.find({userId:req.user._id});
+        // console.log(privetlist);
         
         //if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 

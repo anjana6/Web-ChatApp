@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
-    const [state, setState] = useState({ socket: null, friend: null });
+    const [state, setState] = useState({ socket: null, friend: null,chatId:null,status:null });
     const classes = useStyles();
 
    
@@ -42,15 +42,15 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
         setState({ ...state, socket: socket });
         socket.emit('JOIN CHAT');
         socket.on('MESSAGE', (msg) => {
-            //console.log(msg);
+            console.log(msg);
             addNewMessage(msg);
             
         });
     }
     
-    const setFriendId = (friend) => {
-        setState({ ...state, friend: friend })
-        console.log(friend);
+    const setFriendId = (friend,chatId,status) => {
+        setState({ ...state, friend: friend,chatId:chatId,status:status })
+        console.log(status);
         
        
         
@@ -64,7 +64,7 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
                 <ChatList setFriendId={setFriendId} socket={state.socket} />
             </div>
             <div className={classes.chatpanel}>
-                {state.friend && <ChatView socket={state.socket} friend={state.friend} />}
+                {state.friend && <ChatView socket={state.socket} friend={state.friend} chatId={state.chatId} status={state.status}/>}
             </div>
             
            

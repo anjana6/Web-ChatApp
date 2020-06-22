@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ChatView = ({ socket, friend, msg }) => {
+const ChatView = ({ socket, friend, msg,chatId,status }) => {
     const classes = useStyles();
     
     return (
@@ -56,7 +56,7 @@ const ChatView = ({ socket, friend, msg }) => {
 
                 </Box>
             </div>
-            <ChatTextBox socket={socket} friend={friend}/>
+            <ChatTextBox socket={socket} friend={friend} chatId={chatId} status={status}/>
         </div>
     )
 }
