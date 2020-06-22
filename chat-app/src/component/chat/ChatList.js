@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
+const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,group }) => {
     const classes = useStyles();
     return (
       <div className={classes.root}>
@@ -28,7 +28,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket }) => {
                   (item.status === 'p')?
                     <PrivetListItem item={item} socket={socket} setFriendId={setFriendId} fetchChatMessage={fetchChatMessage}/>
                     :
-                    <GroupListItem/>
+                    <GroupListItem item={item} group={group}/>
           }
                 {/* <ListItem
                   button

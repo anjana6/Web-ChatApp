@@ -94,7 +94,7 @@ const createGroupChat = async (members,chatId,sender) => {
     await newchat.save()
   })
 
-  return  ({chatId,message,unread:false})
+  return  ({chatId,messages:[message],unread:false})
 }
 
 module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat,createGroupChat}

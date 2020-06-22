@@ -4,6 +4,7 @@ const auth = require('../middleware/verifytoken');
 //const PrivetChat = require('../models/PrivetChat');
 const Chat = require('../models/Chat');
 const User = require('../models/User');
+const GroupChat = require('../models/GroupChat');
 
 // router.post('/',auth,async(req,res) => {
     // try {
@@ -86,10 +87,12 @@ router.get('/chatlist',auth,async(req,res) =>{
     try {
         const user = await User.findById(req.user._id);
         //console.log(user);
-        const chatlist = await Chat.find({userId:req.user._id});
+        const privetlist = await Chat.find({userId:req.user._id});
         //console.log(chatlist);
-        // const Grouplist = await PrivetChat.find({userId:req.user._id});
-        // console.log(privetlist);
+        const grouplist = await GroupChat.find({userId:req.user._id});
+        //console.log(grouplist);
+        const chatlist = [...privetlist,...grouplist];
+        console.log(chatlist);
         
         //if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 

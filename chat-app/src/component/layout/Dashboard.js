@@ -7,6 +7,8 @@ import ChatList from '../chat/ChatList';
 import LeftChatListHeader from '../chat/LeftChatListHeader';
 import { makeStyles } from '@material-ui/core';
 
+import GroupChatView from '../chat/GroupChatView';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
-    const [state, setState] = useState({ socket: null, friend: null,chatId:null,status:null });
+    const [state, setState] = useState({ socket: null,status:null });
+    const [privet,setPrivet] = useState({friend:null,pChatId:null})
+    const [group,setGroup] = useState({name:null,gChatId:null})
     const classes = useStyles();
 
    
@@ -49,11 +53,16 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
     }
     
     const setFriendId = (friend,chatId,status) => {
-        setState({ ...state, friend: friend,chatId:chatId,status:status })
+        setState({ ...state,status:status });
+        setPrivet({friend:friend,pChatId:chatId});
+        console.log('frind');   
+        
+    }
+
+    const Group = (chatId,status) => {
         console.log(status);
-        
-       
-        
+        setState({...state,status:status});
+        setGroup({...group,gchatId:chatId});
     }
     
     return (
@@ -61,10 +70,17 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
         <div className={classes.root}>
             <div className={classes.leftBar}>
                 <LeftChatListHeader setFriendId={setFriendId} socket={state.socket}/>
-                <ChatList setFriendId={setFriendId} socket={state.socket} />
+                <ChatList setFriendId={setFriendId} socket={state.socket} group={Group} />
             </div>
             <div className={classes.chatpanel}>
-                {state.friend && <ChatView socket={state.socket} friend={state.friend} chatId={state.chatId} status={state.status}/>}
+            {/* {(state.status === 'p') ? 
+                <ChatView socket={state.socket} friend={privet.friend} chatId={privet.chatId} status={state.status}/>
+                :
+               <GroupChatView/> 
+            } */}
+            {(state.status === 'p') && <ChatView socket={state.socket} friend={privet.friend} chatId={privet.pChatId} status={state.status}/> }
+            {(state.status === 'g') && <GroupChatView socket={state.socket} chatId={privet.gChatId} status={state.status}/>}
+                {/* {privet.friend && <ChatView socket={state.socket} friend={privet.friend} chatId={privet.chatId} status={state.status}/>} */}
             </div>
             
            
