@@ -33,6 +33,25 @@ export const fetchChatMessage = (chatId) => async dispatch => {
     }
 }
 
+export const fetchGroupMessage = (chatId) => async dispatch => {
+    console.log('gr',chatId);
+    try {
+        const res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${chatId}`);
+        console.log(res.data);
+        dispatch({
+            type: GET_CHATMESSAGE,
+            payload:res.data
+        })
+
+        dispatch({
+            type: ACTIVE_CHAT,
+            payload: chatId
+        })
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
 export const addNewMessage = (chat) => async dispatch => {
     console.log(chat);
     dispatch({

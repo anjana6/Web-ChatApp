@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box,makeStyles,AppBar,Toolbar,Typography } from '@material-ui/core';
-import ChatTextBox from './ChatTextBox';
+import GroupChatTextBox from './GroupChatTextBox';
 import { connect } from 'react-redux';
 
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GroupChatView = ({ socket, msg,chatId,status }) => {
     const classes = useStyles();
-    
+    console.log(chatId)
     return (
         <div>
             <AppBar position="static">
@@ -56,7 +56,7 @@ const GroupChatView = ({ socket, msg,chatId,status }) => {
 
                 </Box>
             </div>
-            <ChatTextBox socket={socket}  chatId={chatId} status={status}/>
+            <GroupChatTextBox socket={socket}  chatId={chatId} status={status}/>
         </div>
     )
 }

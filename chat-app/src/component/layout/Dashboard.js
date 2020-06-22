@@ -60,9 +60,9 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
     }
 
     const Group = (chatId,status) => {
-        console.log(status);
+        console.log(chatId,status);
         setState({...state,status:status});
-        setGroup({...group,gchatId:chatId});
+        setGroup({...group,gChatId:chatId});
     }
     
     return (
@@ -79,7 +79,7 @@ const Dashboard = ({ fetchChatList, addNewMessage, user, activeChat }) => {
                <GroupChatView/> 
             } */}
             {(state.status === 'p') && <ChatView socket={state.socket} friend={privet.friend} chatId={privet.pChatId} status={state.status}/> }
-            {(state.status === 'g') && <GroupChatView socket={state.socket} chatId={privet.gChatId} status={state.status}/>}
+            {(state.status === 'g') && <GroupChatView socket={state.socket} chatId={group.gChatId} status={state.status}/>}
                 {/* {privet.friend && <ChatView socket={state.socket} friend={privet.friend} chatId={privet.chatId} status={state.status}/>} */}
             </div>
             

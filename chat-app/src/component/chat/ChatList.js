@@ -28,7 +28,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,group }) => {
                   (item.status === 'p')?
                     <PrivetListItem item={item} socket={socket} setFriendId={setFriendId} fetchChatMessage={fetchChatMessage}/>
                     :
-                    <GroupListItem item={item} group={group}/>
+                    <GroupListItem item={item} socket={socket} group={group} fetchChatMessage={fetchChatMessage}/>
           }
                 {/* <ListItem
                   button

@@ -36,7 +36,7 @@ const socketManager = (io) => {
             });
 
           socket.on('CHAT_MESSAGE',async msg => {
-           console.log(msg);
+           console.log('fi',msg);
             // const chatId = msg.chatId;
             // console.log(msg.chatId);
             // console.log(onlineuser);
@@ -75,11 +75,15 @@ const socketManager = (io) => {
           })
          
          
+        });
+
+        socket.on('GROUPCHAT_MESSAGE',msg =>{
+          console.log(msg);
         })
 
         socket.on('disconnect', () => {
           console.log('disconnected');
-          removeActiveChat(socket.user.id);
+          removeActiveChat(socket.user._id);
           removeUser(socket.id);
         })
         

@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-const ChatTextBox = ({ socket,friend,chatId,status }) => {
+const GroupChatTextBox = ({ socket,chatId,status }) => {
     const [state, setState] = useState({ text: '' });
-
-    // const getChatId = () => {
-    //     const chatId =
-    //         user._id > friend._id ? `${friend._id}&${user._id}` : `${user._id}&${friend._id}`;
-    //     return(chatId);
-    // }
-    // console.log(chatId);
-
+console.log('group')
     const onSubmit = () => {
-        // const chatId = chatId
         const { text } = state;
         console.log('send');
-        socket.emit('CHAT_MESSAGE', { chatId,friend,text,status });
+        socket.emit('GROUPCHAT_MESSAGE', { chatId,text,status });
         setState({ ...state, text: '' });
     }
     return (
@@ -30,4 +22,4 @@ const mapStateToProps = (state) => ({
     user: state.chat.user
 })
 
-export default connect(mapStateToProps)(ChatTextBox);
+export default (GroupChatTextBox);
