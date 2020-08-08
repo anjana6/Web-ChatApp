@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { schema } = require('./User');
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
@@ -12,6 +13,9 @@ const chatSchema = new Schema({
     },
     name:{
         type:String,
+    },
+    frdId:{
+        type:Schema.Types.ObjectId
     },
     users:[
         {

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const GroupChatTextBox = ({ socket,chatId,status }) => {
+    console.log(chatId);
     const [state, setState] = useState({ text: '' });
-console.log('group')
+///console.log('group')
     const onSubmit = () => {
         const { text } = state;
         console.log('send');

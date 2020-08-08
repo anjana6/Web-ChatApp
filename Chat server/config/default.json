@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb://localhost:27017/WebChatApp",
+    "mongoURI": "mongodb://localhost:27017/ChatApp",
     "jwtSecret": "MyScreet"
 }

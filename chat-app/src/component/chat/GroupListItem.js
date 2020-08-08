@@ -5,6 +5,7 @@ import {fetchGroupMessage} from '../../action/chatAction';
 import { connect } from 'react-redux';
 
 const GroupListItem = ({item,group,fetchGroupMessage,socket}) => {
+  // console.log(item.status)
     return (
         <>
             <ListItem

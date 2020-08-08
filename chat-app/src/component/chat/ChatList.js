@@ -30,24 +30,7 @@ const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,group }) => {
                     :
                     <GroupListItem item={item} socket={socket} group={group} fetchChatMessage={fetchChatMessage}/>
           }
-                {/* <ListItem
-                  button
-                  onClick={() => {
-                    setFriendId(item.friendId[0],item.chatId,item.status);
-                    fetchChatMessage(item.chatId);
-                    socket.emit('ACTIVE_CHAT', item.chatId)
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar>{item.friendId[0].username.split('')[0]}</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={item.friendId[0].username}
-                    secondary={item.messages[item.messages.length - 1].message}
-                  />
-                  {item.unread && <div><FiberManualRecord/></div>}
-                </ListItem>
-                <Divider /> */}
+               
               </Fragment>
             );
           })}
@@ -61,3 +44,51 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps,{fetchChatMessage})(ChatList);
+
+
+// const ChatList = ({ chatList,setFriendId,fetchChatMessage,socket,group }) => {
+//   const classes = useStyles();
+//   return (
+//     <div className={classes.root}>
+//       <List>
+//         {chatList.map((item, index) => {
+//           return (
+//             <Fragment key={index}>
+//               {
+//                 (item.status === 'p')?
+//                   <PrivetListItem item={item} socket={socket} setFriendId={setFriendId} fetchChatMessage={fetchChatMessage}/>
+//                   :
+//                   <GroupListItem item={item} socket={socket} group={group} fetchChatMessage={fetchChatMessage}/>
+//         }
+//               {/* <ListItem
+//                 button
+//                 onClick={() => {
+//                   setFriendId(item.friendId[0],item.chatId,item.status);
+//                   fetchChatMessage(item.chatId);
+//                   socket.emit('ACTIVE_CHAT', item.chatId)
+//                 }}
+//               >
+//                 <ListItemAvatar>
+//                   <Avatar>{item.friendId[0].username.split('')[0]}</Avatar>
+//                 </ListItemAvatar>
+//                 <ListItemText
+//                   primary={item.friendId[0].username}
+//                   secondary={item.messages[item.messages.length - 1].message}
+//                 />
+//                 {item.unread && <div><FiberManualRecord/></div>}
+//               </ListItem>
+//               <Divider /> */}
+//             </Fragment>
+//           );
+//         })}
+//       </List>
+//     </div>
+//   );
+// }
+
+// const mapStateToProps = state => ({
+//   chatList : state.chat.chatlist
+// })
+
+// export default connect(mapStateToProps,{fetchChatMessage})(ChatList);
+

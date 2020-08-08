@@ -80,12 +80,23 @@ const reciverChat =async (sender,msg) => {
   return await chat.save();
 }
 
-const createGroupChat = async (members,chatId,sender) => {
-  // console.log(members);
-  const message =  createMessage(sender._id, "user are add to group")
+const createGroupChat = async (members,name,chatId,sender) => {
+ 
+  const message =  createMessage(sender._id, "You are add to group");
+  const userchat = new GroupChat({
+    userId: sender._id,
+    name: name,
+    chatId: chatId,
+    users: members,
+    messages: message,
+    unread: false
+  });
+  userchat.save();
+
   members.map( async (mem) => {
     const newchat = new GroupChat({
-      userId: mem._id,
+      userId: mem.userId,
+      name: name,
       chatId: chatId,
       users: members,
       messages: message,
@@ -94,7 +105,26 @@ const createGroupChat = async (members,chatId,sender) => {
     await newchat.save()
   })
 
-  return  ({chatId,messages:[message],unread:false})
+  return {chatId,name,sender};
 }
 
-module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat,createGroupChat}
+
+const saveGroupMessage =async (sender,msg) =>{
+
+  const chats = await GroupChat.find({chatId:msg.chatId});
+  const members = chats[0].users;
+  const message = createMessage(sender._id,msg.text);
+  if(chats){
+    chats.map(chat => {
+      chat.messages.push(message)
+      chat.save();
+    })
+    return {message,members};
+  }
+  
+
+
+ 
+}
+
+module.exports = {createMessage,senderChat,reciverChat,activeChat,removeActiveChat,createGroupChat,saveGroupMessage}

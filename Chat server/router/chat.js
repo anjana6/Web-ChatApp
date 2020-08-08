@@ -88,11 +88,11 @@ router.get('/chatlist',auth,async(req,res) =>{
         const user = await User.findById(req.user._id);
         //console.log(user);
         const privetlist = await Chat.find({userId:req.user._id});
-        //console.log(chatlist);
+        // console.log(req.user._id);
         const grouplist = await GroupChat.find({userId:req.user._id});
-        //console.log(grouplist);
+        // console.log('gru',grouplist);
         const chatlist = [...privetlist,...grouplist];
-        //console.log(chatlist);
+        // console.log(chatlist);
         
         //if(!chatlist) return res.status(400).json({msg:'You have a not chat'});
 
@@ -107,15 +107,15 @@ router.get('/chatlist',auth,async(req,res) =>{
 router.get('/message/:chatId',auth,async(req,res) =>{
     const chat = await Chat.findOne({userId:req.user._id,chatId:req.params.chatId});
     // chat.unread = false;
-    // chat.save()
+    //chat.save()
     
     res.status(200).json(chat);
 });
 
 router.get('/message/group/:chatId',auth,async(req,res) =>{
     const chat = await GroupChat.findOne({userId:req.user._id,chatId:req.params.chatId});
-    // chat.unread = false;
-    // chat.save()
+    chat.unread = false;
+    chat.save()
     //console.log(chat);
     res.status(200).json(chat);
 });
