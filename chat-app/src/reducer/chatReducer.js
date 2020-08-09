@@ -8,11 +8,7 @@ const initialState = {
     messages: null,
     friendlist: [],
     activeChat: null,
-    // activeChatName: '',
-    // activeFrdId:null,
-    rmsgId: null,
-    hoo: null,
-  
+    rmsgId: null, 
 }
 
 export default (state=initialState,action) => {

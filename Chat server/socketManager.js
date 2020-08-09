@@ -13,7 +13,6 @@ const socketManager = (io) => {
            config.get('jwtSecret'),
            function (err, decoded) {
              if (err) return next(new Error('Authentication error'));
-
              socket.user = decoded.user;
                 // console.log(socket.user);
              next();
@@ -25,9 +24,8 @@ const socketManager = (io) => {
      })
     .on('connection', (socket) => {
         console.log('connected');
-        //console.log(socket.id);
        const onlineuser = onlineUsers(socket.id,socket.user);
-       console.log(onlineuser);
+      //  console.log(onlineuser);
        //******************************************************************* */
         // socket.on('JOIN CHAT', async() => {
         //     const chatIds =await createChatId(socket.user._id);
@@ -88,10 +86,7 @@ const socketManager = (io) => {
             const message = await saveMessage(socket.user,msg);
             socket.emit('MESSAGE',message)
             const newchat = await createReciverChat(socket.user,msg)
-            // console.log(onlineuser);
-            // console.log(msg.activeFrdId);
             const user = onlineuser.find(usr => usr.Id == msg.frdId );
-            //console.log(user);
             if(user){
               io.to(user.socketId).emit('CHAT',newchat); 
             }
@@ -118,10 +113,8 @@ const socketManager = (io) => {
 
       })
         socket.on('CREATE_GROUP',async (data) => {
-          // console.log(name),
           //console.log(data);
           const chatId = uuidv4();
-        //   // console.log('fuck');
           //console.log(data.members);
           const msg = await createGroupChat(data.members,data.name,chatId,socket.user);
         //  console.log(msg);

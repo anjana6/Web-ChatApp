@@ -61,20 +61,19 @@ const RightChatView = () => {
 
     return (
         <div className={classes.root}>
-            {activechat ?
+         {activechat ?
             <>
-            <div className={classes.msgView}>
-            <MessageView/>
-            </div>
-            <div className={classes.textBox}>
-                    <input type="text" onChange={(e) => setMsg(e.target.value)} value={msg}/>
-                    <button onClick={onSubmit}>submit</button>    
-            </div>
-          </>
+                <div className={classes.msgView}>
+                <MessageView/>
+                </div>
+                <div className={classes.textBox}>
+                        <input type="text" onChange={(e) => setMsg(e.target.value)} value={msg}/>
+                        <button onClick={onSubmit}>submit</button>    
+                </div>
+            </>
           :
             <DefaultView/>
-        }
-            
+            }   
         </div>
     )
 }
