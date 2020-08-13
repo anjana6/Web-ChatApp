@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST,ACTIVE_CHAT,SET_SOCKET,UPDATE_READMESSAGE} from './type';
+import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST,UPDATE_CHATMESSAGE,ACTIVE_CHAT,SET_SOCKET} from './type';
 
 export const setSocket = (socket) => async dispatch => {
-    // console.log(socket);
     dispatch({
         type: SET_SOCKET,
         payload:socket
@@ -12,7 +11,7 @@ export const setSocket = (socket) => async dispatch => {
 export const fetchChatList = () => async dispatch => {
     try {
     const res = await axios.get('http://localhost:5000/api/v1/chat/chatlist');
-       console.log(res.data);
+       
         dispatch({
             type: GET_CHATLIST,
             payload: res.data
@@ -23,16 +22,21 @@ export const fetchChatList = () => async dispatch => {
 }
 
 export const fetchChatMessage = (activeChat) => async dispatch => {
-    //console.log(activeChat);
+    
     dispatch({
         type: ACTIVE_CHAT,
         payload: activeChat
     })
     try {
+        let res;
+       if(activeChat.status === "p"){
+           console.log("p")
+        res = await axios.get(`http://localhost:5000/api/v1/chat/message/${activeChat.chatId}`);
        
-        const res = await axios.get(`http://localhost:5000/api/v1/chat/message/${activeChat.chatId}`);
-        // console.log(res.data);
-        // console.log('now')
+       }else{
+        res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${activeChat.chatId}`);
+       }
+       console.log(res.data);
         dispatch({
             type: GET_CHATMESSAGE,
             payload:res.data
@@ -42,35 +46,21 @@ export const fetchChatMessage = (activeChat) => async dispatch => {
     }
 }
 
-export const fetchGroupMessage = (chatId) => async dispatch => {
-    console.log('gr',chatId);
-    try {
-        const res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${chatId}`);
-        console.log(res.data);
-        dispatch({
-            type: GET_CHATMESSAGE,
-            payload:res.data
-        })
 
-        dispatch({
-            type: ACTIVE_CHAT,
-            payload: chatId
-        })
-    } catch (err) {
-        console.log(err.message)
-    }
+export const addMessage = (message) => async dispatch => {
+    console.log(message);
+    dispatch({
+        type: UPDATE_CHATMESSAGE,
+        payload:message
+    });
 }
 
-export const addNewMessage = (chat) => async dispatch => {
-    console.log(chat);
+export const addChat = (chat) => async dispatch =>{
+    console.log(chat)
     dispatch({
         type: UPDATE_CHATLIST,
         payload:chat
-    });
-    // dispatch({
-    //     type:UPDATE_RECIVECHATID,
-    //     payload:chat.chatId
-    // })
+    })
 }
 
 export const fetchFriendList = () => async dispatch => {
@@ -85,24 +75,4 @@ export const fetchFriendList = () => async dispatch => {
     } catch (err) {
         console.log(err.message)
     }
-}
-
-// export const updateReadMessage = (chatId) => async dispatch => {
-//     console.log(chatId);
-//     try {
-//         const res = await axios.put(`http://localhost:5000/api/v1/chat/${chatId}`);
-//         // console.log(res.data);
-//         const unread = res.data;
-//         console.log(unread)
-//         // dispatch({
-//         //     type:UPDATE_READMESSAGE,
-//         //     payload:res.data
-//         // })
-//     } catch (err) {
-//         console.log(err.message)
-//     }
-// }
-
-export const createNewGroup = (members) => async dispatch =>{
-    console.log(members)
 }

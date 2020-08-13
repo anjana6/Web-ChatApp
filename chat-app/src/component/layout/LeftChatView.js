@@ -2,7 +2,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core';
 
 import ChatList from '../chats/ChatList';
-import LeftAppBar from './LeftAppBar'
+import LeftAppBar from './LeftViewAppBar'
 
 
 const useStyles = makeStyles((theme) => ({

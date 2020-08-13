@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector } from 'react-redux';
-import { Box,makeStyles,AppBar,Toolbar,Typography } from '@material-ui/core';
+import { Box,makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,21 +32,15 @@ const useStyles = makeStyles((theme) => ({
 const MessageView = () => {
     const classes = useStyles();
     const msg = useSelector(state => state.chat.messages);
-    const active = useSelector(state => state.chat.activeChat);
+    // const active = useSelector(state => state.chat.activeChat);
+    const user = useSelector(state => state.chat.user);
     return (
         <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
-                        {active.name}
-                    </Typography> 
-                </Toolbar>
-            </AppBar>
             <div className={classes.root}>
                 <Box className={classes.showMessageBox}>
-                    {msg  && msg.messages.map((item, index) => {
+                    {msg  && msg.map((item, index) => {
                         return (
-                            <Box className={item.sender === msg.userId ? classes.sender : classes.reciver} key={index}>
+                            <Box className={item.sender === user._id ? classes.sender : classes.reciver} key={index}>
                                 {item.message}
                             </Box>
                         )

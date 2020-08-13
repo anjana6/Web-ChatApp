@@ -31,7 +31,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(fetchChatList())
-    }, []);
+    }, [dispatch]);
    
     return (
         <div className={classes.root}>

@@ -17,7 +17,7 @@ const FriendList = () => {
     const friendlist = useSelector(state => state.chat.friendlist)
     useEffect(() => {
        dispatch(fetchFriendList()) 
-    }, [fetchFriendList]);
+    }, [dispatch]);
 
     return (
         <div className={classes.root} role="presentation">

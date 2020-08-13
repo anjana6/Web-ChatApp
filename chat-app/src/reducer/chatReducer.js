@@ -1,11 +1,11 @@
-import { GET_CHATLIST, GET_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT,UPDATE_READMESSAGE, SET_SOCKET } from '../action/type';
+import { GET_CHATLIST, GET_CHATMESSAGE,UPDATE_CHATMESSAGE, UPDATE_CHATLIST, GET_FRIENDLIST, ACTIVE_CHAT, SET_SOCKET } from '../action/type';
 
 
 const initialState = {
     socket: null,
     chatlist: [],
     user: null,
-    messages: null,
+    messages: [],
     friendlist: [],
     activeChat: null,
     rmsgId: null, 
@@ -20,22 +20,22 @@ export default (state=initialState,action) => {
         case GET_CHATLIST:
             return { ...state, chatlist: payload.chatlist, user: payload.user };
         case GET_CHATMESSAGE:
-            return { ...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,unread:payload.unred}:chat) ,messages: payload };
+            return { ...state,messages: payload };
         case ACTIVE_CHAT:
-            return { ...state, activeChat: payload};
-        case UPDATE_CHATLIST:
-            let foud = state.chatlist.some(ele => ele.chatId === payload.chatId);
-            
-            if (foud) {
-                return {...state,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:payload.messages,unread:payload.unread}:chat),messages:(state.activeChatId === payload.chatId)? payload:state.messages,rmsgId:payload.chatId}
+            return { ...state, activeChat: payload,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,unread:false}:chat)};
+        case UPDATE_CHATMESSAGE:
+            if(state.activeChat){
+            return {...state,messages:payload.chatId === state.activeChat.chatId?[...state.messages,payload.message]:state.messages,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:[...chat.messages,payload.message]}:chat)};
             }
-            else {
-                return{...state,chatlist:[...state.chatlist,payload],messages:(state.activeChatId === payload.chatId? payload:state.messages),rmsgId:payload.chatId}
-            };
-        case UPDATE_READMESSAGE:{
-            // console.log(payload.chatId)
-            return {...state,hoo:payload}
-        }
+            else{
+                return {...state,messages:state.messages,chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:[...chat.messages,payload.message],unread:true}:chat)}
+            }
+        case UPDATE_CHATLIST:
+            if(state.activeChat){
+            return {...state,chatlist:[...state.chatlist,payload],messages:payload.chatId === state.activeChat.chatId? payload.messages: state.messages};
+            }else{
+                return {...state,chatlist:[...state.chatlist,payload]}
+            }
         case GET_FRIENDLIST:
             return {...state,friendlist:payload}
         default:

@@ -76,7 +76,7 @@ const FriendList = () => {
                     New Group
                 </Typography>
                 <TextField id="standard-basic" label="GroupName" onChange={(e)=> setName(e.target.value)}/>
-                {name.length > 4 && <Button onClick={onCreateGroup}><Send/></Button>}
+                {name.length > 4 && <Button onClick={() => {onCreateGroup();handleDrawerClose()}}><Send/></Button>}
                 
             </Drawer>
 

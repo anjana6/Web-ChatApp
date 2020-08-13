@@ -15,10 +15,10 @@ const groupChatSchema = new Schema({
     },
     users:[
         {
-            _id:{
+            userId:{
                type:Schema.Types.ObjectId
             },
-            username:{
+            name:{
                 type:String
             }
         }
@@ -38,6 +38,9 @@ const groupChatSchema = new Schema({
     unread:{
         type: Boolean,
         default:false
+    },
+    status:{
+        type:String
     }
 });
 

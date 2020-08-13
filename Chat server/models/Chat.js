@@ -42,6 +42,9 @@ const chatSchema = new Schema({
     unread:{
         type: Boolean,
         default:false
+    },
+    status: {
+        type: String
     }
 });
 

@@ -1,42 +1,86 @@
-const User = require('../models/User');
 const _ = require('lodash');
+const GroupChat = require('../models/GroupChat');
+const Chat = require('../models/Chat');
 
-let users = [];
+const {createMessage,checkActivatedChat} = require('./messageManager');
 
-const createChatId = async (userId) => {
-    const chatIds = [];
-    //console.log(userId);
-    const usersId = await User.find().select(['_id']); 
-    usersId.map((item, index) => {
-        const friendId = item._id
-        const chatId =
-            userId > friendId ? `${friendId}&${userId}` : `${userId}&${friendId}`;
-        chatIds.push(chatId);
-    })
-    // console.log(chatIds);
-    return chatIds;
-}
 
-const onlineUsers = (socketId,user) => {
-    //console.log(socketId,user);
-    
-    const newuser = {
-        socketId: socketId,
-        Id:user._id,
-        username:user.username
+const checkChat = async (chatId) => {
+    const chat = await Chat.find({chatId})
+    if(chat.length == 2){
+        return "2";
     }
-    users.push(newuser);
-    //console.log(users)
-   return users;
-
+    if(chat.length == 1){
+        return "1";
+    }
+    if(chat.length == 0){
+        return "0";
+    }
 }
 
-const removeUser = (socketId) =>{
-    users = _.reject(users,function(el){return el.socketId === socketId;});
+
+
+const haveReciverChat = async (chatId,reciverId) => {
+    const chat = await Chat.findOne({chatId,userId:reciverId});
+    console.log(chat);
+    if(chat) return true;
+
+    return false;
 }
-// const removeActiveChat = (userId) => {
-//     activatedChat = _.reject(activatedChat, function(el) { return el.userId === userId; });
-    
-//   }
-  
-module.exports = {createChatId,onlineUsers,removeUser}
+
+const createSenderChat = async(sender,msg) => {
+    const newChat = new Chat({
+        userId: sender._id,
+        chatId: msg.chatId,
+        frdId:msg.frdId,
+        name:msg.name,
+        messages:createMessage(sender._id,msg.msg),
+        unread:false,
+        status:"p"
+    })
+    newChat.save();
+    return newChat;
+}
+
+const createReciverChat = async(sender,msg) => {
+    const newChat = new Chat({
+        userId: msg.frdId,
+        chatId: msg.chatId,
+        frdId:sender._id,
+        name:sender.username,
+        messages:createMessage(sender._id,msg.msg),
+        unread:checkActivatedChat(msg.frdId,msg.chatId),
+        status:"p"
+    })
+    newChat.save();
+    return newChat;
+}
+
+const createGroupChat = async (members,name,chatId,sender) => {
+    const allmembers = [...members,{name:sender.username,userId:sender._id}]
+     const message =  createMessage(sender._id, "You are add to group");
+       allmembers.map( async (mem) => {
+       const newchat = new GroupChat({
+         userId: mem.userId,
+         name: name,
+         chatId: chatId,
+         users: allmembers,
+         messages: message,
+         unread: false,
+         status: "g"
+       });
+       await newchat.save()
+     })
+     const chat = await GroupChat.findOne({chatId:chatId,userId:sender._id});
+     const _id = chat._id
+     const messages = chat.messages;
+     return {_id,chatId,name,sender,messages};
+   }
+
+module.exports = {
+    checkChat,
+    haveReciverChat,
+    createGroupChat,
+    createSenderChat,
+    createReciverChat,
+};

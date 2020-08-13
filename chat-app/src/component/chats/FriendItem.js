@@ -7,17 +7,20 @@ import {fetchChatMessage} from '../../action/chatAction';
 const FriendItem = ({item}) => {
     const user = useSelector(state => state.chat.user);
     const dispatch = useDispatch();
+    const socket = useSelector(state => state.chat.socket);
+    console.log(socket);
      
     const {username,_id} = item;
     const activeChat = {
         chatId: user._id > _id ? `${_id}&${user._id}` : `${user._id}&${_id}`,
         name:username,
-        frdId:_id
+        frdId:_id,
+        status: "p"
       }
     
     return (
         <div >
-            <ListItem button onClick={() => dispatch(fetchChatMessage(activeChat))}>
+        <ListItem button onClick={() => { dispatch(fetchChatMessage(activeChat))}}>
                 <ListItemAvatar>
                     <Avatar>
                         {item.username.charAt(0)}
