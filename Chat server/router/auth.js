@@ -26,6 +26,7 @@ router.post('/signup', async (req, res) => {
         res.status(200).json({ msg: 'Success' });
     } catch (error) {
         console.log(error.message);
+        res.status(500).send('Server Error')
     }
     
 });
@@ -46,18 +47,17 @@ router.post('/signin', async (req, res) => {
                     username:user.username
                 }
             }
-
             jwt.sign(
                 payload,
                 config.get('jwtSecret'),
                 (err, token) => {
                     if (err) throw err;
-                    // console.log(token);
                     res.json({ token });
                 }
             );
     } catch (error) {
         console.log(error.message);
+        res.status(500).send('Server Error')
     }
 
    

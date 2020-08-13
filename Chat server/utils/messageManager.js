@@ -22,7 +22,7 @@ const activeChat = (userId, chatId) => {
     }
   
   const checkActivatedChat = (userId,chatId) => {
-      console.log('chall')
+      
       let found = activatedChat.some(ele => ele.userId === userId && ele.chatId === chatId);
     
       return chatactive = found? false : true;
@@ -39,33 +39,41 @@ const createMessage = (sender, text) => {
   };
 
 const saveGroupMessage =async (sender,msg) =>{
-
+  try {
     const chats = await GroupChat.find({chatId:msg.chatId});
     const members = chats[0].users;
     const message = createMessage(sender._id,msg.msg);
     if(chats){
-      chats.map(chat => {
+      chats.map(async chat => {
         chat.messages.push(message)
-        chat.save();
+        await chat.save();
       })
       return {message,members};
     } 
+  } catch (err) {
+    console.log(err)
+  }   
   }
 
   const saveMessage = async (sender,msg) => {
-    const chats = await Chat.find({chatId:msg.chatId});
-    const message = createMessage(sender._id,msg.msg);
-      chats.map(async chat => {
-        chat.messages.push(message);
-       if( chat.userId == sender._id){
-        chat.unread = false;
-       }else{
-        chat.unread = checkActivatedChat(msg.frdId,msg.chatId);
-       }
-      
-    await chat.save(); 
-    })
-    return message;
+    try {
+      const chats = await Chat.find({chatId:msg.chatId});
+      const message = createMessage(sender._id,msg.msg);
+        chats.map(async chat => {
+          chat.messages.push(message);
+        if( chat.userId == sender._id){
+          chat.unread = false;
+        }else{
+          chat.unread = checkActivatedChat(msg.frdId,msg.chatId);
+        }
+        
+      await chat.save(); 
+      })
+      return message;
+    } catch (err) {
+      console.log(err)
+    }
+    
 }
   
   module.exports = {

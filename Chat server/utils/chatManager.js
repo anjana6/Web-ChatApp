@@ -21,44 +21,59 @@ const checkChat = async (chatId) => {
 
 
 const haveReciverChat = async (chatId,reciverId) => {
-    const chat = await Chat.findOne({chatId,userId:reciverId});
-    console.log(chat);
-    if(chat) return true;
+    try {
+        const chat = await Chat.findOne({chatId,userId:reciverId});
+        if(chat) return true;
 
-    return false;
+        return false;
+    } catch (err) {
+        console.log(err);
+    }
+    
 }
 
 const createSenderChat = async(sender,msg) => {
-    const newChat = new Chat({
-        userId: sender._id,
-        chatId: msg.chatId,
-        frdId:msg.frdId,
-        name:msg.name,
-        messages:createMessage(sender._id,msg.msg),
-        unread:false,
-        status:"p"
-    })
-    newChat.save();
-    return newChat;
+    try {
+        const newChat = new Chat({
+            userId: sender._id,
+            chatId: msg.chatId,
+            frdId:msg.frdId,
+            name:msg.name,
+            messages:createMessage(sender._id,msg.msg),
+            unread:false,
+            status:"p"
+        })
+        await newChat.save();
+        return newChat;
+    } catch (err) {
+        console.log(err)
+    }
+    
 }
 
 const createReciverChat = async(sender,msg) => {
-    const newChat = new Chat({
-        userId: msg.frdId,
-        chatId: msg.chatId,
-        frdId:sender._id,
-        name:sender.username,
-        messages:createMessage(sender._id,msg.msg),
-        unread:checkActivatedChat(msg.frdId,msg.chatId),
-        status:"p"
-    })
-    newChat.save();
-    return newChat;
+    try {
+        const newChat = new Chat({
+            userId: msg.frdId,
+            chatId: msg.chatId,
+            frdId:sender._id,
+            name:sender.username,
+            messages:createMessage(sender._id,msg.msg),
+            unread:checkActivatedChat(msg.frdId,msg.chatId),
+            status:"p"
+        })
+        await newChat.save();
+        return newChat;
+    } catch (err) {
+        console.log(err)
+    }
+    
 }
 
 const createGroupChat = async (members,name,chatId,sender) => {
-    const allmembers = [...members,{name:sender.username,userId:sender._id}]
-     const message =  createMessage(sender._id, "You are add to group");
+    try {
+        const allmembers = [...members,{name:sender.username,userId:sender._id}]
+        const message =  createMessage(sender._id, "You are add to group");
        allmembers.map( async (mem) => {
        const newchat = new GroupChat({
          userId: mem.userId,
@@ -75,6 +90,10 @@ const createGroupChat = async (members,name,chatId,sender) => {
      const _id = chat._id
      const messages = chat.messages;
      return {_id,chatId,name,sender,messages};
+    } catch (err) {
+        console.log(err)
+    }
+    
    }
 
 module.exports = {
