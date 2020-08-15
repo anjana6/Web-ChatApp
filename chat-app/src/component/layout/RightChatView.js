@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import io from 'socket.io-client';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles,TextField,IconButton} from '@material-ui/core';
+import {Send} from '@material-ui/icons';
 
 import MessageView from '../chats/MessageView';
 import DefaultView from './DefaultView';
@@ -18,19 +19,28 @@ const useStyles = makeStyles((theme) => ({
       // backgroundColor: theme.palette.background.paper,
     },
     msgView:{
-        height:"85vh"
+        height:"80vh"
     },
     textBox:{
-        // backgroundColor:'red',
-        // width:50,
-        // border:"1px solid black",
-        // padding:10
+        backgroundColor:'white',
+        padding:5,
+        display: "flex"
+    },
+    typingBox:{
+        backgroundColor:'LightGray',
+        marginLeft:30,
+        marginRight:30,
+        width:"80%",
+        border:"1px solid black",
+        borderRadius:25,
+        padding:10,
         textAlign:"center",
         // padding:10,
         // width:400
     },
     textInput:{
-        backgroundColor:"gray"
+        marginLeft:20,
+        marginRight:20,
     }
   }));
 
@@ -92,8 +102,23 @@ const RightChatView = () => {
                     <MessageView/>
                 </div>
                 <div className={classes.textBox}>
-                        <input type="text" onChange={onChange} value={msg}/>
-                        <button onClick={onSubmit}>submit</button>    
+                    <div className={classes.typingBox}>
+                        {/* <input type="text" onChange={onChange} value={msg}/>
+                        <button onClick={onSubmit}>submit</button>     */}
+                        <div className={classes.textInput}>
+                            <TextField 
+                                id="standard-secondary"  
+                                color="primary"
+                                placeholder="Type a message"
+                                fullWidth 
+                                onChange={onChange}
+                                />
+                        </div>
+                        
+                    </div>
+                    <IconButton  aria-label="add an alarm" onClick={onSubmit}>
+                        < Send/>
+                    </IconButton>
                 </div>
             </>
           :

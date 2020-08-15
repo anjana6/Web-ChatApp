@@ -8,7 +8,7 @@ const RightViewAppBar = ({name,type}) => {
                 <Toolbar>
                     <Typography variant="h6" >
                         {name}
-                    </Typography>
+                    </Typography> <br/>
                     {type}
                 </Toolbar>
             </AppBar>  

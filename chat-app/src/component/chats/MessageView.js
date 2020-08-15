@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 const MessageView = () => {
     const classes = useStyles();
     const msg = useSelector(state => state.chat.messages);
-    // const active = useSelector(state => state.chat.activeChat);
     const user = useSelector(state => state.chat.user);
     return (
         <div>
@@ -40,9 +39,10 @@ const MessageView = () => {
                 <Box className={classes.showMessageBox}>
                     {msg  && msg.map((item, index) => {
                         return (
-                            <Box className={item.sender === user._id ? classes.sender : classes.reciver} key={index}>
-                                {item.message}
-                            </Box>
+                                <div className={item.sender === user._id ? classes.sender : classes.reciver} key={index}>
+                                    <Box>{item.message}</Box>
+                                </div>
+                               
                         )
                     })}
                 </Box>

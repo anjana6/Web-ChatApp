@@ -1,6 +1,6 @@
 import React, {useState, Fragment} from 'react';
 import {useSelector} from 'react-redux';
-import { Avatar, List,Drawer,TextField,IconButton,Typography, Divider, ListItem, ListItemText, makeStyles, ListItemAvatar,Button, useTheme } from '@material-ui/core';
+import { Avatar, List,Drawer,TextField,IconButton,Typography,Chip, Divider, ListItem, ListItemText, makeStyles, ListItemAvatar,Button, useTheme } from '@material-ui/core';
 import {Send,ChevronLeft,ChevronRight} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,12 +29,19 @@ const FriendList = () => {
 
     const addUser = (username,userId) => {
         const user = {name:username,userId:userId}
-        setMembers([...members,user])
+        let found = members.some(ele => ele.userId === userId);
+        if(!found){
+            setMembers([...members,user])
+        }
+       
     }
 
     const onCreateGroup = () => {
-        console.log(members);
         socket.emit('CREATE_GROUP',{members,name});
+    }
+
+    const handleDelete = (userId) => {
+        setMembers(members.filter(user => user.userId !== userId));
     }
 
     return (
@@ -43,7 +50,12 @@ const FriendList = () => {
                 {members.map((item,index) => {
                     return(
                         <Fragment key={index}>
-                            {item.name}
+                            <Chip
+                                avatar={<Avatar>{item.name.charAt(0)}</Avatar>}
+                                label={item.name}
+                                onDelete={() => handleDelete(item.userId)}
+                            />
+                            
                         </Fragment>    
                     )
                 })}

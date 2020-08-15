@@ -7,8 +7,7 @@ import {fetchChatMessage} from '../../action/chatAction';
 const FriendItem = ({item}) => {
     const user = useSelector(state => state.chat.user);
     const dispatch = useDispatch();
-    const socket = useSelector(state => state.chat.socket);
-    console.log(socket);
+    // const socket = useSelector(state => state.chat.socket);
      
     const {username,_id} = item;
     const activeChat = {

@@ -30,13 +30,11 @@ export const fetchChatMessage = (activeChat) => async dispatch => {
     try {
         let res;
        if(activeChat.status === "p"){
-           console.log("p")
-        res = await axios.get(`http://localhost:5000/api/v1/chat/message/${activeChat.chatId}`);
+            res = await axios.get(`http://localhost:5000/api/v1/chat/message/${activeChat.chatId}`);
        
        }else{
-        res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${activeChat.chatId}`);
+            res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${activeChat.chatId}`);
        }
-       console.log(res.data);
         dispatch({
             type: GET_CHATMESSAGE,
             payload:res.data
@@ -48,7 +46,7 @@ export const fetchChatMessage = (activeChat) => async dispatch => {
 
 
 export const addMessage = (message) => async dispatch => {
-    console.log(message);
+    
     dispatch({
         type: UPDATE_CHATMESSAGE,
         payload:message
@@ -56,7 +54,7 @@ export const addMessage = (message) => async dispatch => {
 }
 
 export const addChat = (chat) => async dispatch =>{
-    console.log(chat)
+    
     dispatch({
         type: UPDATE_CHATLIST,
         payload:chat
@@ -64,10 +62,10 @@ export const addChat = (chat) => async dispatch =>{
 }
 
 export const fetchFriendList = () => async dispatch => {
-    console.log('frend');
+   
     try {
         const res = await axios.get('http://localhost:5000/api/v1/chat/friend');
-        // console.log(res.data)
+        
         dispatch({
             type: GET_FRIENDLIST,
             payload:res.data
