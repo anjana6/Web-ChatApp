@@ -30,7 +30,6 @@ const socketManager = (io) => {
         socket.on('CHAT_MESSAGE',async msg => {
           const chatId = msg.chatId;
           const result = await checkChat(msg.chatId);
-          console.log(msg);
           const isOnline = users[msg.frdId];
             if(result == "2"){
               const message = await saveMessage(socket.user,msg);

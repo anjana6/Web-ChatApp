@@ -59,6 +59,7 @@ const RegisterForm = () =>{
                                 margin='dense' 
                                 fullWidth
                                 onChange={onChange}
+                                autoComplete='off'
                                 />
                             {error && error.username && <Typography variant="subtitle2" className={classes.showError}>{error.username}</Typography>}
                             <TextField 
@@ -68,6 +69,7 @@ const RegisterForm = () =>{
                                 margin='dense' 
                                 fullWidth
                                 onChange={onChange}
+                                autoComplete='off'
                                 />
                             {error && error.email && <Typography variant="subtitle2" className={classes.showError}>{error.email}</Typography>}
                             <TextField 

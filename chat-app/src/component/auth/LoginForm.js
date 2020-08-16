@@ -54,6 +54,7 @@ const LoginForm = () =>{
                             margin='dense' 
                             fullWidth
                             onChange={onChange}
+                            autoComplete='off'
                             />
                         {error && error.email && <Typography variant="subtitle2" className={classes.showError}>{error.email}</Typography>}
                         <TextField 
