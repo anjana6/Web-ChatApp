@@ -81,15 +81,17 @@ const createGroupChat = async (members,name,chatId,sender) => {
          chatId: chatId,
          users: allmembers,
          messages: message,
-         unread: false,
+         unread: true,
          status: "g"
        });
        await newchat.save()
      })
-     const chat = await GroupChat.findOne({chatId:chatId,userId:sender._id});
-     const _id = chat._id
-     const messages = chat.messages;
-     return {_id,chatId,name,sender,messages};
+     const chat = await GroupChat.findOne({chatId:chatId,userId:sender._id}).select(['-users','-userId']);
+    //  console.log(chat);
+    //  const _id = chat._id
+    //  const messages = chat.messages;
+    //  return {_id,chatId,name,sender,messages};
+    return chat;
     } catch (err) {
         console.log(err)
     }

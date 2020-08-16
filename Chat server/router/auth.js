@@ -3,13 +3,22 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const {validationResult} = require('express-validator');
+const { authvalidate } = require('../middleware/authValidate');
 
 
 const User = require('../models/User');
 
-router.post('/signup', async (req, res) => {
+router.post('/signup',authvalidate('createUser'), async (req, res) => {
 
     const { username, email, password } = req.body;
+    const errors = validationResult(req);
+    const error = {}
+    if(!errors.isEmpty()){
+        errors.array().map(err => error[err.param] = err.msg);
+        return res.status(400).json(error)
+    }
+
     try {
         const user = await User.findOne({ email });
         if (user) return res.status(400).json({ msg: 'User already exist' });
@@ -31,9 +40,14 @@ router.post('/signup', async (req, res) => {
     
 });
 
-router.post('/signin', async (req, res) => {
+router.post('/signin',authvalidate('logingUser'), async (req, res) => {
     const { email, password } = req.body;
-
+    const errors = validationResult(req);
+    const error = {}
+    if(!errors.isEmpty()){
+        errors.array().map(err => error[err.param] = err.msg);
+        return res.status(400).json(error)
+    }
     try {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'Please Register' });

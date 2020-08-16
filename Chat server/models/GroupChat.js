@@ -31,6 +31,9 @@ const groupChatSchema = new Schema({
             },
             sender:{
                 type:String
+            },
+            time:{
+                type:String
             }
         }
         
@@ -41,6 +44,10 @@ const groupChatSchema = new Schema({
     },
     status:{
         type:String
+    },
+    time : { 
+        type : Date, 
+        default: Date.now() 
     }
 });
 

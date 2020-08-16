@@ -35,6 +35,7 @@ export const fetchChatMessage = (activeChat) => async dispatch => {
        }else{
             res = await axios.get(`http://localhost:5000/api/v1/chat/message/group/${activeChat.chatId}`);
        }
+       
         dispatch({
             type: GET_CHATMESSAGE,
             payload:res.data

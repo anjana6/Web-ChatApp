@@ -5,9 +5,6 @@ import { List, makeStyles } from '@material-ui/core';
 
 import PrivetListItem from './ChatLIstItem';
 
-
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',

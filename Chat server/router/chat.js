@@ -15,7 +15,6 @@ router.get('/chatlist',auth,async(req,res) =>{
         const privetlist = await Chat.find({userId:req.user._id});
         const grouplist = await GroupChat.find({userId:req.user._id});
         const chatlist = [...privetlist,...grouplist];
-
         res.status(200).json({chatlist,user});
 
     } catch (err) {
@@ -27,12 +26,16 @@ router.get('/chatlist',auth,async(req,res) =>{
 router.get('/message/:chatId',auth,async(req,res) =>{
     try {
         const chat = await Chat.findOne({userId:req.user._id,chatId:req.params.chatId});
-        activeChat(req.user._id,req.params.chatId,)
+        activeChat(req.user._id,req.params.chatId)
         if(chat){
             chat.unread =false;
-            chat.save()
+            chat.save();
+            res.status(200).json(chat.messages);
+            return null
         } 
-        res.status(200).json(chat.messages);
+        res.status(200).json(null)
+
+       
     } catch (err) {
         console.log(err);
         res.status(500).send('Server Error')
@@ -43,6 +46,7 @@ router.get('/message/:chatId',auth,async(req,res) =>{
 router.get('/message/group/:chatId',auth,async(req,res) =>{
     try {
         const chat = await GroupChat.findOne({userId:req.user._id,chatId:req.params.chatId});
+        activeChat(req.user._id,req.params.chatId)
         if(chat){
             chat.unread = false;
             chat.save();

@@ -1,21 +1,28 @@
 import React,{useState,Fragment} from 'react';
-import {useSelector} from 'react-redux';
-import { AppBar, Toolbar, Avatar, IconButton, Drawer,Divider,ListItemAvatar,ListItemText,ListItem, makeStyles,useTheme } from '@material-ui/core';
-import { Add,ChevronLeft,ChevronRight } from '@material-ui/icons';
+import {Link} from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux';
+import { AppBar, Toolbar, Avatar, IconButton,Button,Typography,Drawer,Divider,ListItemAvatar,ListItemText,ListItem, makeStyles,useTheme } from '@material-ui/core';
+import { Add,ChevronLeft,ChevronRight} from '@material-ui/icons';
+
 
 import FriendList from '../chats/FriendList';
 import GroupList from '../chats/GroupList';
+import {logOut} from '../../action/authAction';
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
-        marginLeft: theme.spacing(5)
+        marginLeft: theme.spacing(1)
     },
+    space:{
+        marginLeft: theme.spacing(2)
+    }
     
 }))
 
 const LeftChatListHeader = () => {
     const classes = useStyles();
     const theme = useTheme();
+    const dispatch = useDispatch();
     const user = useSelector(state => state.chat.user)
     const[group,setGroup] = useState(false);
     const [open, setOpen] = React.useState(false);
@@ -30,7 +37,6 @@ const LeftChatListHeader = () => {
       };
 
       const handleGroupOpen = () => {
-          console.log('group')
         setGroup(true);
       };
     
@@ -43,15 +49,16 @@ const LeftChatListHeader = () => {
             <AppBar position="static" >
                 <Toolbar>
                     <Avatar></Avatar>
-                    <IconButton edge="end" color="inherit" aria-label="menu" className={classes.addButton} >
-                        {user && user.username.toUpperCase()}
-                    </IconButton>
-                    <IconButton edge="end" color="inherit" aria-label="menu" className={classes.addButton} onClick={handleDrawerOpen}>
+                    <Typography className={classes.space}>{user && user.username.toUpperCase()}</Typography>
+                    <IconButton edge="end" color="inherit"  className={classes.addButton} onClick={handleDrawerOpen}>
                         <Add />
                     </IconButton>
+                    <Button color="inherit" component={Link} to="/" className={classes.space}  onClick={() =>{dispatch(logOut())}}>LogOut</Button>
+                   
                 </Toolbar>
             </AppBar>
             <Fragment>
+            
                 <Drawer anchor='left' open={open}>
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={handleDrawerClose}>

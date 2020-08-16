@@ -8,7 +8,6 @@ import LeftAppBar from './LeftViewAppBar'
 const useStyles = makeStyles((theme) => ({
     root: {
       width:360
-      // backgroundColor: theme.palette.background.paper,
     },
   }));
 

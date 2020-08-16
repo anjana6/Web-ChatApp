@@ -1,13 +1,19 @@
 import React from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { Avatar,Divider, ListItem, ListItemText,ListItemAvatar, } from '@material-ui/core';
+import { Avatar,Divider, ListItem, ListItemText,ListItemAvatar,makeStyles } from '@material-ui/core';
 
 import {fetchChatMessage} from '../../action/chatAction';
+
+const useStyles = makeStyles(()=>({
+    username:{
+        textTransform:"capitalize"
+    }
+}))
 
 const FriendItem = ({item}) => {
     const user = useSelector(state => state.chat.user);
     const dispatch = useDispatch();
-    // const socket = useSelector(state => state.chat.socket);
+    const classes = useStyles();
      
     const {username,_id} = item;
     const activeChat = {
@@ -25,7 +31,7 @@ const FriendItem = ({item}) => {
                         {item.username.charAt(0)}
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={item.username}/>
+                <ListItemText primary={item.username} className={classes.username}/>
             </ListItem>
             <Divider />
         </div>

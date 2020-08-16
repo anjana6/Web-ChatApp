@@ -34,6 +34,7 @@ const createMessage = (sender, text) => {
     const msg = {
       message: text,
       sender: sender,
+      time:new Date().toLocaleTimeString('en-GB', { hour: "numeric",minute: "numeric"})
     };
     return msg;
   };
@@ -45,7 +46,12 @@ const saveGroupMessage =async (sender,msg) =>{
     const message = createMessage(sender._id,msg.msg);
     if(chats){
       chats.map(async chat => {
-        chat.messages.push(message)
+        chat.messages.push(message);
+        if(chat.userId != sender._id){
+          console.log(chat.userId);
+          chat.unread = checkActivatedChat(chat.userId,msg.chatId)
+        }
+       
         await chat.save();
       })
       return {message,members};

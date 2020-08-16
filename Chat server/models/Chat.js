@@ -17,23 +17,15 @@ const chatSchema = new Schema({
     frdId:{
         type:Schema.Types.ObjectId
     },
-    users:[
-        {
-            _id:{
-               type:Schema.Types.ObjectId
-            },
-            username:{
-                type:String
-            }
-        }
-    ],
-
     messages:[
         {
             message:{
                 type:String,
             },
             sender:{
+                type:String
+            },
+            time:{
                 type:String
             }
         }
@@ -45,6 +37,10 @@ const chatSchema = new Schema({
     },
     status: {
         type: String
+    },
+    time : { 
+        type : Date, 
+        default: Date.now() 
     }
 });
 

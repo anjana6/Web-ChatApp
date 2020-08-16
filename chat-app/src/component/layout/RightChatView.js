@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
     
      minwidth:"500px"
-    //  height:"100vh",
-    //  position:'absoulte'
-      // backgroundColor: theme.palette.background.paper,
     },
     msgView:{
         height:"80vh"
@@ -35,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius:25,
         padding:10,
         textAlign:"center",
-        // padding:10,
-        // width:400
     },
     textInput:{
         marginLeft:20,
@@ -74,6 +69,7 @@ const RightChatView = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        console.log(msg);
         if(activechat.status === "p"){
             const {chatId,frdId,name} = activechat;
             socket.emit('CHAT_MESSAGE', {chatId,frdId,name,msg });
@@ -81,18 +77,15 @@ const RightChatView = () => {
             const {chatId} = activechat;
             socket.emit('GROUP_MESSAGE', {chatId,msg });
         }
-        
-        setMsg('');
+        setMsg('');    
     }
 
     const onChange = (e) => {
         const {frdId} = activechat;
         setMsg(e.target.value);
-        socket.emit('TYPING',{frdId})
-        
+        socket.emit('TYPING',{frdId})   
     }
 
-    
     return (
         <div className={classes.root}>
          {activechat ?
@@ -100,11 +93,10 @@ const RightChatView = () => {
                 <RightViewAppBar name={activechat.name} type={type}/>
                 <div className={classes.msgView}>
                     <MessageView/>
+                    
                 </div>
                 <div className={classes.textBox}>
                     <div className={classes.typingBox}>
-                        {/* <input type="text" onChange={onChange} value={msg}/>
-                        <button onClick={onSubmit}>submit</button>     */}
                         <div className={classes.textInput}>
                             <TextField 
                                 id="standard-secondary"  
@@ -112,6 +104,7 @@ const RightChatView = () => {
                                 placeholder="Type a message"
                                 fullWidth 
                                 onChange={onChange}
+                                value={msg}
                                 />
                         </div>
                         
