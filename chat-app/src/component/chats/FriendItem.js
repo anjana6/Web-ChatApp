@@ -10,7 +10,7 @@ const useStyles = makeStyles(()=>({
     }
 }))
 
-const FriendItem = ({item}) => {
+const FriendItem = ({item, onDrawerClose}) => {
     const user = useSelector(state => state.chat.user);
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -25,7 +25,12 @@ const FriendItem = ({item}) => {
     
     return (
         <div >
-        <ListItem button onClick={() => { dispatch(fetchChatMessage(activeChat))}}>
+        <ListItem button onClick={() => { 
+            dispatch(fetchChatMessage(activeChat));
+            if (onDrawerClose) {
+                onDrawerClose();
+            }
+        }}>
                 <ListItemAvatar>
                     <Avatar>
                         {item.username.charAt(0)}

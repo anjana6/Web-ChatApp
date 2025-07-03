@@ -11,7 +11,7 @@ const useStyles = makeStyles(()=>({
   }
 }))
 
-const ChatLIstItem = ({item}) => {
+const ChatLIstItem = ({item, onDrawerClose}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const socket = useSelector(state => state.chat.socket);
@@ -26,9 +26,15 @@ const ChatLIstItem = ({item}) => {
   }
     return (
         <>
-          <ListItem button onClick={() =>{
-            socket.emit('ACTIVE',{chatId});
-            dispatch(fetchChatMessage(activeChat))
+          <ListItem 
+            button 
+            data-chat-id={chatId}
+            onClick={() =>{
+              socket.emit('ACTIVE',{chatId});
+              dispatch(fetchChatMessage(activeChat));
+              if (onDrawerClose) {
+                onDrawerClose();
+              }
             }}>
             <ListItemAvatar>
               <Badge
@@ -43,7 +49,7 @@ const ChatLIstItem = ({item}) => {
             <ListItemText
               className={classes.username}
               primary={item.name}
-              secondary={item.messages[item.messages.length - 1].message}
+              secondary={item.messages && item.messages.length > 0 ? item.messages[item.messages.length - 1].message : 'No messages yet'}
             />
           </ListItem>
         <Divider />     

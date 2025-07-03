@@ -116,7 +116,7 @@ const RightChatView = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!msg.trim()) return;
+    if (!msg.trim() || !activechat) return;
     if (activechat.status === 'p') {
       const { chatId, frdId, name } = activechat;
       socket.emit('CHAT_MESSAGE', { chatId, frdId, name, msg });
@@ -128,6 +128,7 @@ const RightChatView = () => {
   };
 
   const onChange = (e) => {
+    if (!activechat) return;
     const { frdId } = activechat;
     setMsg(e.target.value);
     socket.emit('TYPING', { frdId });
@@ -140,7 +141,6 @@ const RightChatView = () => {
     setDrawerOpen(false);
   };
 
-  // Emoji picker handlers
   const handleEmojiOpen = (event) => {
     setEmojiAnchorEl(event.currentTarget);
   };
@@ -148,16 +148,33 @@ const RightChatView = () => {
     setEmojiAnchorEl(null);
   };
   const handleEmojiSelect = (emoji) => {
-    // Insert emoji at cursor position
-    const input = inputRef.current.querySelector('input');
-    const start = input.selectionStart;
-    const end = input.selectionEnd;
-    const newMsg = msg.slice(0, start) + emoji.native + msg.slice(end);
-    setMsg(newMsg);
-    setTimeout(() => {
-      input.focus();
-      input.setSelectionRange(start + emoji.native.length, start + emoji.native.length);
-    }, 0);
+    if (!inputRef.current) return;
+    
+    const input = inputRef.current.querySelector('input') || inputRef.current.querySelector('textarea') || inputRef.current;
+    
+    if (!input) {
+      setMsg(prevMsg => prevMsg + emoji.native);
+      return;
+    }
+    
+    try {
+      const start = input.selectionStart || 0;
+      const end = input.selectionEnd || 0;
+      const newMsg = msg.slice(0, start) + emoji.native + msg.slice(end);
+      setMsg(newMsg);
+      
+      setTimeout(() => {
+        if (input && input.focus) {
+          input.focus();
+          if (input.setSelectionRange) {
+            input.setSelectionRange(start + emoji.native.length, start + emoji.native.length);
+          }
+        }
+      }, 0);
+    } catch (error) {
+      console.log('Error inserting emoji:', error);
+      setMsg(prevMsg => prevMsg + emoji.native);
+    }
   };
   const emojiOpen = Boolean(emojiAnchorEl);
 
@@ -170,7 +187,7 @@ const RightChatView = () => {
         onMenuClick={handleDrawerOpen}
       />
       <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
-        <LeftChatView />
+        <LeftChatView onGroupCreated={handleDrawerClose} />
       </Drawer>
       {activechat ? (
         <>

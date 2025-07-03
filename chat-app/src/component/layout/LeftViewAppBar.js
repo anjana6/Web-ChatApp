@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     
 }))
 
-const LeftChatListHeader = () => {
+const LeftChatListHeader = ({ onGroupCreated }) => {
     const classes = useStyles();
     const theme = useTheme();
     const dispatch = useDispatch();
@@ -84,9 +84,7 @@ const LeftChatListHeader = () => {
                       </div>
                     </Tooltip>
                     <Divider />   
-                    <div onClick={handleDrawerClose}>
-                        <FriendList/>
-                    </div>
+                    <FriendList onDrawerClose={handleDrawerClose}/>
                 </Drawer>
                 <Drawer anchor='left' open={group}>
                     <div className={classes.drawerHeader}>
@@ -96,7 +94,13 @@ const LeftChatListHeader = () => {
                     </div >
                     <Divider />
                     <div>
-                        <GroupList/>
+                        <GroupList onGroupCreated={() => {
+                            handleGroupClose();
+                            handleDrawerClose();
+                            if (onGroupCreated) {
+                                onGroupCreated();
+                            }
+                        }} />
                     </div>
                 </Drawer>
             </Fragment>

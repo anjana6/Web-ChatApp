@@ -72,28 +72,44 @@ const createReciverChat = async(sender,msg) => {
 
 const createGroupChat = async (members,name,chatId,sender) => {
     try {
+        if (!sender || !sender._id || !sender.username) {
+            console.log('Invalid sender data:', sender);
+            throw new Error('Invalid sender data');
+        }
+
+        if (!members || !Array.isArray(members)) {
+            console.log('Invalid members data:', members);
+            throw new Error('Invalid members data');
+        }
+
+        for (const member of members) {
+            if (!member || !member.userId || !member.name) {
+                console.log('Invalid member data:', member);
+                throw new Error('Invalid member data');
+            }
+        }
+
         const allmembers = [...members,{name:sender.username,userId:sender._id}]
         const message =  createMessage(sender._id, "You are add to group");
-       allmembers.map( async (mem) => {
-       const newchat = new GroupChat({
-         userId: mem.userId,
-         name: name,
-         chatId: chatId,
-         users: allmembers,
-         messages: message,
-         unread: true,
-         status: "g"
-       });
-       await newchat.save()
-     })
-     const chat = await GroupChat.findOne({chatId:chatId,userId:sender._id}).select(['-users','-userId']);
-    //  console.log(chat);
-    //  const _id = chat._id
-    //  const messages = chat.messages;
-    //  return {_id,chatId,name,sender,messages};
-    return chat;
+        
+        await Promise.all(allmembers.map(async (mem) => {
+            const newchat = new GroupChat({
+                userId: mem.userId,
+                name: name,
+                chatId: chatId,
+                users: allmembers,
+                messages: message,
+                unread: true,
+                status: "g"
+            });
+            await newchat.save()
+        }));
+        
+        const chat = await GroupChat.findOne({chatId:chatId,userId:sender._id}).select(['-users','-userId']);
+        return chat;
     } catch (err) {
-        console.log(err)
+        console.log('Error in createGroupChat:', err)
+        throw err;
     }
     
    }

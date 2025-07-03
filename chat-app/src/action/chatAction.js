@@ -22,6 +22,10 @@ export const fetchChatList = () => async dispatch => {
 }
 
 export const fetchChatMessage = (activeChat) => async dispatch => {
+    if (!activeChat || !activeChat.chatId) {
+        console.log('No active chat or chatId provided');
+        return;
+    }
     
     dispatch({
         type: ACTIVE_CHAT,

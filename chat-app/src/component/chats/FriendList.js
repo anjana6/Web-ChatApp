@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const FriendList = () => {
+const FriendList = ({ onDrawerClose }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const friendlist = useSelector(state => state.chat.friendlist)
@@ -23,7 +23,7 @@ const FriendList = () => {
         <div className={classes.root} role="presentation">
             <List>
                 {friendlist.map((frnd) => (
-                   <FriendItem item={frnd} key={frnd._id}/>
+                   <FriendItem item={frnd} key={frnd._id} onDrawerClose={onDrawerClose}/>
                 ))}
             </List>
         </div>

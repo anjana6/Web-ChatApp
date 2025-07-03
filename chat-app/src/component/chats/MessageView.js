@@ -72,8 +72,8 @@ const useStyles = makeStyles((theme) => ({
     time: {
         alignSelf: 'flex-end',
         fontSize: 10,
-        opacity: 0.55,
-        color: '#e0e0e0',
+        opacity: 0.7,
+        color: '#666666',
         marginLeft: 8,
         [theme.breakpoints.down('sm')]: {
             fontSize: 9,

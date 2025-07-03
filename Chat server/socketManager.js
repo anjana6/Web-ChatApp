@@ -28,13 +28,14 @@ const socketManager = (io) => {
         console.log('connected');
         users[socket.user._id] = socket;
         socket.on('CHAT_MESSAGE',async msg => {
-          const chatId = msg.chatId;
-          const result = await checkChat(msg.chatId);
-          const isOnline = users[msg.frdId];
+          try {
+            const chatId = msg.chatId;
+            const result = await checkChat(msg.chatId);
+            const receiverSocket = users[msg.frdId];
             if(result == "2"){
               const message = await saveMessage(socket.user,msg);
-              if(isOnline){
-                users[msg.frdId].emit('MESSAGE',{message,chatId});
+              if(receiverSocket){
+                receiverSocket.emit('MESSAGE',{message,chatId});
               }
               socket.emit('MESSAGE',{message,chatId});
             }
@@ -43,35 +44,61 @@ const socketManager = (io) => {
               const reciver = await haveReciverChat(msg.activeChatId,msg.frdId);
                 if(reciver){
                   const message = await saveMessage(socket.user,msg);
-                  users[msg.frdId].emit('MESSAGE',{message,chatId});
+                  if(receiverSocket){
+                    receiverSocket.emit('MESSAGE',{message,chatId});
+                  }
                   const newchat = await createSenderChat(socket.user,msg);
                   socket.emit('CHAT',newchat);
                 }else{
                   const message = await saveMessage(socket.user,msg);
                   socket.emit('MESSAGE',message)
                   const newchat = await createReciverChat(socket.user,msg)
-                  users[msg.frdId].emit('CHAT',newchat);
+                  if(receiverSocket){
+                    receiverSocket.emit('CHAT',newchat);
+                  }
                 }
             }
 
             if(result == "0"){
               const senderChat = await createSenderChat(socket.user,msg);
               const reciverChat = await createReciverChat(socket.user,msg);
-              users[msg.frdId].emit('CHAT',reciverChat);
+              if(receiverSocket){
+                receiverSocket.emit('CHAT',reciverChat);
+              }
               socket.emit('CHAT',senderChat);
             }
-      })
+          } catch (error) {
+            console.log('Error in CHAT_MESSAGE:', error);
+            socket.emit('ERROR', 'Failed to send message');
+          }
+        })
 
         socket.on('CREATE_GROUP',async (data) => {
-          const chatId = uuidv4();
-          const message = await createGroupChat(data.members,data.name,chatId,socket.user);
-          data.members.map(mem =>{
-            var id = users[mem.userId];
-            if(id){
-              users[mem.userId].emit('CHAT',message);
+          try {
+            if (!socket.user || !socket.user._id) {
+              console.log('Invalid socket user:', socket.user);
+              socket.emit('ERROR', 'User not authenticated');
+              return;
             }
-          })
-          socket.emit('CHAT',message);
+            
+            const chatId = uuidv4();
+            const message = await createGroupChat(data.members,data.name,chatId,socket.user);
+            
+            if (message) {
+              data.members.map(mem =>{
+                var id = users[mem.userId];
+                if(id){
+                  users[mem.userId].emit('CHAT',message);
+                }
+              })
+              socket.emit('CHAT',message);
+            } else {
+              socket.emit('ERROR', 'Failed to create group');
+            }
+          } catch (error) {
+            console.log('Error creating group:', error);
+            socket.emit('ERROR', 'Failed to create group');
+          }
         });
 
         socket.on('GROUP_MESSAGE',async msg =>{

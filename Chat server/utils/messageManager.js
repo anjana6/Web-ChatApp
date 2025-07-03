@@ -31,6 +31,11 @@ const activeChat = (userId, chatId) => {
   
 
 const createMessage = (sender, text) => {
+    if (!sender) {
+        console.log('Invalid sender in createMessage:', sender);
+        throw new Error('Invalid sender');
+    }
+    
     const msg = {
       message: text,
       sender: sender,

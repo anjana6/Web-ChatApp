@@ -26,7 +26,7 @@ export default (state=initialState,action) => {
                 activeChat: payload,
                 chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,unread:false}:chat)};
         case UPDATE_CHATMESSAGE:
-            if(state.activeChat){
+            if(state.activeChat && state.activeChat.chatId){
             return {...state,
                 messages:payload.chatId === state.activeChat.chatId?[...state.messages,payload.message]:state.messages,
                 chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:[...chat.messages,payload.message],
@@ -38,7 +38,7 @@ export default (state=initialState,action) => {
                     chatlist:state.chatlist.map(chat => chat.chatId === payload.chatId?{...chat,messages:[...chat.messages,payload.message],unread:true}:chat)}
             }
         case UPDATE_CHATLIST:
-            if(state.activeChat){
+            if(state.activeChat && state.activeChat.chatId){
             return {...state,
                 chatlist:[...state.chatlist,payload],
                 messages:payload.chatId === state.activeChat.chatId? payload.messages: state.messages};
