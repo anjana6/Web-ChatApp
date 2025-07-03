@@ -6,7 +6,7 @@ import { Send, InsertEmoticon } from '@material-ui/icons';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 
-import MessageView from '../Menuchats/MessageView';
+import MessageView from '../chats/MessageView';
 import DefaultView from './DefaultView';
 import RightViewAppBar from './RightViewAppBar';
 import LeftChatView from './LeftChatView';
