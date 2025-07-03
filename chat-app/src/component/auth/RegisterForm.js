@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme)=>({
     },
     showError:{
         color:'red',
-        backgroundColor:'pink'
+        backgroundColor: theme.palette.error.dark
     }
 }))
 

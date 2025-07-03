@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb://localhost:27017/ChatApp",
+    "mongoURI": "mongodb+srv://anjanashakthi114:vLe4pOr6GjXT53x2@cluster0.hjvgii0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     "jwtSecret": "MyScreet"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import {ListItem, ListItemAvatar, Avatar, ListItemText, Divider,makeStyles} from '@material-ui/core';
+import {ListItem, ListItemAvatar, Avatar, ListItemText, Divider,makeStyles, Badge} from '@material-ui/core';
 import {FiberManualRecord} from '@material-ui/icons';
 
 import { fetchChatMessage } from '../../action/chatAction';
@@ -31,14 +31,20 @@ const ChatLIstItem = ({item}) => {
             dispatch(fetchChatMessage(activeChat))
             }}>
             <ListItemAvatar>
-              <Avatar>{item.name.charAt(0)}</Avatar>
+              <Badge
+                color="secondary"
+                variant={typeof item.unread === 'boolean' ? 'dot' : 'standard'}
+                badgeContent={typeof item.unread === 'number' && item.unread > 0 ? item.unread : undefined}
+                invisible={!item.unread || item.unread === 0}
+              >
+                <Avatar>{item.name.charAt(0)}</Avatar>
+              </Badge>
             </ListItemAvatar>
             <ListItemText
               className={classes.username}
               primary={item.name}
               secondary={item.messages[item.messages.length - 1].message}
             />
-            {item.unread && <div><FiberManualRecord/></div>}
           </ListItem>
         <Divider />     
         </>

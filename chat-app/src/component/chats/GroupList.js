@@ -74,8 +74,8 @@ const FriendList = () => {
                </Fragment>
                 ))}
             </List>
-            <Button variant="contained" color="primary" fullWidth endIcon={<Send/>} onClick={handleDrawerOpen}>
-                CREAT
+            <Button variant="contained" color="primary" fullWidth endIcon={<Send/>} onClick={handleDrawerOpen} style={{ marginTop: 12, borderRadius: 24, fontWeight: 500, textTransform: 'none' }}>
+                CREATE GROUP
             </Button>
             <Drawer anchor='left' open={open} >
                 <div className={classes.drawerHeader}>

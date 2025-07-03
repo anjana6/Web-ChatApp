@@ -1,8 +1,8 @@
 import React,{useState,Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import { AppBar, Toolbar, Avatar, IconButton,Button,Typography,Drawer,Divider,ListItemAvatar,ListItemText,ListItem, makeStyles,useTheme } from '@material-ui/core';
-import { Add,ChevronLeft,ChevronRight} from '@material-ui/icons';
+import { AppBar, Toolbar, Avatar, IconButton,Button,Typography,Drawer,Divider, makeStyles,useTheme, Tooltip } from '@material-ui/core';
+import { Add,ChevronLeft,ChevronRight, ExitToApp, GroupAdd } from '@material-ui/icons';
 
 
 import FriendList from '../chats/FriendList';
@@ -53,7 +53,11 @@ const LeftChatListHeader = () => {
                     <IconButton edge="end" color="inherit"  className={classes.addButton} onClick={handleDrawerOpen}>
                         <Add />
                     </IconButton>
-                    <Button color="inherit" component={Link} to="/" className={classes.space}  onClick={() =>{dispatch(logOut())}}>LogOut</Button>
+                    <Tooltip title="Logout">
+                      <IconButton color="inherit" component={Link} to="/" className={classes.space} onClick={() => { dispatch(logOut()) }}>
+                        <ExitToApp />
+                      </IconButton>
+                    </Tooltip>
                    
                 </Toolbar>
             </AppBar>
@@ -66,14 +70,19 @@ const LeftChatListHeader = () => {
                         </IconButton>
                     </div >
                     <Divider />
-                    <ListItem button onClick={handleGroupOpen}>
-                        <ListItemAvatar>
-                            <Avatar></Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary="New Group"
-                        />
-                    </ListItem>
+                    <Tooltip title="Create New Group">
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<GroupAdd />}
+                          onClick={handleGroupOpen}
+                          style={{ margin: 12, borderRadius: 24, textTransform: 'none', fontWeight: 500, minWidth: 140 }}
+                        >
+                          New Group
+                        </Button>
+                      </div>
+                    </Tooltip>
                     <Divider />   
                     <div onClick={handleDrawerClose}>
                         <FriendList/>
